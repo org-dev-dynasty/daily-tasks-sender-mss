@@ -1,8 +1,8 @@
 import os
-from src.shared.domain.enums.stage_enum import STAGE
-from src.shared.domain.observability.observability_interface import IObservability
+from shared.domain.enums.stage_enum import STAGE
+from shared.domain.observability.observability_interface import IObservability
 
-from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from shared.domain.irepositories.user_repository_interface import IUserRepository
 
 
 class Environments:
@@ -55,10 +55,10 @@ class Environments:
     @staticmethod
     def get_user_repository() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
+            from shared.infra.repositories.user_repository_mock import UserRepositoryMock
             return UserRepositoryMock()
         elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+            from shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
@@ -66,10 +66,10 @@ class Environments:
     @staticmethod
     def get_observability() -> IObservability:
         if Environments.get_envs().stage == STAGE.TEST:
-            from src.shared.infra.external.observability.observability_mock import ObservabilityMock
+            from shared.infra.external.observability.observability_mock import ObservabilityMock
             return ObservabilityMock
         elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from src.shared.infra.external.observability.observability_aws import ObservabilityAWS
+            from shared.infra.external.observability.observability_aws import ObservabilityAWS
             return ObservabilityAWS
         else:
             raise Exception("No observability class found for this stage")

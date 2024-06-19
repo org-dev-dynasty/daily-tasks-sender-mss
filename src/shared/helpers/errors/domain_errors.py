@@ -1,4 +1,4 @@
-from src.shared.helpers.errors.base_error import BaseError
+from shared.helpers.errors.base_error import BaseError
 
 
 class EntityError(BaseError):
