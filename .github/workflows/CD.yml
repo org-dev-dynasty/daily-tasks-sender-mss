@@ -37,9 +37,10 @@ jobs:
 
         - name: Installing Dependencies
           run: |
-            npm install -g aws-cdk
-            cd iac
             pip install -r requirements-dev.txt
+            cd iac
+            npm install -g aws-cdk
+            npm i
         - name: Setup envs
           run: |
             echo STAGE=${{ secrets.STAGE }} >> $GITHUB_ENV
