@@ -10,7 +10,7 @@ on:
             - homolog
             - prod
 jobs:
-  DeployToAWS:
+  testApp:
       environment:
           name: ${{ github.ref }}
       runs-on: ubuntu-latest
