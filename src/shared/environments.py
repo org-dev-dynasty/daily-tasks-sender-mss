@@ -1,17 +1,8 @@
-import enum
-from enum import Enum
 import os
+from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.observability.observability_interface import IObservability
 
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
-
-
-class STAGE(Enum):
-    DOTENV = "DOTENV"
-    DEV = "DEV"
-    HOMOLOG = "HOMOLOG"
-    PROD = "PROD"
-    TEST = "TEST"
 
 
 class Environments:

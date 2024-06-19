@@ -1,6 +1,6 @@
 from typing import List
-from src.shared.domain.entities.user import User
-from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from shared.domain.entities.user import User
+from shared.domain.irepositories.user_repository_interface import IUserRepository
 
 
 class UserRepositoryMock(IUserRepository):

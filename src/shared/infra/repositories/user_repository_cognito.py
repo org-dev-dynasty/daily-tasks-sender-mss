@@ -1,4 +1,4 @@
-from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from shared.domain.irepositories.user_repository_interface import IUserRepository
 
 
 class UserRepositoryCognito(IUserRepository):
