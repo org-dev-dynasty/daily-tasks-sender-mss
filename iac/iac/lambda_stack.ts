@@ -37,7 +37,7 @@ export class LambdaStack extends Construct {
     super(scope, 'DailyTasksMssLambdaStack')
 
     this.lambdaLayer = new lambda.LayerVersion(this, 'DailyTasksMssLayer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, './shared')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../shared')),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
     })
 
