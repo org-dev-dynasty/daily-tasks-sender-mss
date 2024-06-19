@@ -1,6 +1,5 @@
 import os
 from shared.domain.enums.stage_enum import STAGE
-from shared.domain.observability.observability_interface import IObservability
 
 from shared.domain.irepositories.user_repository_interface import IUserRepository
 
@@ -63,16 +62,6 @@ class Environments:
         else:
             raise Exception("No user repository class found for this stage")
 
-    @staticmethod
-    def get_observability() -> IObservability:
-        if Environments.get_envs().stage == STAGE.TEST:
-            from shared.infra.external.observability.observability_mock import ObservabilityMock
-            return ObservabilityMock
-        elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from shared.infra.external.observability.observability_aws import ObservabilityAWS
-            return ObservabilityAWS
-        else:
-            raise Exception("No observability class found for this stage")
     @staticmethod
     def get_envs() -> "Environments":
         """
