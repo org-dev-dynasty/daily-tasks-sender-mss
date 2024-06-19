@@ -1,17 +1,22 @@
-from .get_all_users_controller import GetAllUsersController
-from .get_all_users_usecase import GetAllUsersUsecase
-from src.shared.domain.repositories.user_repository_interface import IUserRepository
-from src.shared.environments import Environments
-from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
+import os 
+print(os.listdir(f"./"))
+print(os.listdir(f"../"))
+print(os.listdir(f"../../"))
 
-repo: IUserRepository = Environments.get_user_repo()()
+
+from shared.environments import Environments
+from shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
+from .get_all_users_usecase import GetAllUsersUsecase
+from .get_all_users_controller import GetAllUsersController
+
+repo = Environments.get_user_repository()()
 usecase = GetAllUsersUsecase(repo)
 controller = GetAllUsersController(usecase)
 
 
 def lambda_handler(event, context):
-    httpRequest = LambdaHttpRequest(data=event)
-    response = controller(httpRequest)
-    httpResponse = LambdaHttpResponse(status_code=response.status_code, body=response.body, headers=response.headers)
-
-    return httpResponse.toDict()
+  httpRequest = LambdaHttpRequest(event)
+  response = controller.handle(httpRequest)
+  httpResponse = LambdaHttpResponse(status_code=response.status_code, body=response.body, headers=response.headers)
+  
+  return httpResponse.to_dict()
