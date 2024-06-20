@@ -57,7 +57,7 @@ class User(abc.ABC):
     return True
   
   @staticmethod
-  def validate_phone(self, phone: str) -> bool:
+  def validate_phone(phone: str) -> bool:
     rgx = r'^\d{10,11}$'
     
     if not re.search(rgx, phone):
