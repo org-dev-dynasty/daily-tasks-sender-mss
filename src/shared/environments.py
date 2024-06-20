@@ -22,8 +22,6 @@ class Environments:
     mss_name: str 
 
     def _configure_local(self):
-        from dotenv import load_dotenv
-        load_dotenv()
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
 
     def load_envs(self):
