@@ -19,10 +19,10 @@ class GetAllUsersController:
       return OK(viewmodel.to_dict())
     
     except NoItemsFound as e:
-      return NotFound(e.message)
+      return NotFound(str(e))
     except EntityError as e:
-      return BadRequest(e.message)
+      return BadRequest(str(e))
     except Exception as e:
-      return InternalServerError(e.message)
+      return InternalServerError(str(e))
     
       
