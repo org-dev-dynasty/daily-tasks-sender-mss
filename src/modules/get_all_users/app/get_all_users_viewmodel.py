@@ -28,11 +28,30 @@ class UserViewmodel:
     
     
 class GetAllUsersViewmodel:
+  users_viewmodel_list: List[UserViewmodel]
+  
+  
   def __init__(self, users: List[User]) -> None:
-    self.users_viewmodel_list = [UserViewmodel(user.user_id, user.name, user.email, user.phone, user.password).to_dict() for user in users]
+    users_list = []
+    for user in users:
+      user_viewmodel = UserViewmodel(
+        user.user_id,
+        user.name,
+        user.email,
+        user.phone,
+        user.password
+      )
+      users_list.append(user_viewmodel)
+    
+    self.users_viewmodel_list = users_list
+    print(self.users_viewmodel_list)
     
   def to_dict(self):
-    users_list = [viewmodel.to_dict() for viewmodel in self.users_viewmodel_list]
+    users_list = []
+    for user_viewmodel in self.users_viewmodel_list:
+      user_viewmodel_to_dict = user_viewmodel.to_dict()
+      users_list.append(user_viewmodel_to_dict)
+    
     return {
       "users": users_list,
       "message": "All users have been retrieved successfully!"
