@@ -18,7 +18,7 @@ class GetAllUsersController:
       
       viewmodel = GetAllUsersViewmodel(users)
       
-      print(f'viewmodel: {viewmodel}')
+      print(f'viewmodel: {viewmodel.to_dict()}')
       
       
       return OK(viewmodel.to_dict())
