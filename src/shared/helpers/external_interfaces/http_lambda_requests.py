@@ -32,7 +32,7 @@ class LambdaHttpResponse(HttpResponse):
 
         super().__init__(body=_body, headers=_headers, status_code=_status_code)
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         """
         Returns a dict representation of the HttpResponse.
         Returns:
