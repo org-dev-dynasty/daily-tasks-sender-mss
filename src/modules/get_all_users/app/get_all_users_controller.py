@@ -14,7 +14,12 @@ class GetAllUsersController:
     try:
       users = self.usecase.execute()
       
+      print(f'usecase resp: {users}')
+      
       viewmodel = GetAllUsersViewmodel(users)
+      
+      print(f'viewmodel: {viewmodel}')
+      
       
       return OK(viewmodel.to_dict())
     
