@@ -9,8 +9,6 @@ export class LambdaStack extends Construct {
   functionsThatNeedDynamoPermissions: lambda.Function[] = []
   lambdaLayer: lambda.LayerVersion
   sqlAlchemyLayer: lambda.LayerVersion
-  PsycopgLayer: lambda.LayerVersion
-  
   getAllUsersFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
@@ -24,7 +22,7 @@ export class LambdaStack extends Construct {
       code: lambda.Code.fromAsset(path.join(__dirname, `../../src/modules/${moduleName}`)),
       handler: `app.${moduleName}_presenter.lambda_handler`,
       runtime: lambda.Runtime.PYTHON_3_11,
-      layers: [this.lambdaLayer, this.sqlAlchemyLayer, this.PsycopgLayer],
+      layers: [this.lambdaLayer, this.sqlAlchemyLayer],
       environment: environmentVariables,
       timeout: Duration.seconds(15),
       memorySize: 512
@@ -45,11 +43,6 @@ export class LambdaStack extends Construct {
 
     this.sqlAlchemyLayer = new lambda.LayerVersion(this, 'DailyTasksMssSqlAlchemyLayer', {
       code: lambda.Code.fromAsset(path.join(__dirname, '../sqlalchemy')),
-      compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
-    })
-
-    this.PsycopgLayer = new lambda.LayerVersion(this, 'DailyTasksMssPsycopgLayer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../psycopg2._psycopg')),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
     })
 
