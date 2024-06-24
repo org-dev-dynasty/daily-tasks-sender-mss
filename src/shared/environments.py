@@ -52,8 +52,8 @@ class Environments:
     @staticmethod
     def get_user_repository() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from shared.infra.repositories.user_repository_mock import UserRepositoryMock
-            return UserRepositoryMock()
+            from shared.infra.repositories.user_repository_postgres import UserRepositoryPosgres
+            return UserRepositoryPosgres()
         elif Environments.get_envs().stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
