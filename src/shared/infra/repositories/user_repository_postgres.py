@@ -3,11 +3,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from uuid import uuid4
-from bcrypt import hashpw, gensalt
 
-from src.shared.domain.entities.user import User
-from src.shared.domain.irepositories.user_repository_interface import IUserRepository
-from src.shared.infra.repositories.database.models import Base, User as UserModel  
+from shared.domain.entities.user import User
+from shared.domain.irepositories.user_repository_interface import IUserRepository
+from shared.infra.repositories.database.models import Base, User as UserModel  
 
 class UserRepositoryPostgres(IUserRepository):
     def __init__(self, db_url: str):
@@ -23,14 +22,12 @@ class UserRepositoryPostgres(IUserRepository):
             if existing_user:
                 raise ValueError("User already exists in the database.")
 
-            hashed_password = hashpw(user_props.password.encode('utf-8'), gensalt()).decode('utf-8')
-
             new_user = UserModel(
                 user_id=uuid4(),
                 name=user_props.name,
                 email=user_props.email,
                 phone=user_props.phone,
-                password=hashed_password
+                password=user_props.password
             )
 
             self.session.add(new_user)

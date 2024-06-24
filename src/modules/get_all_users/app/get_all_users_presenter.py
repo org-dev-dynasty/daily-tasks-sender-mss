@@ -9,7 +9,7 @@ from shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRe
 from .get_all_users_usecase import GetAllUsersUsecase
 from .get_all_users_controller import GetAllUsersController
 
-repo = Environments.get_user_repository()
+repo = Environments.get_user_repository()()
 usecase = GetAllUsersUsecase(repo)
 controller = GetAllUsersController(usecase)
 
