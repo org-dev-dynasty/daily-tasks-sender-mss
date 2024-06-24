@@ -3,3 +3,8 @@ pytest-cov==4.0.0
 boto3==1.24.88
 aws-lambda-powertools==2.9.0
 aws_xray_sdk==2.11.0
+sqlalchemy==2.0.31
+psycopg2-binary==2.9.9
+alembic==1.10.4
+bcrypt==3.2.0
+uuid==1.30
