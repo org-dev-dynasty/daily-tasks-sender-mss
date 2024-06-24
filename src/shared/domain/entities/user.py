@@ -9,7 +9,7 @@ class User(abc.ABC):
   user_id: str
   name: str
   email: str
-  phone: Optional[str]
+  phone: str
   password: str
   
   def __init__(self, name: str, email: str, phone: Optional[str], password: str) -> None:
