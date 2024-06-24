@@ -1,7 +1,7 @@
 import os
-from shared.domain.enums.stage_enum import STAGE
-from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.infra.repositories.user_repository_postgres import UserRepositoryPostgres
+from src.shared.domain.enums.stage_enum import STAGE
+from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.infra.repositories.user.user_repository_postgres import UserRepositoryPostgres
 
 
 class Environments:

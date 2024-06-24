@@ -4,6 +4,7 @@ import datetime
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -13,4 +14,3 @@ class User(Base):
     phone = Column(String, unique=True, index=True, nullable=True)
     password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.now)
-

@@ -199,4 +199,3 @@ class DynamoDatasource:
         with self.dynamo_table.batch_writer() as batch:
             for k in keys:
                 batch.delete_item(Key=k)
-

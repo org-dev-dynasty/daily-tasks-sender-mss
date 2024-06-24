@@ -4,9 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from uuid import uuid4
 
-from shared.domain.entities.user import User
-from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.infra.repositories.database.models import Base, User as UserModel  
+from src.shared.domain.entities.user import User
+from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.infra.repositories.database.models import Base, User as UserModel
+
 
 class UserRepositoryPostgres(IUserRepository):
     def __init__(self, db_url: str):
@@ -44,11 +45,11 @@ class UserRepositoryPostgres(IUserRepository):
         except IntegrityError as e:
             self.session.rollback()
             raise ValueError("Erro ao criar usuário no banco de dados: " + str(e))
-        
+
         except Exception as e:
             self.session.rollback()
             raise ValueError("Erro ao criar usuário: " + str(e))
-    
+
     def get_user_by_email(self, email: str) -> Optional[User]:
         try:
             existing_user = self.session.query(UserModel).filter_by(email=email).first()
@@ -85,7 +86,9 @@ class UserRepositoryPostgres(IUserRepository):
         except Exception as e:
             print(f"Erro ao buscar todos os usuários: {e}")
             raise ValueError("Erro ao buscar todos os usuários")
-    
+
+    def login(self, email, password) -> bool:
+        ...
 
     # def get_user_by_id(self, user_id: str) -> Optional[User]:
     #     try:
@@ -106,7 +109,3 @@ class UserRepositoryPostgres(IUserRepository):
     #     except Exception as e:
     #         print(f"Erro ao buscar usuário por ID: {e}")
     #         raise ValueError("Erro ao buscar usuário por ID")
-
-
-
-

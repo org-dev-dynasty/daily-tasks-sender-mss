@@ -3,11 +3,10 @@ import boto3
 
 class DynamoTable:
 
-    def __init__(self, dynamo_table_name, region, endpoint_url = None):
+    def __init__(self, dynamo_table_name, region, endpoint_url=None):
         self.endpoint_url = endpoint_url
         self.dynamo_table_name = dynamo_table_name
         self.region = region
-
 
     def __enter__(self):
         s = boto3.Session(
