@@ -49,7 +49,7 @@ export class LambdaStack extends Construct {
     })
 
     this.PsycopgLayer = new lambda.LayerVersion(this, 'DailyTasksMssPsycopgLayer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../psycopg')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../psycopg2._psycopg')),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
     })
 
