@@ -3,7 +3,7 @@ import re
 from typing import Optional
 from uuid import uuid4
 
-from shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError
 
 class User(abc.ABC):
   user_id: str
@@ -14,10 +14,9 @@ class User(abc.ABC):
   
   def __init__(self, name: str, email: str, phone: Optional[str], password: str) -> None:
     
-    if phone is not None:
-      if not self.validate_phone(phone):
-        raise EntityError("phone")
-      
+    if not self.validate_phone(phone):
+      raise EntityError("phone")
+
     if not self.validate_name(name):
       raise EntityError("name")
     
@@ -36,11 +35,13 @@ class User(abc.ABC):
   
   @staticmethod
   def validate_name(name: str) -> bool:
+    if name is None:
+      return False
     if len(name) < 2:
       return False
     if name == "":
       return False
-    if name is None:
+    if re.search(r'\d', name):
       return False
     return True
   
@@ -48,23 +49,23 @@ class User(abc.ABC):
   def validate_email(email: str) -> bool:
     rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
     
+    if email is None:
+      return False
     if not re.search(rgx, email):
       return False
     if email == "":
-      return False
-    if email is None:
       return False
     return True
   
   @staticmethod
   def validate_phone(phone: str) -> bool:
-    rgx = r'^\d{10,11}$'
+    rgx = r'^\d{11}$'
     
-    if not re.search(rgx, phone):
+    if phone is None:
       return False
     if phone == "":
       return False
-    if phone is None:
+    if not re.search(rgx, phone):
       return False
     return True
   
@@ -74,11 +75,11 @@ class User(abc.ABC):
     
     rgx = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$'
     
+    if password is None:
+      return False
     if not re.search(rgx, password):
       return False
     if password == "":
-      return False
-    if password is None:
       return False
     return True
     
