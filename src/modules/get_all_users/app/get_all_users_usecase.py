@@ -8,7 +8,7 @@ class GetAllUsersUsecase:
     
   def execute(self):
     users = self.repo.get_all_users()
-    print("users USECASE!!!!" + users)
+    print(f"users USECASE - {users}")
     
     if len(users) == 0:
       raise NoItemsFound("users")

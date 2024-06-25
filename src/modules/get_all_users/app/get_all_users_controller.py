@@ -16,7 +16,7 @@ class GetAllUsersController:
     try:
       users = self.usecase.execute()
       
-      print(f'usecase resp: {users}')
+      print(f'usecase resp controller: {users}')
       
       viewmodel = GetAllUsersViewmodel(users)
       
