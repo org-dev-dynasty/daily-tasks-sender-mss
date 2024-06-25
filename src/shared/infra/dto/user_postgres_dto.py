@@ -1,7 +1,7 @@
 from typing import Optional
 
-from shared.infra.repositories.database.models import UserModel
-from shared.domain.entities.user import User
+from src.shared.infra.repositories.database.models import UserModel
+from src.shared.domain.entities.user import User
 
 
 class UserPostgresDTO:

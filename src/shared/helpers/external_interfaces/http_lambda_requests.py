@@ -1,6 +1,6 @@
 import json
 
-from shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
+from src.shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
 
 
 class LambdaHttpResponse(HttpResponse):

@@ -1,4 +1,4 @@
-from shared.helpers.errors.base_error import BaseError
+from src.shared.helpers.errors.base_error import BaseError
 
 class NoItemsFound(BaseError):
     def __init__(self, message: str):

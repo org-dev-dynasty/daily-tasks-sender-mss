@@ -3,7 +3,7 @@ import re
 from typing import Optional
 from uuid import uuid4
 
-from shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError
 
 class User(abc.ABC):
   user_id: Optional[str]

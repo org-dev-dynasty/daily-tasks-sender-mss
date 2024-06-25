@@ -1,4 +1,4 @@
-# from shared.domain.observability.observability_interface import IObservability
+# from src.shared.domain.observability.observability_interface import IObservability
 
 
 # class ObservabilityMock(IObservability):

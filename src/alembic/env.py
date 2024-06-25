@@ -6,7 +6,7 @@ from alembic import context
 
 sys.path.insert(0, './src')
 
-from shared.infra.repositories.database.models import Base
+from src.shared.infra.repositories.database.models import Base
 
 config = context.config
 

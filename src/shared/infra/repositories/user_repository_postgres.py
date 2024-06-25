@@ -4,10 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from uuid import uuid4
 
-from shared.domain.entities.user import User
-from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.infra.repositories.database.models import Base, UserModel
-from shared.infra.dto.user_postgres_dto import UserPostgresDTO  
+from src.shared.domain.entities.user import User
+from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.infra.repositories.database.models import Base, UserModel
+from src.shared.infra.dto.user_postgres_dto import UserPostgresDTO  
 
 class UserRepositoryPostgres(IUserRepository):
     def __init__(self, db_url: str):

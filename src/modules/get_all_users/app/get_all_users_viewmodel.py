@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from shared.domain.entities.user import User
+from src.shared.domain.entities.user import User
 
 
 class UserViewmodel:

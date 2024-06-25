@@ -1,7 +1,7 @@
 # import os
 # import time
 # from aws_lambda_powertools import Logger, Tracer, Metrics
-# from shared.domain.observability.observability_interface import IObservability
+# from src.shared.domain.observability.observability_interface import IObservability
 
 # class ObservabilityAWS(IObservability):
 #     tracer: Tracer

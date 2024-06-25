@@ -1,7 +1,7 @@
 import os
-from shared.domain.enums.stage_enum import STAGE
-from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.infra.repositories.user_repository_postgres import UserRepositoryPostgres
+from src.shared.domain.enums.stage_enum import STAGE
+from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.infra.repositories.user_repository_postgres import UserRepositoryPostgres
 
 
 class Environments:
@@ -59,7 +59,7 @@ class Environments:
             print(f'get_user_repo, envs.db_url: {envs.db_url}')
             return UserRepositoryPostgres(envs.db_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
