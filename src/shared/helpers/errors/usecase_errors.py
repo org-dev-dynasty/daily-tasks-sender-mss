@@ -14,3 +14,11 @@ class DuplicatedItem(BaseError):
 class ForbiddenAction(BaseError):
     def __init__(self, message: str):
         super().__init__(f'That action is forbidden for this {message}')
+
+class InvalidCredentials(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Invalid credentials for {message}')
+        
+class TermsNotAccepted(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Terms not accepted for {message}')
