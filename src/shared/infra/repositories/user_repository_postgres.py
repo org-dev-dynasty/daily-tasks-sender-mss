@@ -71,7 +71,7 @@ class UserRepositoryPostgres(IUserRepository):
     def get_all_users(self) -> List[User]:
         try:
             all_users = self.session.query(UserModel).all()
-
+            print(f'All_users [Get-All] - {all_users}')
             return [
                 User(
                     user_id=user.user_id,
