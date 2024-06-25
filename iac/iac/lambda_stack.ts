@@ -26,7 +26,7 @@ export class LambdaStack extends Construct {
       layers: [this.lambdaLayer, this.sqlAlchemyLayer],
       environment: environmentVariables,
       timeout: Duration.seconds(15),
-      memorySize: 512
+      memorySize: 1024
     })
 
     mssApiResource.addResource(moduleName.toLowerCase().replace(/_/g, '-')).addMethod(method, new LambdaIntegration(lambdaFunction))
