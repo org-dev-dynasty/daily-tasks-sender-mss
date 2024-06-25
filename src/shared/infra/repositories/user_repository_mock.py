@@ -16,3 +16,12 @@ class UserRepositoryMock(IUserRepository):
   def get_all_users(self) -> List[User]:
     users = self.users
     return users
+  
+  def create_user(self, name: str, email: str, phone: str, password: str) -> User:
+    user = User(name, email, phone, password)
+    self.users.append(user)
+    return user
+  
+  def get_user_by_id(self, user_id: int) -> User:
+    user = next((user for user in self.users if user.user_id == user_id), None)
+    return user

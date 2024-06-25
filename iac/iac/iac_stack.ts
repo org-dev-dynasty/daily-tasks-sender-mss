@@ -29,7 +29,8 @@ export class IacStack extends Stack {
     // url_api_gateway/mss-dts/get-all-users
 
     const ENVIRONMENT_VARIABLES = {
-      'STAGE': envs.STAGE
+      'STAGE': envs.STAGE,
+      'SQLALCHEMY_DATABASE_URL': envs.SQLALCHEMY_DATABASE_URL,
     }
 
     new LambdaStack(this, apigatewayResource, ENVIRONMENT_VARIABLES)

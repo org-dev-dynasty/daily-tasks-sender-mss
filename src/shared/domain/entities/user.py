@@ -69,6 +69,7 @@ class User(abc.ABC):
     return True
   
   @staticmethod
+
   def validate_password(password: str) -> bool:
     # do a regex for password validation, 1 upper, 1 lower, 1 number, 1 special char, 6 chars
     
