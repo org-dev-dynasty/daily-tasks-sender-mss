@@ -1,8 +1,10 @@
 from typing import List, Optional
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
 from sqlalchemy.exc import IntegrityError
 from uuid import uuid4
+import logging
 
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
@@ -11,14 +13,14 @@ from src.shared.infra.dto.user_postgres_dto import UserPostgresDTO
 
 class UserRepositoryPostgres(IUserRepository):
     def __init__(self, db_url: str):
-        engine = create_engine(db_url)
-        Base.metadata.create_all(bind=engine)
-        Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-        self.session = Session()
+        self.engine = create_engine(db_url, pool_size=10, max_overflow=20)
+        Base.metadata.create_all(bind=self.engine)
+        self.Session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=self.engine))
 
     def create_user(self, user_props: User) -> User:
+        session = self.Session()
         try:
-            existing_user = self.session.query(UserModel).filter_by(email=user_props.email).first()
+            existing_user = session.query(UserModel).filter_by(email=user_props.email).first()
 
             if existing_user:
                 raise ValueError("User already exists in the database.")
@@ -31,8 +33,8 @@ class UserRepositoryPostgres(IUserRepository):
                 password=user_props.password
             )
 
-            self.session.add(new_user)
-            self.session.commit()
+            session.add(new_user)
+            session.commit()
 
             return User(
                 user_id=new_user.user_id,
@@ -43,16 +45,17 @@ class UserRepositoryPostgres(IUserRepository):
             )
 
         except IntegrityError as e:
-            self.session.rollback()
+            session.rollback()
             raise ValueError("Erro ao criar usuário no banco de dados: " + str(e))
         
         except Exception as e:
-            self.session.rollback()
+            session.rollback()
             raise ValueError("Erro ao criar usuário: " + str(e))
     
     def get_user_by_email(self, email: str) -> Optional[User]:
+        session = self.Session()
         try:
-            existing_user = self.session.query(UserModel).filter_by(email=email).first()
+            existing_user = session.query(UserModel).filter_by(email=email).first()
 
             if not existing_user:
                 return None
@@ -66,25 +69,18 @@ class UserRepositoryPostgres(IUserRepository):
             )
 
         except Exception as e:
-            print(f"Erro ao buscar usuário por email: {e}")
+            logging.error(f"Erro ao buscar usuário por email: {e}")
             raise ValueError("Erro ao buscar usuário por email")
 
     def get_all_users(self) -> List[User]:
+        session = self.Session()
         try:
-            all_users = self.session.query(UserModel).all()
-            print(f'All_users [Get-All] - {all_users}')
-            users_list = []
-            for user in all_users:
-                dto = UserPostgresDTO.from_postgres(user)
-                user_entity = UserPostgresDTO.to_entity(dto)
-                users_list.append(user_entity)
-            
-            print(f'users_list: {users_list}')
-            
-            return users_list
+            all_users = session.query(UserModel).all()
+            logging.info(f'All_users [Get-All] - {all_users}')
+            return [UserPostgresDTO.to_entity(UserPostgresDTO.from_postgres(user)) for user in all_users]
 
         except Exception as e:
-            print(f"Erro ao buscar todos os usuários: {e}")
+            logging.error(f"Erro ao buscar todos os usuários: {e}")
             raise ValueError("Erro ao buscar todos os usuários")
     
 
