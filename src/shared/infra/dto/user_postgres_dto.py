@@ -20,6 +20,7 @@ class UserPostgresDTO:
     
   @staticmethod
   def from_postgres(model: UserModel) -> User:
+    print(f'from postgres: email={model.email}, password={model.password}, user_id={model.user_id}')
     return UserPostgresDTO(
       model.user_id,
       model.name,
