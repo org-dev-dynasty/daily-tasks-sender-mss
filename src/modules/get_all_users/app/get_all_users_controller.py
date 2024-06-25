@@ -7,9 +7,11 @@ from shared.helpers.external_interfaces.http_codes import OK, BadRequest, Intern
 
 
 class GetAllUsersController:
+
   def __init__(self, usecase: GetAllUsersUsecase):
     self.usecase = usecase
     
+
   def handle(self, request: IRequest):
     try:
       users = self.usecase.execute()
@@ -30,4 +32,3 @@ class GetAllUsersController:
     except Exception as e:
       return InternalServerError(str(e))
     
-      

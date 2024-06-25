@@ -9,7 +9,7 @@ class User(abc.ABC):
   user_id: str
   name: str
   email: str
-  phone: str
+  phone: Optional[str]
   password: str
   
   def __init__(self, name: str, email: str, phone: Optional[str], password: str) -> None:
@@ -69,6 +69,7 @@ class User(abc.ABC):
     return True
   
   @staticmethod
+
   def validate_password(password: str) -> bool:
     # do a regex for password validation, 1 upper, 1 lower, 1 number, 1 special char, 6 chars
     

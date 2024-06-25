@@ -1,10 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { execSync } from 'child_process';
 
 const IAC_DIRECTORY_NAME = 'iac';
 const SOURCE_DIRECTORY_NAME = 'src';
 const SHARED_DIR_NAME = 'shared';
 const SHARED_PYTHON_DIR_NAME = 'python';
+const SQLALCHEMY_DIR_NAME = 'sqlalchemy';
+const SITE_PACKAGES_DIR_NAMES = ['python', 'lib', 'python3.11', 'site-packages'];
 
 export function adjustLayerDirectory(): void {
   // Obtém o diretório raiz do diretório fonte
@@ -16,7 +19,7 @@ export function adjustLayerDirectory(): void {
   console.log(`IaC directory: ${iacDirectory}`);
   console.log(`IaC directory files: ${fs.readdirSync(iacDirectory)}`);
 
-  // Define os diretórios de origem e destino
+  // Define os diretórios de origem e destino para shared
   const sourceDirectory = path.join(rootDirectory, SOURCE_DIRECTORY_NAME, SHARED_DIR_NAME);
   const destinationDirectory = path.join(iacDirectory, SHARED_DIR_NAME, SHARED_PYTHON_DIR_NAME, SHARED_DIR_NAME);
 
@@ -31,6 +34,18 @@ export function adjustLayerDirectory(): void {
   // Copia o diretório fonte para o diretório de destino
   console.log(`Copying files from ${sourceDirectory} to ${destinationDirectory}`);
   copyFolderSync(sourceDirectory, destinationDirectory);
+
+  // Cria e ajusta o diretório para sqlalchemy
+  const sqlalchemySitePackagesDir = path.join(iacDirectory, SQLALCHEMY_DIR_NAME, ...SITE_PACKAGES_DIR_NAMES);
+
+  if (fs.existsSync(sqlalchemySitePackagesDir)) {
+    fs.rmSync(sqlalchemySitePackagesDir, { recursive: true, force: true });
+  }
+
+  fs.mkdirSync(sqlalchemySitePackagesDir, { recursive: true });
+
+  // Instala as bibliotecas do requirements.txt
+  installRequirements(rootDirectory, sqlalchemySitePackagesDir);
 }
 
 function copyFolderSync(src: string, dest: string): void {
@@ -48,6 +63,22 @@ function copyFolderSync(src: string, dest: string): void {
     } else {
       fs.copyFileSync(path.join(src, file), path.join(dest, file));
     }
+  }
+}
+
+function installRequirements(rootDir: string, sitePackagesDir: string): void {
+  const requirementsFile = path.join(rootDir, 'requirements.txt');
+  if (!fs.existsSync(requirementsFile)) {
+    throw new Error(`requirements.txt not found in ${rootDir}`);
+  }
+
+  try {
+    const command = `pip install -r ${requirementsFile} --target ${sitePackagesDir}`;
+    console.log(`Running command: ${command}`);
+    execSync(command, { stdio: 'inherit' });
+    console.log(`Successfully installed requirements from ${requirementsFile} to ${sitePackagesDir}`);
+  } catch (error) {
+    console.error(`Failed to install requirements: ${error}`);
   }
 }
 

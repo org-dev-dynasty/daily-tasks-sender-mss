@@ -9,6 +9,7 @@ export class LambdaStack extends Construct {
   functionsThatNeedDynamoPermissions: lambda.Function[] = []
   lambdaLayer: lambda.LayerVersion
   sqlAlchemyLayer: lambda.LayerVersion
+  
   getAllUsersFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {

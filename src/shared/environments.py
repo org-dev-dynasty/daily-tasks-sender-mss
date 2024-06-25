@@ -31,6 +31,7 @@ class Environments:
         self.stage = STAGE[os.environ.get("STAGE")]
         self.mss_name = os.environ.get("MSS_NAME")
         self.db_url = os.environ.get("SQLALCHEMY_DATABASE_URL")
+        print(f'self.db_url {self.db_url}')
 
         if self.stage == STAGE.TEST:
             self.s3_bucket_name = "bucket-test"
@@ -55,6 +56,7 @@ class Environments:
     def get_user_repository() -> IUserRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
+            print(f'get_user_repo, envs.db_url: {envs.db_url}')
             return UserRepositoryPostgres(envs.db_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
