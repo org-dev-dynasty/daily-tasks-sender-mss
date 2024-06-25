@@ -13,6 +13,8 @@
     "cdk": "cdk"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
+    "@types/archiver": "^6.0.2",
     "@types/jest": "^29.5.8",
     "@types/node": "20.9.0",
     "aws-cdk": "^2.147.0",
@@ -22,6 +24,8 @@
     "typescript": "~5.2.2"
   },
   "dependencies": {
+    "adm-zip": "^0.5.14",
+    "archiver": "^7.0.1",
     "aws-cdk-lib": "2.111.0",
     "constructs": "^10.0.0",
     "dotenv": "^16.4.5",
