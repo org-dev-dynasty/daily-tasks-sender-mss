@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.shared.infra.repositories.database.models import UserModel
+from shared.infra.repositories.database.models import UserModel
 from shared.domain.entities.user import User
 
 
