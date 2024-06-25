@@ -82,7 +82,9 @@ class UserRepositoryPostgres(IUserRepository):
         except Exception as e:
             logging.error(f"Erro ao buscar todos os usuários: {e}")
             raise ValueError("Erro ao buscar todos os usuários")
-    
+        
+        finally:
+            session.close()
 
     # def get_user_by_id(self, user_id: str) -> Optional[User]:
     #     try:
