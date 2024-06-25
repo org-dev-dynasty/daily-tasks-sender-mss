@@ -19,7 +19,7 @@ class UserPostgresDTO:
     self.password = password
     
   @staticmethod
-  def from_postgres(model: UserModel) -> User:
+  def from_postgres(model: UserModel) -> "UserPostgresDTO":
     print(f'from postgres: email={model.email}, password={model.password}, user_id={model.user_id}')
     return UserPostgresDTO(
       model.user_id,
@@ -30,11 +30,11 @@ class UserPostgresDTO:
     )
   
   @staticmethod
-  def to_entity(self) -> User:
+  def to_entity(dto: "UserPostgresDTO") -> User:
     return User(
-      user_id=self.user_id,
-      name=self.name,
-      email=self.email,
-      phone=self.phone,
-      password=self.password
+      user_id=dto.user_id,
+      name=dto.name,
+      email=dto.email,
+      phone=dto.phone,
+      password=dto.password
     )

@@ -75,7 +75,8 @@ class UserRepositoryPostgres(IUserRepository):
             print(f'All_users [Get-All] - {all_users}')
             users_list = []
             for user in all_users:
-                user_entity = UserPostgresDTO.from_postgres(user).to_entity()
+                dto = UserPostgresDTO.from_postgres(user)
+                user_entity = UserPostgresDTO.to_entity(dto)
                 users_list.append(user_entity)
             
             print(f'users_list: {users_list}')
