@@ -6,13 +6,13 @@ from uuid import uuid4
 from shared.helpers.errors.domain_errors import EntityError
 
 class User(abc.ABC):
-  user_id: str
+  user_id: Optional[str]
   name: str
   email: str
   phone: Optional[str]
   password: str
   
-  def __init__(self, name: str, email: str, phone: Optional[str], password: str) -> None:
+  def __init__(self, user_id: Optional[str], name: str, email: str, phone: Optional[str], password: str) -> None:
     
     if phone is not None:
       if not self.validate_phone(phone):
@@ -27,7 +27,9 @@ class User(abc.ABC):
     if not self.validate_password(password):
       raise EntityError("password")
     
-    self.user_id = str(uuid4())
+    if not user_id: self.user_id = str(uuid4())
+    
+    self.user_id = user_id
     self.name = name
     self.email = email
     self.phone = phone
@@ -69,7 +71,6 @@ class User(abc.ABC):
     return True
   
   @staticmethod
-
   def validate_password(password: str) -> bool:
     # do a regex for password validation, 1 upper, 1 lower, 1 number, 1 special char, 6 chars
     
