@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
+import { cleanUpDirectory } from './delete_files_except_zip';
+import { createZip } from './create_zip';
 
 const IAC_DIRECTORY_NAME = 'iac';
 const SOURCE_DIRECTORY_NAME = 'src';
@@ -8,6 +10,7 @@ const SHARED_DIR_NAME = 'shared';
 const SHARED_PYTHON_DIR_NAME = 'python';
 const SQLALCHEMY_DIR_NAME = 'sqlalchemy';
 const SITE_PACKAGES_DIR_NAMES = ['python', 'lib', 'python3.11', 'site-packages'];
+const ZIP_FILE_NAME = 'requirements.zip';
 
 export function adjustLayerDirectory(): void {
   // Obtém o diretório raiz do diretório fonte
@@ -45,7 +48,18 @@ export function adjustLayerDirectory(): void {
   fs.mkdirSync(sqlalchemySitePackagesDir, { recursive: true });
 
   // Instala as bibliotecas do requirements.txt
-  installRequirements(rootDirectory, sqlalchemySitePackagesDir);
+  installRequirements(rootDirectory, sqlalchemySitePackagesDir)
+    .then(() => {
+      // Cria o arquivo ZIP dentro do diretório sqlalchemy
+      return createZip(sqlalchemySitePackagesDir, ZIP_FILE_NAME);
+    })
+    .then(() => {
+      // Limpa o diretório, exceto pelo arquivo ZIP
+      return cleanUpDirectory(sqlalchemySitePackagesDir, ZIP_FILE_NAME);
+    })
+    .catch(error => {
+      console.error('Falha ao ajustar o diretório da camada:', error);
+    });
 }
 
 function copyFolderSync(src: string, dest: string): void {
@@ -66,7 +80,7 @@ function copyFolderSync(src: string, dest: string): void {
   }
 }
 
-function installRequirements(rootDir: string, sitePackagesDir: string): void {
+async function installRequirements(rootDir: string, sitePackagesDir: string): Promise<void> {
   const requirementsFile = path.join(rootDir, 'requirements.txt');
   if (!fs.existsSync(requirementsFile)) {
     throw new Error(`requirements.txt not found in ${rootDir}`);
@@ -79,6 +93,7 @@ function installRequirements(rootDir: string, sitePackagesDir: string): void {
     console.log(`Successfully installed requirements from ${requirementsFile} to ${sitePackagesDir}`);
   } catch (error) {
     console.error(`Failed to install requirements: ${error}`);
+    throw error;
   }
 }
 
