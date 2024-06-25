@@ -4,7 +4,7 @@ import datetime
 
 Base = declarative_base()
 
-class User(Base):
+class UserModel(Base):
     __tablename__ = 'users'
 
     user_id = Column(Integer, primary_key=True, index=True)

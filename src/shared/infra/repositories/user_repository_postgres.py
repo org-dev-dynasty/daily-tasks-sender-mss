@@ -6,7 +6,8 @@ from uuid import uuid4
 
 from shared.domain.entities.user import User
 from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.infra.repositories.database.models import Base, User as UserModel  
+from shared.infra.repositories.database.models import Base, UserModel
+from src.shared.infra.dto.user_postgres_dto import UserPostgresDTO  
 
 class UserRepositoryPostgres(IUserRepository):
     def __init__(self, db_url: str):
@@ -72,15 +73,13 @@ class UserRepositoryPostgres(IUserRepository):
         try:
             all_users = self.session.query(UserModel).all()
             print(f'All_users [Get-All] - {all_users}')
-            return [
-                User(
-                    user_id=user.user_id,
-                    name=user.name,
-                    email=user.email,
-                    phone=user.phone,
-                    password=user.password,
-                ) for user in all_users
-            ]
+            users_list = []
+            for user in all_users:
+                dto = UserPostgresDTO.from_postgres(user)
+                entity = UserPostgresDTO.to_entity(dto)
+                users_list.append(entity)
+                
+            return users_list
 
         except Exception as e:
             print(f"Erro ao buscar todos os usuários: {e}")
