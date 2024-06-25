@@ -3,16 +3,23 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .login_usecase import LoginUsecase
 from .login_controller import LoginController
 
-repo = Environments.get_user_repository()()
+from src.shared.environments import Environments
+from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
+
+
+repo = Environments.get_user_repo()()
 usecase = LoginUsecase(repo)
 controller = LoginController(usecase)
 
+def login_user_presenter(event, context):
 
-def lambda_handler(event, context, email, password):
-    httpRequest = LambdaHttpRequest(event)
-    response = controller.handle(httpRequest, email, password)
-    print(f'response: {response}')
-    print(f'response.body: {response.body}')
+    httpRequest = LambdaHttpRequest(data=event)
+    response = controller(httpRequest)
     httpResponse = LambdaHttpResponse(status_code=response.status_code, body=response.body, headers=response.headers)
-    print(f'httpResponse: {httpResponse}')
-    return httpResponse.to_dict()
+
+    return httpResponse.toDict()
+
+def lambda_handler(event, context):
+    
+    response = login_user_presenter(event, context)
+    return response
