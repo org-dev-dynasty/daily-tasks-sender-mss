@@ -1,44 +1,30 @@
-from typing import List
+class UserViewmodel:
+    access_token: str
+    id_token: str
+    user_id: str
 
-from src.shared.domain.entities.user import User
+    def __init__(self, access_token: str, id_token: str,  user_id: str = None, **kwargs):
+        self.access_token = access_token
+        self.id_token = id_token
+        self.user_id = user_id
 
-
-class LoginViewmodel:
-    email: str
-    password: str
-
-    def __init__(self, email: str, password: str) -> None:
-        self.email = email
-        self.password = password
-
-    def to_dict(self) -> dict:
+    def to_dict(self):
         return {
-            "email": self.email,
-            "password": self.password
+            'access_token': self.access_token,
+            'id_token': self.id_token,
+            'user_id': self.user_id,
         }
 
 
-class DoLoginViewmodel:
-    users_viewmodel_list: LoginViewmodel
+class LoginViewmodel:
+    user: UserViewmodel
 
-    def __init__(self, user: User) -> None:
-        users_list = []
-        user_viewmodel = LoginViewmodel(
-            user.email,
-            user.password,
-        )
-        users_list.append(user_viewmodel)
+    def __init__(self, data: dict):
+        self.user = UserViewmodel(**data)
 
-        self.users_viewmodel = user
-        print(self.users_viewmodel)
-
-    #  FIXME: Arrumar o método to_dict()
     def to_dict(self):
-        users_list = []
-        user_viewmodel_to_dict = self.users_viewmodel
-        users_list.append(user_viewmodel_to_dict)
-
         return {
-            "user": users_list,
-            "message": "User logged!"
+            'token': self.user.access_token,
+            'user': self.user.to_dict(),
+            'message': 'Login successful'
         }
