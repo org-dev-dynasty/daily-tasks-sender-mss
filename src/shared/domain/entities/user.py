@@ -74,7 +74,7 @@ class User(abc.ABC):
   def validate_password(password: str) -> bool:
     # do a regex for password validation, 1 upper, 1 lower, 1 number, 1 special char, 6 chars
     
-    rgx = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$'
+    rgx = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@$!%#*?&]{6,}$'
     
     if not re.search(rgx, password):
       return False
