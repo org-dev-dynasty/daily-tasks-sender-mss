@@ -16,7 +16,7 @@ class LoginUsecase:
         if not User.validate_password(password):
             raise EntityError('password')
         
-        data = self.repo.login(email, password)
+        data = self.user_repository.login(email, password)
         if data is None:
             raise InvalidCredentials('user')
         
