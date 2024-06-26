@@ -26,16 +26,9 @@ class UserRepositoryMock(IUserRepository):
         user = next((user for user in self.users if user.user_id == user_id), None)
         return user
 
-    def login(self, email, password) -> bool:
-        if self.users is not None:
-            for user in self.users:
-                if user.email == email:
-                    if user.password == password:
-                        print("Usuário Logado!")
-                        return True
-                    print("Senha incorreta")
-                    return False
-                print("E-mail não encontrado")
-                return False
-        else:
-            return False
+    def login(self, email, password) -> User:
+        for user in self.users:
+            if user.email == email:
+                if user.password == password:
+                    return user
+        return None
