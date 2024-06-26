@@ -19,8 +19,7 @@ class LoginController:
             if request.data.get('password') is None:
                 raise MissingParameters('password')
 
-            clean_login = request.body['login'].replace(' ', '')
-            data = self.usecase(clean_login, request.data['password'])
+            data = self.usecase(request.data.get('email'), request.data.get('password'))
             login_user_viewmodel = LoginViewmodel(data)
             response = OK(login_user_viewmodel.to_dict())
 
