@@ -22,16 +22,18 @@ class UserRepositoryMongo(IUserRepository):
         return user
 
     def get_all_users(self) -> List[User]:
+        usersList = []
         try:
             print('OLAAAAAAAAA REPO MONGOLLLL')
             users = self.users_collection.find()
             print(f'user mongol')
-            print(users)
-            user_dto = [UserMongoDTO.from_mongo(user) for user in users]
-            print(f'user_dto: {user_dto}')
-            userList = [UserMongoDTO.to_entity(user) for user in user_dto]
-            print(userList)
-            return userList
+
+            for user in users:
+                print(f'user: {user}')
+                usersList.append(UserMongoDTO.from_mongo(user).to_entity())
+            
+            return usersList
+
         except Exception as e:
             print(f'erro mongol repo: {e}')
             raise ValueError(f'Error getting all users, erro: {e}')
