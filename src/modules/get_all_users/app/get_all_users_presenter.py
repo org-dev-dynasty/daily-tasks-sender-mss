@@ -6,15 +6,12 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .get_all_users_usecase import GetAllUsersUsecase
 from .get_all_users_controller import GetAllUsersController
 
-repo = Environments.get_user_repository()
+repo = Environments.get_user_repository()()
 logging.info(repo)
-print(f'repo no PRESENTER: {repo}')
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)
-print(f'usecase no PRESENTER: {usecase}')
 controller = GetAllUsersController(usecase)
 logging.info(controller)
-print(f'controller no PRESENTER: {controller}')
 
 
 def lambda_handler(event, context):
