@@ -33,6 +33,7 @@ class UserMongoDTO:
         )
 
     def to_entity(dto: "UserMongoDTO") -> User:
+        print('OI TO ENTITY')
         return User(
             user_id=dto.user_id,
             name=dto.name,
