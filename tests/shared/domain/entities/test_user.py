@@ -24,6 +24,7 @@ class Test_User:
         with pytest.raises(EntityError):
             User(user_id='127', name='a', email='gabrielmerola@gmail.com', phone='11912345678', password='Teste@01')
 
+
     def test_entity_incorrectly_email(self):
         with pytest.raises(EntityError):
             User(user_id='128', name='Luca', email='lucajamesmail.com', phone='11912345678', password='LucaoXuxu@01')
