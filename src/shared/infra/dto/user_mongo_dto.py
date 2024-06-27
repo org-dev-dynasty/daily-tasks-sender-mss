@@ -26,7 +26,7 @@ class UserMongoDTO:
             user_id = str(obj_id)
 
             return UserMongoDTO(
-                # user_id=user_id,
+                user_id=user_id,
                 name=data["name"],
                 email=data["email"],
                 phone=data.get("phone"),
