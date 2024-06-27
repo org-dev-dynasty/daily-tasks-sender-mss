@@ -25,7 +25,7 @@ export class LambdaStack extends Construct {
       runtime: lambda.Runtime.PYTHON_3_11,
       layers: [this.lambdaLayer, this.libLayer],
       environment: environmentVariables,
-      timeout: Duration.seconds(15),
+      timeout: Duration.seconds(30),
       memorySize: 1024
     })
 
