@@ -14,7 +14,7 @@ print('passou o import do usecase')
 from .get_all_users_controller import GetAllUsersController
 print('passou o import do controller')
 
-repo = Environments.get_user_repository()()
+repo = Environments.get_user_repository()
 logging.info(repo)
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)
