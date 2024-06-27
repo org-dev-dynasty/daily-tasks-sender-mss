@@ -16,10 +16,13 @@ print('passou o import do controller')
 
 repo = Environments.get_user_repository()
 logging.info(repo)
+print(f'repo no PRESENTER: {repo}')
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)
+print(f'usecase no PRESENTER: {usecase}')
 controller = GetAllUsersController(usecase)
 logging.info(controller)
+print(f'controller no PRESENTER: {controller}')
 
 
 def lambda_handler(event, context):
