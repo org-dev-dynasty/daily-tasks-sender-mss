@@ -1,73 +1,77 @@
 name: Python Typescript CD
 on:
-    workflow_run:
-        workflows: ["Check & Create PR"]
-        types:
-            - completed
-    push:
-        branches:
-            - dev
-            - homolog
-            - prod
+  workflow_run:
+    workflows: [ "Check & Create PR" ]
+    types:
+      - completed
+  push:
+    branches:
+      - dev
+      - homolog
+      - prod
 jobs:
   DeployToAWS:
-      environment:
-          name: ${{ github.ref }}
-      runs-on: ubuntu-latest
-      permissions:
-          id-token: write
-          contents: read
-      steps:
-        - uses: actions/checkout@v2
-        - name: Setup AWS Credentials
-          run: |
-            echo "Configuring AWS Credentials"
-            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
-            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws configure set default.region ${{ secrets.REGION }}
-            aws configure set default.output json
-        - name: Setting stage, stack name
-          run: |
-            echo "STAGE=${{ secrets.STAGE }}" >> $GITHUB_ENV
-            echo "STACK_NAME=${{ secrets.STACK_NAME }}${{ github.ref_name }}" >> $GITHUB_ENV
-        - uses: actions/checkout@v3
-        - uses: actions/setup-python@v4
-          with:
-            python-version: '3.11'
+    environment:
+      name: ${{ github.ref }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup AWS Credentials
+        run: |
+          echo "Configuring AWS Credentials"
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.REGION }}
+          aws configure set default.output json
+      - name: Setting stage, stack name
+        run: |
+          echo "STAGE=${{ secrets.STAGE }}" >> $GITHUB_ENV
+          echo "STACK_NAME=${{ secrets.STACK_NAME }}${{ github.ref_name }}" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-        - name: Installing Dependencies
-          run: |
-            pip install -r requirements-dev.txt
-            cd iac
-            npm install -g aws-cdk
-            npm i
-        - name: Setup envs
-          run: |
-            echo STAGE=${{ secrets.STAGE }} >> $GITHUB_ENV
-            echo REGION=${{ secrets.REGION }}>> $GITHUB_ENV
-            echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
-            echo GITHUB_REF_NAME=${{ github.ref_name }} >> $GITHUB_ENV
-            echo DYNAMO_TABLE_NAME=${{ secrets.DYNAMO_TABLE_NAME }} >> $GITHUB_ENV
-            echo DYNAMO_PRODUCTS_TABLE_NAME=${{ secrets.DYNAMO_PRODUCTS_TABLE_NAME }} >> $GITHUB_ENV
-            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> $GITHUB_ENV
-            echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
-            echo SQLALCHEMY_DATABASE_URL=${{ secrets.SQLALCHEMY_DATABASE_URL }} >> $GITHUB_ENV
-            echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
-        - name: CDK Bootstrap
-          run: |
-            echo "CDK Bootstrap"
-            cd iac
-            aws cloudformation describe-stacks --stack-name CDKToolkit 2>&1 > /dev/null || \
-              cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/sa-east-1
-        - name: Deploy with CDK
-          run: |
-            source $GITHUB_ENV
-            cd iac
-            cdk synth
-            cdk deploy --require-approval never
-          env:
-              STAGE: ${{ secrets.STAGE }}
-              AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              SQLALCHEMY_DATABASE_URL: ${{ secrets.SQLALCHEMY_DATABASE_URL }}
-              MONGODB_URL: ${{ secrets.MONGODB_URL }}
+      - name: Installing Dependencies
+        run: |
+          pip install -r requirements-dev.txt
+          cd iac
+          npm install -g aws-cdk
+          npm i
+      - name: Setup envs
+        run: |
+          echo STAGE=${{ secrets.STAGE }} >> $GITHUB_ENV
+          echo REGION=${{ secrets.REGION }}>> $GITHUB_ENV
+          echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
+          echo GITHUB_REF_NAME=${{ github.ref_name }} >> $GITHUB_ENV
+          echo DYNAMO_TABLE_NAME=${{ secrets.DYNAMO_TABLE_NAME }} >> $GITHUB_ENV
+          echo DYNAMO_PRODUCTS_TABLE_NAME=${{ secrets.DYNAMO_PRODUCTS_TABLE_NAME }} >> $GITHUB_ENV
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> $GITHUB_ENV
+          echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
+          echo SQLALCHEMY_DATABASE_URL=${{ secrets.SQLALCHEMY_DATABASE_URL }} >> $GITHUB_ENV
+          echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
+          echo FROM_EMAIL=${{ secrets.FROM_EMAIL }} >> $GITHUB_ENV
+          echo REPLY_TO_EMAIL=${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
+      - name: CDK Bootstrap
+        run: |
+          echo "CDK Bootstrap"
+          cd iac
+          aws cloudformation describe-stacks --stack-name CDKToolkit 2>&1 > /dev/null || \
+            cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/sa-east-1
+      - name: Deploy with CDK
+        run: |
+          source $GITHUB_ENV
+          cd iac
+          cdk synth
+          cdk deploy --require-approval never
+        env:
+          STAGE: ${{ secrets.STAGE }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SQLALCHEMY_DATABASE_URL: ${{ secrets.SQLALCHEMY_DATABASE_URL }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
