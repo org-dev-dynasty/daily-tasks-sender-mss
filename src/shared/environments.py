@@ -1,7 +1,7 @@
 import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
-from src.shared.infra.repositories.user_repository_postgres import UserRepositoryPostgres
+from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
 
 
 class Environments:
@@ -19,7 +19,7 @@ class Environments:
     dynamo_sort_key: str
     cloud_front_distribution_domain: str
     mss_name: str
-    db_url: str
+    mongo_url: str
 
     def _configure_local(self):
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
@@ -30,8 +30,8 @@ class Environments:
 
         self.stage = STAGE[os.environ.get("STAGE")]
         self.mss_name = os.environ.get("MSS_NAME")
-        self.db_url = os.environ.get("SQLALCHEMY_DATABASE_URL")
-        print(f'self.db_url {self.db_url}')
+        self.mongo_url = os.environ.get("MONGODB_URL")
+        print(f'self.db_url {self.mongo_url}')
 
         if self.stage == STAGE.TEST:
             self.s3_bucket_name = "bucket-test"
@@ -56,8 +56,8 @@ class Environments:
     def get_user_repository() -> IUserRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
-            print(f'get_user_repo, envs.db_url: {envs.db_url}')
-            return UserRepositoryPostgres(envs.db_url)
+            print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
+            return UserRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
