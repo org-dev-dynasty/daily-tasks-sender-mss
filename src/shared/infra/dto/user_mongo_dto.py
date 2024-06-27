@@ -32,6 +32,7 @@ class UserMongoDTO:
             password=data["password"]
         )
 
+    @staticmethod
     def to_entity(dto: "UserMongoDTO") -> User:
         print('OI TO ENTITY')
         return User(
