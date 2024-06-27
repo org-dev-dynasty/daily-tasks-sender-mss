@@ -7,8 +7,10 @@ class GetAllUsersUsecase:
     self.repo = repo
     
   def execute(self):
+    print("OLHAAAAAAAA USECASE")
     users = self.repo.get_all_users()
-    print(f"users USECASE - {users}")
+    print("users USECASE")
+    print(users)
     
     if len(users) == 0:
       raise NoItemsFound("users")

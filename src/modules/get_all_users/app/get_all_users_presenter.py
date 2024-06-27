@@ -1,29 +1,27 @@
 import logging
-import os 
-print(os.listdir(f"./"))
-print(os.listdir(f"../"))
-print(os.listdir(f"../../"))
-
+import os
 
 from src.shared.environments import Environments
-print('passou o import do env')
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
-print('passou o import do http lambda requests')
 from .get_all_users_usecase import GetAllUsersUsecase
-print('passou o import do usecase')
 from .get_all_users_controller import GetAllUsersController
-print('passou o import do controller')
 
 repo = Environments.get_user_repository()
 logging.info(repo)
+print(f'repo no PRESENTER: {repo}')
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)
+print(f'usecase no PRESENTER: {usecase}')
 controller = GetAllUsersController(usecase)
 logging.info(controller)
+print(f'controller no PRESENTER: {controller}')
 
 
 def lambda_handler(event, context):
+  print('lambda_handler OOOOIIIII')
+  print(f'event: {event}')
   httpRequest = LambdaHttpRequest(event)
+  print(f'httpRequest: {httpRequest}')
   response = controller.handle(httpRequest)
   print(f'response: {response}')
   print(f'response.body: {response.body}')

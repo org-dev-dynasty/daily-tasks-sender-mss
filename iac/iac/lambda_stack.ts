@@ -14,7 +14,6 @@ export class LambdaStack extends Construct {
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-
         // create_user -> Create_user
 
         const lambdaFunction = new lambda.Function(this, modifiedModuleName, {

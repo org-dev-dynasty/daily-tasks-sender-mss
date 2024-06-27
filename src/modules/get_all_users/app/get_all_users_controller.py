@@ -14,6 +14,7 @@ class GetAllUsersController:
 
   def handle(self, request: IRequest):
     try:
+      print("OLHAAAAAAAA CONTROLLER HANDLE")
       users = self.usecase.execute()
       
       print(f'usecase resp controller: {users}')
@@ -21,10 +22,8 @@ class GetAllUsersController:
       viewmodel = GetAllUsersViewmodel(users)
       
       print(f'viewmodel: {viewmodel.to_dict()}')
-      
-      
+
       return OK(viewmodel.to_dict())
-    
     except NoItemsFound as e:
       return NotFound(str(e))
     except EntityError as e:
