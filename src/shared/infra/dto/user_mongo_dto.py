@@ -17,7 +17,7 @@ class UserMongoDTO:
         self.phone = phone
         self.password = password
 
-    # @staticmethod
+    @staticmethod
     def from_mongo(data) -> "UserMongoDTO":
         print(f'data vinda do mongo: {data}')
         obj_id = data["_id"]
@@ -32,15 +32,15 @@ class UserMongoDTO:
             password=data["password"]
         )
 
-    @staticmethod
-    def to_entity(dto: "UserMongoDTO") -> User:
+    # @staticmethod
+    def to_entity(self) -> User:
         print('OI TO ENTITY')
         return User(
-            user_id=dto.user_id,
-            name=dto.name,
-            email=dto.email,
-            phone=dto.phone,
-            password=dto.password
+            user_id=self.user_id,
+            name=self.name,
+            email=self.email,
+            phone=self.phone,
+            password=self.password
         )
 
     @classmethod
