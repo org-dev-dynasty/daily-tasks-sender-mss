@@ -22,33 +22,21 @@ class UserRepositoryMongo(IUserRepository):
         return user
 
     def get_all_users(self) -> List[User]:
-        usersList = []
+        usersList = [User(user_id="1", nome="teste", email="teste@gmail.com", phone="11123456789", password="Teste123$")]
         try:
             print('OLAAAAAAAAA REPO MONGOLLLL')
             users = self.users_collection.find()
             print(f'users_find: {users}')
             print(f'type_users: {type(users)}')
             print(f'user mongol')
-
-            for user in users:
-                try:
-                    print(f'Validando usuário: {user}')
-                    if not all(key in user for key in ["name", "email", "password"]):
-                        print(f'Usuário inválido: {user}')
-                except Exception as e:
-                    print(f'Erro ao validar usuário: {e}')
-            
-            for user in users:
-                try:
-                    print(f'user: {user}')
-                    user_dto = UserMongoDTO.from_mongo(user)
-                    print(f'user_dto: {user_dto}')
-                    user_entity = user_dto.to_entity()
-                    print(f'user_entity: {user_entity}')
-                    usersList.append(user_entity)
-
-                except Exception as inner_e:
-                    print(f'Erro processando usuário {user}: {inner_e}')
+            print(usersList)
+            # for user in users:
+            #     try:
+            #         print(f'Validando usuário: {user}')
+            #         if not all(key in user for key in ["name", "email", "password"]):
+            #             print(f'Usuário inválido: {user}')
+            #     except Exception as e:
+            #         print(f'Erro ao validar usuário: {e}')
                 
             return usersList
 
