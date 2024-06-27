@@ -55,6 +55,8 @@ jobs:
           echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
           echo FROM_EMAIL=${{ secrets.FROM_EMAIL }} >> $GITHUB_ENV
           echo REPLY_TO_EMAIL=${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
+          echo GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          echo REDIRECT_URLS=${{ secrets.REDIRECT_URLS }}
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
@@ -75,3 +77,5 @@ jobs:
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
+          GOOGLE_WEB_CLIENT_ID: ${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          REDIRECT_URLS: ${{ secrets.REDIRECT_URLS }}
