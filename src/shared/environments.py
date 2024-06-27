@@ -1,3 +1,4 @@
+import logging
 import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
@@ -54,7 +55,9 @@ class Environments:
 
     @staticmethod
     def get_user_repository() -> IUserRepository:
+        logging.info('chegou no get user repo ENVIRONMENTS')
         envs = Environments.get_envs()
+        logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
             return UserRepositoryMongo(envs.mongo_url)
