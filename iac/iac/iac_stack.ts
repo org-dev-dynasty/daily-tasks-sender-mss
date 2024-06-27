@@ -1,40 +1,76 @@
-import { Stack, StackProps } from 'aws-cdk-lib'
-import { Cors, RestApi } from 'aws-cdk-lib/aws-apigateway'
-import { Construct } from 'constructs'
-import { LambdaStack } from './lambda_stack'
-import { envs } from '../envs'
+import * as cdk from 'aws-cdk-lib';
+import {
+    Stack,
+    StackProps,
+    aws_iam as iam,
+    CfnOutput
+} from 'aws-cdk-lib';
+import { Cors, RestApi } from 'aws-cdk-lib/aws-apigateway';
+import { Construct } from 'constructs';
+import { LambdaStack } from './lambda_stack';
+import { CognitoStack } from './cognito_stack';
+import { envs } from '../envs';
 
 export class IacStack extends Stack {
-  constructor(scope: Construct, constructId: string, props?: StackProps) {
-    super(scope, constructId, props)
+    constructor(scope: Construct, constructId: string, props?: StackProps) {
+        super(scope, constructId, props);
 
-    const restApi = new RestApi(this, 'DailyTasksSenderMssRESTAPI', {
-      restApiName: 'DailyTasksSenderMssRESTAPI',
-      description: 'This is the REST API for the Daily tasks sender MSS Service.',
-      defaultCorsPreflightOptions: {
-        allowOrigins: Cors.ALL_ORIGINS,
-        allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        allowHeaders: ['*']
-      }
-    })
+        const githubRef = process.env.GITHUB_REF || '';
 
-    const apigatewayResource = restApi.root.addResource('mss-dts', {
-      defaultCorsPreflightOptions: {
-        allowOrigins: Cors.ALL_ORIGINS,
-        allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        allowHeaders: Cors.DEFAULT_HEADERS
-      }
-    })
+        const restApi = new RestApi(this, `DailyTasksSenderMssRESTAPI_${githubRef}`, {
+            restApiName: 'DailyTasksSenderMssRESTAPI',
+            description: 'This is the REST API for the Daily tasks sender MSS Service.',
+            defaultCorsPreflightOptions: {
+                allowOrigins: Cors.ALL_ORIGINS,
+                allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+                allowHeaders: ['*']
+            }
+        });
 
-    // url_api_gateway/mss-dts/get-all-users
+        const apigatewayResource = restApi.root.addResource('mss-dts', {
+            defaultCorsPreflightOptions: {
+                allowOrigins: Cors.ALL_ORIGINS,
+                allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+                allowHeaders: Cors.DEFAULT_HEADERS
+            }
+        });
 
-    const ENVIRONMENT_VARIABLES = {
-      'STAGE': envs.STAGE,
-      'SQLALCHEMY_DATABASE_URL': envs.SQLALCHEMY_DATABASE_URL,
-      'MONGODB_URL': envs.MONGODB_URL
+        let stage;
+        if (githubRef.includes('prod')) {
+            stage = 'PROD';
+        } else if (githubRef.includes('homolog')) {
+            stage = 'HOMOLOG';
+        } else if (githubRef.includes('dev')) {
+            stage = 'DEV';
+        } else {
+            stage = 'TEST';
+        }
+
+        const cognitoStack = new CognitoStack(this, `dts_cognito_stack_${githubRef}`);
+
+        const ENVIRONMENT_VARIABLES = {
+            'STAGE': stage,
+            'MONGODB_URL': envs.MONGODB_URL,
+            'USER_POOL_ID': cognitoStack.userPool.userPoolId,
+            'CLIENT_ID': cognitoStack.client.userPoolClientId,
+            'REGION': this.region,
+        };
+
+        const lambdaStack = new LambdaStack(this, apigatewayResource, ENVIRONMENT_VARIABLES);
+
+        const cognitoAdminPolicy = new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["cognito-idp:*"],
+            resources: [cognitoStack.userPool.userPoolArn]
+        });
+
+        for (const fn of lambdaStack.functionsThatNeedCognitoPermissions) {
+            fn.addToRolePolicy(cognitoAdminPolicy);
+        }
+
+        new CfnOutput(this, `AuthRestApiUrl-${githubRef}`, {
+            value: `${restApi.url}mss-dts`,
+            exportName: `AuthRestApiUrlValue`
+        });
     }
-
-    new LambdaStack(this, apigatewayResource, ENVIRONMENT_VARIABLES)
-
-  }
 }
