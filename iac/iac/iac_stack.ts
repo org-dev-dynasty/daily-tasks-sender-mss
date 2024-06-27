@@ -12,8 +12,8 @@ import { CognitoStack } from './cognito_stack';
 import { envs } from '../envs';
 
 export class IacStack extends Stack {
-    constructor(scope: Construct, constructId: string) {
-        super(scope, constructId);
+    constructor(scope: Construct, constructId: string, props?: StackProps) {
+        super(scope, constructId, props);
 
         const githubRef = process.env.GITHUB_REF || '';
 
