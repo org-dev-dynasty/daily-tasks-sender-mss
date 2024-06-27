@@ -9,7 +9,8 @@ const envs = {
   REGION: process.env.REGION,
   AWS_ACCOUNT_ID: process.env.AWS_ACCOUNT_ID,
   SQLALCHEMY_DATABASE_URL: process.env.SQLALCHEMY_DATABASE_URL,
-  MONGODB_URL: process.env.MONGODB_URL
+  MONGODB_URL: process.env.MONGODB_URL,
+  DOMAIN_EMAIL_SES: process.env.DOMAIN_EMAIL_SES
 }
 
 export { envs }
