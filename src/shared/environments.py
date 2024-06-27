@@ -56,7 +56,6 @@ class Environments:
     @staticmethod
     def get_user_repository() -> IUserRepository:
         logging.info('chegou no get user repo ENVIRONMENTS')
-        print('chegou no get user repo ENVIRONMENTS')
         envs = Environments.get_envs()
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
