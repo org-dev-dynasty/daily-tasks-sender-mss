@@ -26,8 +26,9 @@ class UserRepositoryMongo(IUserRepository):
         try:
             print('OLAAAAAAAAA REPO MONGOLLLL')
             users = self.users_collection.find()
+            print(f'users_find: {users}')
+            print(f'type_users: {type(users)}')
             print(f'user mongol')
-
             for user in users:
                 print(f'user: {user}')
                 usersList.append(UserMongoDTO.from_mongo(user).to_entity())
