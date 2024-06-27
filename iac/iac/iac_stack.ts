@@ -35,21 +35,21 @@ export class IacStack extends Stack {
             }
         });
 
-        let stage;
-        if (githubRef.includes('prod')) {
-            stage = 'PROD';
-        } else if (githubRef.includes('homolog')) {
-            stage = 'HOMOLOG';
-        } else if (githubRef.includes('dev')) {
-            stage = 'DEV';
-        } else {
-            stage = 'TEST';
-        }
+        // let stage;
+        // if (githubRef.includes('prod')) {
+        //     stage = 'PROD';
+        // } else if (githubRef.includes('homolog')) {
+        //     stage = 'HOMOLOG';
+        // } else if (githubRef.includes('dev')) {
+        //     stage = 'DEV';
+        // } else {
+        //     stage = 'TEST';
+        // }
 
         const cognitoStack = new CognitoStack(this, `dts_cognito_stack_${githubRef}`);
 
         const ENVIRONMENT_VARIABLES = {
-            'STAGE': stage,
+            'STAGE': envs.STAGE,
             'MONGODB_URL': envs.MONGODB_URL,
             'USER_POOL_ID': cognitoStack.userPool.userPoolId,
             'CLIENT_ID': cognitoStack.client.userPoolClientId,
