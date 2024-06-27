@@ -38,6 +38,7 @@ class UserRepositoryMongo(IUserRepository):
                     user_entity = user_dto.to_entity()
                     print(f'user_entity: {user_entity}')
                     usersList.append(user_entity)
+                    
                 except Exception as inner_e:
                     print(f'Erro processando usuário {user}: {inner_e}')
                 
