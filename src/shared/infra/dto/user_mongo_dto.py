@@ -19,18 +19,22 @@ class UserMongoDTO:
 
     @staticmethod
     def from_mongo(data) -> "UserMongoDTO":
-        print(f'data vinda do mongo: {data}')
-        obj_id = data["_id"]
-        print(f"obj_id AQUIIII: {obj_id}")
-        user_id = str(obj_id)
+        try:
+            print(f'data vinda do mongo: {data}')
+            obj_id = data["_id"]
+            print(f"obj_id AQUIIII: {obj_id}")
+            user_id = str(obj_id)
 
-        return UserMongoDTO(
-            user_id=user_id,
-            name=data["name"],
-            email=data["email"],
-            phone=data.get("phone"),
-            password=data["password"]
-        )
+            return UserMongoDTO(
+                user_id=user_id,
+                name=data["name"],
+                email=data["email"],
+                phone=data.get("phone"),  # Utilizando get para evitar erro se o campo não existir
+                password=data["password"]
+            )
+        except KeyError as e:
+            print(f'KeyError: {e} em data: {data}')
+            raise
 
     # @staticmethod
     def to_entity(self) -> User:

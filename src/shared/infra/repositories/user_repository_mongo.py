@@ -22,22 +22,30 @@ class UserRepositoryMongo(IUserRepository):
         return user
 
     def get_all_users(self) -> List[User]:
-        usersList = []
-        try:
-            print('OLAAAAAAAAA REPO MONGOLLLL')
-            users = self.users_collection.find()
-            print(f'users_find: {users}')
-            print(f'type_users: {type(users)}')
-            print(f'user mongol')
-            for user in users:
+    usersList = []
+    try:
+        print('OLAAAAAAAAA REPO MONGOLLLL')
+        users = self.users_collection.find()
+        print(f'users_find: {users}')
+        print(f'type_users: {type(users)}')
+        print(f'user mongol')
+        
+        for user in users:
+            try:
                 print(f'user: {user}')
-                usersList.append(UserMongoDTO.from_mongo(user).to_entity())
+                user_dto = UserMongoDTO.from_mongo(user)
+                print(f'user_dto: {user_dto}')
+                user_entity = user_dto.to_entity()
+                print(f'user_entity: {user_entity}')
+                usersList.append(user_entity)
+            except Exception as inner_e:
+                print(f'Erro processando usuário {user}: {inner_e}')
             
-            return usersList
+        return usersList
 
-        except Exception as e:
-            print(f'erro mongol repo: {e}')
-            raise ValueError(f'Error getting all users, erro: {e}')
+    except Exception as e:
+        print(f'erro mongol repo: {e}')
+        raise ValueError(f'Error getting all users, erro: {e}')
 
 
 def get_user_by_id(self, user_id: str) -> User:
