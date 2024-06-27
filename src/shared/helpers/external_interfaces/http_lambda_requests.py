@@ -105,12 +105,15 @@ class LambdaHttpRequest(HttpRequest):
         _headers = data.get("headers")
         _query_string_parameters = data.get("queryStringParameters")
         _body = None
+        print(f"body lambda request: {data.get('body')}")
 
         if "body" in data:
             try:
                 _body = json.loads(data.get("body"))
+                print(f"TRY BODY LAMBDA REQUEST {_body}")
             except:
                 _body = data.get("body")
+                print(f"FUCK LAMBDA REQUEST {_body}")
 
         super().__init__(body=_body, headers=_headers, query_params=_query_string_parameters)
 
