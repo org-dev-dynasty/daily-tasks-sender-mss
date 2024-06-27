@@ -106,6 +106,8 @@ class LambdaHttpRequest(HttpRequest):
         _query_string_parameters = data.get("queryStringParameters")
         _body = None
         print(f"body lambda request: {data.get('body')}")
+        print(f"headers lambda request: {_headers}")
+        print(f"query_string_parameters lambda request: {_query_string_parameters}")
 
         if "body" in data:
             try:

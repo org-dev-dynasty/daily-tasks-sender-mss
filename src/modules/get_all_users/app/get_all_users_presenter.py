@@ -29,6 +29,7 @@ def lambda_handler(event, context):
   print('lambda_handler OOOOIIIII')
   print(f'event: {event}')
   httpRequest = LambdaHttpRequest(event)
+  print(f'httpRequest: {httpRequest}')
   response = controller.handle(httpRequest)
   print(f'response: {response}')
   print(f'response.body: {response.body}')
