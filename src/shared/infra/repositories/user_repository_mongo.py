@@ -22,7 +22,7 @@ class UserRepositoryMongo(IUserRepository):
         return user
 
     def get_all_users(self) -> List[User]:
-        usersList = [User(user_id="1", name="teste", email="teste@gmail.com", phone="11123456789", password="Teste123$")]
+        usersList = []
         try:
             print('OLAAAAAAAAA REPO MONGOLLLL')
             users = self.users_collection.find()
