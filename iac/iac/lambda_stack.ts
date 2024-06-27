@@ -8,7 +8,7 @@ import * as path from 'path'
 export class LambdaStack extends Construct {
   functionsThatNeedDynamoPermissions: lambda.Function[] = []
   lambdaLayer: lambda.LayerVersion
-  sqlAlchemyLayer: lambda.LayerVersion
+  libLayer: lambda.LayerVersion
   
   getAllUsersFunction: lambda.Function
 
@@ -23,7 +23,7 @@ export class LambdaStack extends Construct {
       code: lambda.Code.fromAsset(path.join(__dirname, `../../src/modules/${moduleName}`)),
       handler: `app.${moduleName}_presenter.lambda_handler`,
       runtime: lambda.Runtime.PYTHON_3_11,
-      layers: [this.lambdaLayer, this.sqlAlchemyLayer],
+      layers: [this.lambdaLayer, this.libLayer],
       environment: environmentVariables,
       timeout: Duration.seconds(15),
       memorySize: 1024
@@ -42,8 +42,8 @@ export class LambdaStack extends Construct {
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
     })
 
-    this.sqlAlchemyLayer = new lambda.LayerVersion(this, 'DailyTasksMssSqlAlchemyLayer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../sqlalchemy')),
+    this.libLayer = new lambda.LayerVersion(this, 'DailyTasksMssLibLayer', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../requirements')),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
     })
 

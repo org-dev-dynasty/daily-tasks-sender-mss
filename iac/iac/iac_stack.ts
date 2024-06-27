@@ -31,6 +31,7 @@ export class IacStack extends Stack {
     const ENVIRONMENT_VARIABLES = {
       'STAGE': envs.STAGE,
       'SQLALCHEMY_DATABASE_URL': envs.SQLALCHEMY_DATABASE_URL,
+      'MONGODB_URL': envs.MONGODB_URL
     }
 
     new LambdaStack(this, apigatewayResource, ENVIRONMENT_VARIABLES)

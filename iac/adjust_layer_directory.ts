@@ -8,7 +8,7 @@ const IAC_DIRECTORY_NAME = 'iac';
 const SOURCE_DIRECTORY_NAME = 'src';
 const SHARED_DIR_NAME = 'shared';
 const SHARED_PYTHON_DIR_NAME = 'python';
-const SQLALCHEMY_DIR_NAME = 'sqlalchemy';
+const REQUIREMENTS_DIR_NAME = 'requirements';
 const SITE_PACKAGES_DIR_NAMES = ['python', 'lib', 'python3.11', 'site-packages'];
 const ZIP_FILE_NAME = 'requirements.zip';
 
@@ -39,7 +39,7 @@ export function adjustLayerDirectory(): void {
   copyFolderSync(sourceDirectory, destinationDirectory);
 
   // Cria e ajusta o diretório para sqlalchemy
-  const sqlalchemySitePackagesDir = path.join(iacDirectory, SQLALCHEMY_DIR_NAME, ...SITE_PACKAGES_DIR_NAMES);
+  const sqlalchemySitePackagesDir = path.join(iacDirectory, REQUIREMENTS_DIR_NAME, ...SITE_PACKAGES_DIR_NAMES);
 
   if (fs.existsSync(sqlalchemySitePackagesDir)) {
     fs.rmSync(sqlalchemySitePackagesDir, { recursive: true, force: true });
@@ -49,17 +49,6 @@ export function adjustLayerDirectory(): void {
 
   // Instala as bibliotecas do requirements.txt
   installRequirements(rootDirectory, sqlalchemySitePackagesDir)
-    .then(() => {
-      // Cria o arquivo ZIP dentro do diretório sqlalchemy
-      return createZip(sqlalchemySitePackagesDir, ZIP_FILE_NAME);
-    })
-    .then(() => {
-      // Limpa o diretório, exceto pelo arquivo ZIP
-      return cleanUpDirectory(sqlalchemySitePackagesDir, ZIP_FILE_NAME);
-    })
-    .catch(error => {
-      console.error('Falha ao ajustar o diretório da camada:', error);
-    });
 }
 
 function copyFolderSync(src: string, dest: string): void {
