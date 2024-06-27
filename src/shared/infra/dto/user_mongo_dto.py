@@ -17,7 +17,7 @@ class UserMongoDTO:
         self.phone = phone
         self.password = password
 
-    @staticmethod
+    # @staticmethod
     def from_mongo(data) -> "UserMongoDTO":
         print(f'data vinda do mongo: {data}')
         obj_id = data["_id"]
