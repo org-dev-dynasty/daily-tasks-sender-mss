@@ -6,7 +6,7 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .get_all_users_usecase import GetAllUsersUsecase
 from .get_all_users_controller import GetAllUsersController
 
-repo = Environments.get_user_repository()()
+repo = Environments.get_user_repository()
 logging.info(repo)
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)
