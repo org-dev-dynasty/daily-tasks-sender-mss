@@ -101,6 +101,7 @@ class LambdaHttpRequest(HttpRequest):
         """
         Constructor for HttpResponse.
         """
+        print("OIIIII LAMBDA REQUESTTTTTT")
         _headers = data.get("headers")
         _query_string_parameters = data.get("queryStringParameters")
         _body = None
