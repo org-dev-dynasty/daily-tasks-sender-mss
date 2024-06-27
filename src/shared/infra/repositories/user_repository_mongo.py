@@ -30,6 +30,15 @@ class UserRepositoryMongo(IUserRepository):
             print(f'type_users: {type(users)}')
             print(f'user mongol')
             print(usersList)
+
+            for user in users:
+                print(f'user: {user}')
+                user_dto = UserMongoDTO.from_mongo(user)
+                print(f'user_dto: {user_dto}')
+                user = UserMongoDTO.to_entity(user_dto)
+                print(f'user_entity: {user}')
+                usersList.append(user)
+            
             # for user in users:
             #     try:
             #         print(f'Validando usuário: {user}')
