@@ -5,6 +5,7 @@ import {
     CfnOutput
 } from 'aws-cdk-lib';
 import {Construct} from 'constructs';
+import {envs} from "../envs";
 
 export class CognitoStack extends Construct {
     public readonly userPool: cognito.UserPool;
@@ -13,11 +14,11 @@ export class CognitoStack extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, 'DailyTasksMssCognitoStack');
 
-        const fromEmail = process.env.FROM_EMAIL || '';
-        const replyToEmail = process.env.REPLY_TO_EMAIL || '';
+        const fromEmail = envs.FROM_EMAIL || '';
+        const replyToEmail = envs.REPLY_TO_EMAIL || '';
 
         if (!fromEmail || !replyToEmail) {
-            throw new Error('Missing required environment variables: SES_REGION, FROM_EMAIL, REPLY_TO_EMAIL');
+            throw new Error('Missing required environment variables: FROM_EMAIL, REPLY_TO_EMAIL');
         }
 
         const email = cognito.UserPoolEmail.withSES({
