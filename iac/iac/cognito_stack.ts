@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { UserPool, UserPoolClient, UserPoolEmail } from "aws-cdk-lib/aws-cognito";
+import { envs } from "../envs";
 
 export class CognitoStack extends Construct {
   userPool: UserPool
@@ -10,7 +11,8 @@ export class CognitoStack extends Construct {
     super(scope, `DailyTasksCognitoUserPool`)
 
     this.emailSes = UserPoolEmail.withSES({
-      fromEmail: ''
+      fromEmail: envs.DOMAIN_EMAIL_SES,
+      
     })
     
   }

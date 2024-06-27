@@ -52,6 +52,7 @@ jobs:
             echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> $GITHUB_ENV
             echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
             echo SQLALCHEMY_DATABASE_URL=${{ secrets.SQLALCHEMY_DATABASE_URL }} >> $GITHUB_ENV
+            echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
         - name: CDK Bootstrap
           run: |
             echo "CDK Bootstrap"
@@ -69,3 +70,4 @@ jobs:
               AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
               AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               SQLALCHEMY_DATABASE_URL: ${{ secrets.SQLALCHEMY_DATABASE_URL }}
+              MONGODB_URL: ${{ secrets.MONGODB_URL }}
