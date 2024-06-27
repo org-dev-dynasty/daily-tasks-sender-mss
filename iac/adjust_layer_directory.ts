@@ -49,12 +49,6 @@ export function adjustLayerDirectory(): void {
 
   // Instala as bibliotecas do requirements.txt
   installRequirements(rootDirectory, sqlalchemySitePackagesDir)
-    .then(() => {
-      createZip(sqlalchemySitePackagesDir, ZIP_FILE_NAME)
-    })
-    .then(() => {
-      cleanUpDirectory(sqlalchemySitePackagesDir, ZIP_FILE_NAME)
-    })
 }
 
 function copyFolderSync(src: string, dest: string): void {
