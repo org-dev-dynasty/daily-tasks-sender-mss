@@ -27,7 +27,10 @@ class UserRepositoryMongo(IUserRepository):
             users = self.users_collection.find()
             print(f'user mongol')
             print(users)
-            userList = [UserMongoDTO.to_entity(UserMongoDTO.from_mongo(user)) for user in users]
+            user_dto = [UserMongoDTO.from_mongo(user) for user in users]
+            print(f'user_dto: {user_dto}')
+            userList = [UserMongoDTO.to_entity(user) for user in user_dto]
+            print(userList)
             return userList
         except Exception as e:
             print(f'erro mongol repo: {e}')
