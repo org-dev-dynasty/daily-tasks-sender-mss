@@ -27,7 +27,7 @@ class User(abc.ABC):
     ) -> None:
 
         if user_id is None:
-            self.user_id = str(uuid4())
+            self.user_id = None
         else:
             self.user_id = user_id
 
