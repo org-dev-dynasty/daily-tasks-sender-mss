@@ -17,13 +17,13 @@ class User(abc.ABC):
 
     def __init__(
             self,
-            user_id: Optional[str],
             name: str,
             email: str,
             phone: Optional[str],
             password: str,
             accepted_terms: bool,
-            accepted_notifications_email: bool
+            accepted_notifications_email: bool,
+            user_id: Optional[str] = None
     ) -> None:
 
         if user_id is None:
