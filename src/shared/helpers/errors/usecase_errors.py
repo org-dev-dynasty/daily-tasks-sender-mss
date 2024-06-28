@@ -24,3 +24,18 @@ class InvalidCredentials(BaseError):
 class TermsNotAccepted(BaseError):
     def __init__(self, message: str):
         super().__init__(f'Terms not accepted for {message}')
+
+
+class UserAlreadyConfirmed:
+    def __init__(self, message: str):
+        super().__init__(f'The user is already confirmed for {message}')
+
+
+class InvalidTokenError:
+    def __init__(self, message: str):
+        super().__init__(f'The token is invalid for {message}')
+
+
+class UserNotConfirmed:
+    def __init__(self, message: str):
+        super().__init__(f'The user is not confirmed for {message}')
