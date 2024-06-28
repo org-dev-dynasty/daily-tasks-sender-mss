@@ -31,6 +31,7 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
+            print(f"PINTASSO DO RESPONSE LOGIN: {response_login}")
             access_token = response_login["AuthenticationResult"]["AccessToken"]
             response_get_user = self.client.get_user(
                 AccessToken=access_token
