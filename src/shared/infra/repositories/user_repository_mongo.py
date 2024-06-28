@@ -24,7 +24,6 @@ class UserRepositoryMongo(IUserRepository):
     def get_all_users(self) -> List[User]:
         usersList = []
         try:
-            print('OLAAAAAAAAA REPO MONGOLLLL')
             users = self.users_collection.find()
             print(f'users_find: {users}')
             print(f'type_users: {type(users)}')
@@ -59,6 +58,4 @@ def get_user_by_id(self, user_id: str) -> User:
     return user
 
 
-def login(self, email: str, password: str) -> User:
-    user = self.users_collection.find_one({"email": email, "password": password})
-    return user
+
