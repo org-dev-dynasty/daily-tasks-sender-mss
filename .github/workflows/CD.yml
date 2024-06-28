@@ -47,11 +47,7 @@ jobs:
           echo REGION=${{ secrets.REGION }}>> $GITHUB_ENV
           echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
           echo GITHUB_REF_NAME=${{ github.ref_name }} >> $GITHUB_ENV
-          echo DYNAMO_TABLE_NAME=${{ secrets.DYNAMO_TABLE_NAME }} >> $GITHUB_ENV
-          echo DYNAMO_PRODUCTS_TABLE_NAME=${{ secrets.DYNAMO_PRODUCTS_TABLE_NAME }} >> $GITHUB_ENV
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> $GITHUB_ENV
           echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
-          echo SQLALCHEMY_DATABASE_URL=${{ secrets.SQLALCHEMY_DATABASE_URL }} >> $GITHUB_ENV
           echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
           echo FROM_EMAIL=${{ secrets.FROM_EMAIL }} >> $GITHUB_ENV
           echo REPLY_TO_EMAIL=${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
@@ -73,7 +69,6 @@ jobs:
           STAGE: ${{ secrets.STAGE }}
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SQLALCHEMY_DATABASE_URL: ${{ secrets.SQLALCHEMY_DATABASE_URL }}
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
