@@ -14,7 +14,6 @@ class User(abc.ABC):
     password: str
     accepted_terms: bool
     accepted_notifications_email: bool
-    accepted_notifications_sms: bool
 
     def __init__(
             self,
@@ -24,7 +23,6 @@ class User(abc.ABC):
             phone: Optional[str],
             password: str,
             accepted_terms: bool,
-            accepted_notifications_sms: bool,
             accepted_notifications_email: bool
     ) -> None:
 
