@@ -12,11 +12,26 @@ class User(abc.ABC):
     email: str
     phone: Optional[str]
     password: str
+    accepted_terms: bool
+    accepted_notifications_email: bool
+    accepted_notifications_sms: bool
 
-    def __init__(self, user_id: Optional[str], name: str, email: str, phone: Optional[str], password: str) -> None:
+    def __init__(
+            self,
+            user_id: Optional[str],
+            name: str,
+            email: str,
+            phone: Optional[str],
+            password: str,
+            accepted_terms: bool,
+            accepted_notifications_sms: bool,
+            accepted_notifications_email: bool
+    ) -> None:
 
-        if not user_id:
-            self.user_id = None
+        if user_id is None:
+            self.user_id = str(uuid4())
+        else:
+            self.user_id = user_id
 
         if not self.validate_phone(phone):
             raise EntityError("phone")
@@ -30,11 +45,18 @@ class User(abc.ABC):
         if not self.validate_password(password):
             raise EntityError("password")
 
-        self.user_id = user_id
+        if not isinstance(accepted_terms, bool):
+            raise EntityError("accepted_terms")
+
+        if not isinstance(accepted_notifications_email, bool):
+            raise EntityError("accepted_notifications_email")
+
         self.name = name
         self.email = email
         self.phone = phone
         self.password = password
+        self.accepted_terms = accepted_terms
+        self.accepted_notifications_email = accepted_notifications_email
 
     @staticmethod
     def validate_name(name: str) -> bool:
@@ -61,11 +83,11 @@ class User(abc.ABC):
         return True
 
     @staticmethod
-    def validate_phone(phone: str) -> bool:
+    def validate_phone(phone: Optional[str]) -> bool:
         rgx = r'^\d{11}$'
 
         if phone is None:
-            return False
+            return True  # Phone is optional, so None is valid
         if phone == "":
             return False
         if not re.search(rgx, phone):
@@ -85,3 +107,15 @@ class User(abc.ABC):
         if password == "":
             return False
         return True
+
+    def to_dict(self) -> dict:
+        return {
+            'user_id': self.user_id,
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'password': self.password,
+            'accepted_terms': self.accepted_terms,
+            'accepted_notifications_sms': self.accepted_notifications_sms,
+            'accepted_notifications_email': self.accepted_notifications_email,
+        }
