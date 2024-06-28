@@ -11,6 +11,7 @@ export class LambdaStack extends Construct {
     libLayer: lambda.LayerVersion
 
     getAllUsersFunction: lambda.Function
+    loginFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -53,7 +54,10 @@ export class LambdaStack extends Construct {
         // }
 
         this.getAllUsersFunction = this.createLambdaApiGatewayIntegration('get_all_users', 'GET', apiGatewayResource, environmentVariables)
+        this.loginFunction = this.createLambdaApiGatewayIntegration('login', 'POST', apiGatewayResource, environmentVariables)
+    
+        this.functionsThatNeedCognitoPermissions = [
+            this.loginFunction
+        ]
     }
-
-
 }
