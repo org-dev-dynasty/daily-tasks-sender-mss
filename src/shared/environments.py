@@ -46,7 +46,7 @@ class Environments:
             self.client_id = os.environ.get("CLIENT_ID")
 
     @staticmethod
-    def get_user_repository() -> IUserRepository:
+    def get_user_repo() -> IUserRepository:
         logging.info('chegou no get user repo ENVIRONMENTS')
         envs = Environments.get_envs()
         logging.info(f'envs.get_envs() {envs}')
