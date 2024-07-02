@@ -2,7 +2,9 @@ import logging
 import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
 from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
+from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
 from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
 
 class Environments:
@@ -57,6 +59,16 @@ class Environments:
             return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
+        
+    @staticmethod
+    def get_task_repo() -> ITaskRepository:
+        envs = Environments.get_envs()
+        if envs.stage == STAGE.TEST:
+            return TaskRepositoryMongo()
+        elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            return TaskRepositoryMongo()
+        else:
+            raise Exception("No task repository class found for this stage")
 
     @staticmethod
     def get_envs() -> "Environments":
