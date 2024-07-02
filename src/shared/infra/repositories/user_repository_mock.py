@@ -28,3 +28,7 @@ class UserRepositoryMock(IUserRepository):
     def get_user_by_id(self, user_id: int) -> User:
         user = next((user for user in self.users if user.user_id == user_id), None)
         return user
+
+    def get_user_by_email(self, email: str) -> User:
+        user = next((user for user in self.users if user.email == email), None)
+        return user
