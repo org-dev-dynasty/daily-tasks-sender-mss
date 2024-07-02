@@ -66,6 +66,15 @@ class UserRepositoryMongo(IUserRepository):
             print(f'erro mongol repo: {e}')
             raise ValueError(f'Error getting user by id, erro: {e}')
 
+    def get_user_by_email(self, email: str) -> User:
+        try:
+            user = self.users_collection.find_one({"email": email})
+            user_dto = UserMongoDTO.from_mongo(user)
+            user = UserMongoDTO.to_entity(user_dto)
+            return user
+        except Exception as e:
+            print(f'erro mongo repo: {e}')
+            raise ValueError(f'Error getting user by email, erro: {e}')
 
 
 
