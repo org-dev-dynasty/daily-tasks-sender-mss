@@ -20,8 +20,15 @@ class Test_UserRepositoryMock:
         password = "Teste123@"
         accepted_terms = True
         accepted_notifications = False
-
-        user = repo.create_user(name, email, phone, password, accepted_terms, accepted_notifications)
+        new_user = User(
+            name=name,
+            email=email,
+            phone=phone,
+            password=password,
+            accepted_terms=accepted_terms,
+            accepted_notifications_email=accepted_notifications
+        )
+        user = repo.create_user(new_user)
 
         assert type(user) == User
         assert user in repo.users
