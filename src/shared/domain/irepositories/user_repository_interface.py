@@ -10,7 +10,7 @@ class IUserRepository(ABC):
     pass
   
   @abstractmethod
-  def create_user(self, name: str, email: str, phone: str, password: str) -> User:
+  def create_user(self, user: User) -> User:
     pass
 
   def login_user(self, login: str, password: str) -> dict:
