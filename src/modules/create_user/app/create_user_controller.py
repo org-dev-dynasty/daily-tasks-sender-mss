@@ -1,7 +1,6 @@
 import datetime
 import json
 
-from src.shared.domain.observability.observability_interface import IObservability
 from .create_user_viewmodel import CreateUserViewmodel
 from src.shared.domain.entities.user import User
 from .create_user_usecase import CreateUserUsecase
@@ -14,18 +13,11 @@ from src.shared.helpers.external_interfaces.http_codes import BadRequest, Intern
 
 
 class CreateUserController:
-    def __init__(self, usecase: CreateUserUsecase, observability: IObservability) -> None:
+    def __init__(self, usecase: CreateUserUsecase) -> None:
         self.createUserUsecase = usecase
-        self.observability = observability
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
-            if request.data.get('access_level') is None:
-                raise MissingParameters('access_level')
-
-            if request.data.get('role') is None:
-                raise MissingParameters('role')
-
             if request.data.get('accepted_terms') is None:
                 raise MissingParameters('accepted_terms')
 
@@ -45,13 +37,12 @@ class CreateUserController:
 
             if phone is not None:
                 phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
-                phone = phone if phone.startswith('+') else f'+{phone}'
 
             user_dict = {
                 'name': request.data.get('name'),
                 'email': request.data.get('email').replace(' ', ''),
                 'password': request.data.get('password'),
-                'phone': None,
+                'phone': phone,
                 'accepted_terms': request.data.get('accepted_terms'),
                 'accepted_notifications_email': request.data.get('accepted_notifications_email'),
                 'created_at': int(datetime.datetime.now().timestamp() * 1000),
