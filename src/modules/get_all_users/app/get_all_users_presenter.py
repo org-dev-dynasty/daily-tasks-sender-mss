@@ -15,7 +15,6 @@ logging.info(controller)
 
 
 def lambda_handler(event, context):
-  print('lambda_handler OOOOIIIII')
   print(f'event: {event}')
   httpRequest = LambdaHttpRequest(event)
   print(f'httpRequest: {httpRequest}')
