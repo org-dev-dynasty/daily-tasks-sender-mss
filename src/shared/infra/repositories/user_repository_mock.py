@@ -17,8 +17,7 @@ class UserRepositoryMock(IUserRepository):
         users = self.users
         return users
 
-    def create_user(self, name: str, email: str, phone: str, password: str, accepted_terms: bool, accepted_notifications_email: bool) -> User:
-        user = User(name, email, phone, password, accepted_terms, accepted_notifications_email)
+    def create_user(self, user: User) -> User:
         self.users.append(user)
         return user
 
