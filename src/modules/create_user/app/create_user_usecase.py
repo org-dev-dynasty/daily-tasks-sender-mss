@@ -18,8 +18,10 @@ class CreateUserUsecase:
             raise EntityError("password")
         if not user.accepted_terms:
             raise EntityError("accepted_terms")
-
-        if GetUserByEmailUsecase(self.repo) is not None:
+        
+        getByEmail = GetUserByEmailUsecase(self.repo)
+        
+        if getByEmail(user.email) is not None:
             raise DuplicatedItem('email')
 
         user.email = user.email.lower()
