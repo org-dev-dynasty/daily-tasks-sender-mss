@@ -49,8 +49,9 @@ class CreateUserController:
             }
 
             new_user = User.parse_object(user_dict)
+            print("TENTOU CHAMAR O USECASE")
             created_user = self.createUserUsecase(new_user)
-
+            print("CHAMOU O USECASE!!!")
             viewmodel = CreateUserViewmodel(created_user)
             response = Created(viewmodel.to_dict())
 
