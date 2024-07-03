@@ -1,8 +1,6 @@
 import abc
 import re
 from typing import Optional
-from uuid import uuid4
-
 from src.shared.helpers.errors.domain_errors import EntityError
 
 
@@ -11,7 +9,7 @@ class User(abc.ABC):
     name: str
     email: str
     phone: Optional[str]
-    password: str
+    password: Optional[str]
     accepted_terms: bool
     accepted_notifications_email: bool
 
@@ -19,10 +17,10 @@ class User(abc.ABC):
             self,
             name: str,
             email: str,
-            phone: Optional[str],
-            password: str,
-            accepted_terms: bool,
-            accepted_notifications_email: bool,
+            phone: Optional[str] = None,
+            password: Optional[str] = None,
+            accepted_terms: bool = False,
+            accepted_notifications_email: bool = False,
             user_id: Optional[str] = None
     ) -> None:
 
@@ -112,9 +110,12 @@ class User(abc.ABC):
             email=user['email'],
             name=user['name'].title(),
             phone=user['phone'] if user.get('phone') is not None else None,
-            password=user['password'] if user.get('password') is not None else None,
-            accepted_terms=user['accepted_terms'] if user.get('accepted_terms') is not None else None,
-            accepted_notifications_email=user['accepted_notifications_email'] if user.get('accepted_notifications_email') is not None else None,
+            password=user['password'] if user.get(
+                'password') is not None else None,
+            accepted_terms=user['accepted_terms'] if user.get(
+                'accepted_terms') is not None else None,
+            accepted_notifications_email=user['accepted_notifications_email'] if user.get(
+                'accepted_notifications_email') is not None else None,
             user_id=user.get("user_id")
         )
 
