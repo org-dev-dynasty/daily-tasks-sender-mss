@@ -8,7 +8,7 @@ class TaskRepositoryMongo(ITaskRepository):
     tasks_collection: MongoClient
 
     def __init__(self, mongo_url: str):
-        self.users_collection = get_tasks_collection(mongo_url)
+        self.tasks_collection = get_tasks_collection(mongo_url)
     
     def create_task(self, task: Task) -> Task:
         try:
