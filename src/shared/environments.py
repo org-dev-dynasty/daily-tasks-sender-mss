@@ -64,9 +64,9 @@ class Environments:
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
-            return TaskRepositoryMongo()
+            return TaskRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            return TaskRepositoryMongo()
+            return TaskRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No task repository class found for this stage")
 
