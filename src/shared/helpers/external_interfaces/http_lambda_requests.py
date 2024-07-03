@@ -1,6 +1,6 @@
 import json
 
-from shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
+from src.shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
 
 
 class LambdaHttpResponse(HttpResponse):
@@ -101,15 +101,21 @@ class LambdaHttpRequest(HttpRequest):
         """
         Constructor for HttpResponse.
         """
+        print("OIIIII LAMBDA REQUESTTTTTT")
         _headers = data.get("headers")
         _query_string_parameters = data.get("queryStringParameters")
         _body = None
+        print(f"body lambda request: {data.get('body')}")
+        print(f"headers lambda request: {_headers}")
+        print(f"query_string_parameters lambda request: {_query_string_parameters}")
 
         if "body" in data:
             try:
                 _body = json.loads(data.get("body"))
+                print(f"TRY BODY LAMBDA REQUEST {_body}")
             except:
                 _body = data.get("body")
+                print(f"FUCK LAMBDA REQUEST {_body}")
 
         super().__init__(body=_body, headers=_headers, query_params=_query_string_parameters)
 
