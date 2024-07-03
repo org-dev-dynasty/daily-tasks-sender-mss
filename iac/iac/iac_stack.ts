@@ -27,8 +27,8 @@ export class IacStack extends Stack {
             stage = 'TEST';
         }
         
-        const restApi = new RestApi(this, `DailyTasksSenderMssRESTAPI-${stage}`, {
-            restApiName: `DailyTasksSenderMssRESTAPI-${stage}`,
+        const restApi = new RestApi(this, `DailyTasksSenderMssRestAPI-${stage}`, {
+            restApiName: `DailyTasksSenderMssRestAPI-${stage}`,
             description: 'This is the REST API for the Daily tasks sender MSS Service.',
             defaultCorsPreflightOptions: {
                 allowOrigins: Cors.ALL_ORIGINS,
