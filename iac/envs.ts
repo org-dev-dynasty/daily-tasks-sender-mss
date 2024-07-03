@@ -12,7 +12,8 @@ const envs = {
   FROM_EMAIL: process.env.FROM_EMAIL,
   REPLY_TO_EMAIL: process.env.REPLY_TO_EMAIL,
   GOOGLE_WEB_CLIENT_ID: process.env.GOOGLE_WEB_CLIENT_ID,
-  REDIRECT_URLS: process.env.REDIRECT_URLS
+  REDIRECT_URLS: process.env.REDIRECT_URLS,
+  GITHUB_REF: process.env.GITHUB_REF_NAME
 }
 
 export {envs}
