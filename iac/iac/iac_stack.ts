@@ -15,10 +15,20 @@ export class IacStack extends Stack {
     constructor(scope: Construct, constructId: string, props?: StackProps) {
         super(scope, constructId, props);
 
-        const githubRef = process.env.GITHUB_REF || '';
-
-        const restApi = new RestApi(this, `DailyTasksSenderMssRESTAPI_${githubRef}`, {
-            restApiName: 'DailyTasksSenderMssRESTAPI',
+        const githubRef = envs.GITHUB_REF || '';
+        let stage;
+        if (githubRef.includes('prod')) {
+            stage = 'PROD';
+        } else if (githubRef.includes('homolog')) {
+            stage = 'HOMOLOG';
+        } else if (githubRef.includes('dev')) {
+            stage = 'DEV';
+        } else {
+            stage = 'TEST';
+        }
+        
+        const restApi = new RestApi(this, `DailyTasksSenderMssRESTAPI-${stage}`, {
+            restApiName: `DailyTasksSenderMssRESTAPI-${stage}`,
             description: 'This is the REST API for the Daily tasks sender MSS Service.',
             defaultCorsPreflightOptions: {
                 allowOrigins: Cors.ALL_ORIGINS,
@@ -35,18 +45,8 @@ export class IacStack extends Stack {
             }
         });
 
-        // let stage;
-        // if (githubRef.includes('prod')) {
-        //     stage = 'PROD';
-        // } else if (githubRef.includes('homolog')) {
-        //     stage = 'HOMOLOG';
-        // } else if (githubRef.includes('dev')) {
-        //     stage = 'DEV';
-        // } else {
-        //     stage = 'TEST';
-        // }
 
-        const cognitoStack = new CognitoStack(this, `dts_cognito_stack_${githubRef}`);
+        const cognitoStack = new CognitoStack(this, `DailyTasksSenderMssCognitoStack-${stage}`);
 
         const ENVIRONMENT_VARIABLES = {
             'STAGE': envs.STAGE,
@@ -68,7 +68,7 @@ export class IacStack extends Stack {
             fn.addToRolePolicy(cognitoAdminPolicy);
         }
 
-        new CfnOutput(this, `AuthRestApiUrl-${githubRef}`, {
+        new CfnOutput(this, `DailyTasksSenderMssRESTAPI-${stage}`, {
             value: `${restApi.url}mss-dts`,
             exportName: `AuthRestApiUrlValue`
         });
