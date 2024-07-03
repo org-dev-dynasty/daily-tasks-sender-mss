@@ -1,6 +1,8 @@
 import logging
 print("ENTRANDO NO PRESENTER")
+print(" TENTANDO IMPORTANDO ENVIRONMENTS!!!!")
 from src.shared.environments import Environments
+print("CONSEGUI IMPORTAR ENVIRONMENTS")
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
 from .create_user_usecase import CreateUserUsecase
 from .create_user_controller import CreateUserController
