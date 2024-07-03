@@ -25,5 +25,6 @@ class CreateUserUsecase:
             raise DuplicatedItem('email')
 
         user.email = user.email.lower()
+        print("AQUI TA CHAMANDO O REPO DENTRO DO USECASE " + user.to_dict())
         user_response = self.repo.create_user(user)
         return user_response
