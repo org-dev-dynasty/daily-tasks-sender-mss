@@ -14,21 +14,32 @@ class UserRepositoryMongo(IUserRepository):
     def __init__(self, mongo_url: str):
         self.users_collection = get_users_collection(mongo_url)
 
-    def create_user(self, name: str, email: str, phone: str, password: str) -> User:
-        user_dto = UserMongoDTO(name=name, email=email, phone=phone, password=password)
-        user = UserMongoDTO.to_entity(UserMongoDTO.from_mongo(user_dto))
-        self.users_collection.insert_one(UserMongoDTO.to_mongo(UserMongoDTO.from_entity(user)))
-        logging.info(f'User created [Create] - {user}')
-        return user
+    # def create_user(self, name: str, email: str, phone: str, password: str) -> User:
+    #     user_dto = UserMongoDTO(name=name, email=email, phone=phone, password=password)
+    #     user = UserMongoDTO.to_entity(UserMongoDTO.from_mongo(user_dto))
+    #     self.users_collection.insert_one(UserMongoDTO.to_mongo(UserMongoDTO.from_entity(user)))
+    #     logging.info(f'User created [Create] - {user}')
+    #     return user
+
+    def create_user(self, user: User) -> User:
+        try:
+            user_dto = UserMongoDTO.from_entity(user)
+            user = UserMongoDTO.to_entity(user_dto)
+            self.users_collection.insert_one(UserMongoDTO.to_mongo(UserMongoDTO.from_entity(user)))
+            logging.info(f'User created [Create] - {user}')
+            return user
+        except Exception as e:
+            print(f'erro mongol repo: {e}')
+            raise ValueError(f'Error creating user, erro: {e}')
 
     def get_all_users(self) -> List[User]:
-        usersList = []
+        users_list = []
         try:
             users = self.users_collection.find()
             print(f'users_find: {users}')
             print(f'type_users: {type(users)}')
             print(f'user mongol')
-            print(usersList)
+            print(users_list)
 
             for user in users:
                 print(f'user: {user}')
@@ -36,26 +47,41 @@ class UserRepositoryMongo(IUserRepository):
                 print(f'user_dto: {user_dto}')
                 user = UserMongoDTO.to_entity(user_dto)
                 print(f'user_entity: {user}')
-                usersList.append(user)
-            
-            # for user in users:
-            #     try:
-            #         print(f'Validando usuário: {user}')
-            #         if not all(key in user for key in ["name", "email", "password"]):
-            #             print(f'Usuário inválido: {user}')
-            #     except Exception as e:
-            #         print(f'Erro ao validar usuário: {e}')
+                users_list.append(user)
                 
-            return usersList
+            return users_list
 
         except Exception as e:
             print(f'erro mongol repo: {e}')
             raise ValueError(f'Error getting all users, erro: {e}')
 
 
-def get_user_by_id(self, user_id: str) -> User:
-    user = self.users_collection.find_one({"_id": user_id})
-    return user
+    def get_user_by_id(self, user_id: str) -> User:
+        try:
+            user = self.users_collection.find_one({"_id": user_id})
+            user_dto = UserMongoDTO.from_mongo(user)
+            user = UserMongoDTO.to_entity(user_dto)
+            return user
+        except Exception as e:
+            print(f'erro mongol repo: {e}')
+            raise ValueError(f'Error getting user by id, erro: {e}')
+
+    def get_user_by_email(self, email: str) -> User:
+        try:
+            user = self.users_collection.find_one({"email": email})
+            user_dto = UserMongoDTO.from_mongo(user)
+            user = UserMongoDTO.to_entity(user_dto)
+            return user
+        except Exception as e:
+            print(f'erro mongo repo: {e}')
+            raise ValueError(f'Error getting user by email, erro: {e}')
+
+
+
+
+
+
+
 
 
 

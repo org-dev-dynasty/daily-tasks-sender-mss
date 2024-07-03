@@ -10,10 +10,13 @@ class IUserRepository(ABC):
     pass
   
   @abstractmethod
-  def create_user(self, name: str, email: str, phone: str, password: str) -> User:
+  def create_user(self, user: User) -> User:
     pass
 
   def login_user(self, login: str, password: str) -> dict:
+    pass
+  
+  def get_user_by_email(self, email: str) -> User:
     pass
   
   # @abstractmethod

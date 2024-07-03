@@ -106,6 +106,18 @@ class User(abc.ABC):
             return False
         return True
 
+    @staticmethod
+    def parse_object(user: dict) -> 'User':
+        return User(
+            email=user['email'],
+            name=user['name'].title(),
+            phone=user['phone'] if user.get('phone') is not None else None,
+            password=user['password'] if user.get('password') is not None else None,
+            accepted_terms=user['accepted_terms'] if user.get('accepted_terms') is not None else None,
+            accepted_notifications_email=user['accepted_notifications_email'] if user.get('accepted_notifications_email') is not None else None,
+            user_id=user.get("user_id")
+        )
+
     def to_dict(self) -> dict:
         return {
             'user_id': self.user_id,

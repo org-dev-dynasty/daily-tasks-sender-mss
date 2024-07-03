@@ -31,7 +31,6 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
-            print(f"PINTASSO DO RESPONSE LOGIN: {response_login}")
             access_token = response_login["AuthenticationResult"]["AccessToken"]
             response_get_user = self.client.get_user(
                 AccessToken=access_token
@@ -78,3 +77,26 @@ class UserRepositoryCognito(IUserRepository):
             raise EntityError("An error occurred while fetching users")
 
         return users
+
+    def create_user(self, user: User) -> User:
+        cognito_attributes = UserCognitoDTO.from_entity(user).to_cognito_attributes()
+        try:
+
+            response = self.client.sign_up(
+                ClientId=self.client_id,
+                Username=user.email,
+                Password=user.password,
+                UserAttributes=cognito_attributes)
+
+            user.cognito_id = response.get("UserSub")
+
+        except self.client.exceptions.UsernameExistsException:
+            raise DuplicatedItem("email")
+
+        except self.client.exceptions.InvalidPasswordException:
+            raise InvalidCredentials("password")
+
+        except self.client.exceptions.InvalidParameterException as e:
+            raise EntityError(e.response.get('Error').get('Message'))
+
+        return user

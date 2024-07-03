@@ -1,21 +1,19 @@
 import logging
-import os
 
 from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
-from .get_all_users_usecase import GetAllUsersUsecase
-from .get_all_users_controller import GetAllUsersController
+from .create_user_usecase import CreateUserUsecase
+from .create_user_controller import CreateUserController
 
 repo = Environments.get_user_repo()()
 logging.info(repo)
-usecase = GetAllUsersUsecase(repo)
+usecase = CreateUserUsecase(repo)
 logging.info(usecase)
-controller = GetAllUsersController(usecase)
+controller = CreateUserController(usecase)
 logging.info(controller)
 
 
 def lambda_handler(event, context):
-  print(f'event: {event}')
   httpRequest = LambdaHttpRequest(event)
   print(f'httpRequest: {httpRequest}')
   response = controller.handle(httpRequest)

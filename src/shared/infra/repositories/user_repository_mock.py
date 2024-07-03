@@ -17,8 +17,7 @@ class UserRepositoryMock(IUserRepository):
         users = self.users
         return users
 
-    def create_user(self, name: str, email: str, phone: str, password: str, accepted_terms: bool, accepted_notifications_email: bool) -> User:
-        user = User(name, email, phone, password, accepted_terms, accepted_notifications_email)
+    def create_user(self, user: User) -> User:
         self.users.append(user)
         return user
 
@@ -28,4 +27,8 @@ class UserRepositoryMock(IUserRepository):
 
     def get_user_by_id(self, user_id: int) -> User:
         user = next((user for user in self.users if user.user_id == user_id), None)
+        return user
+
+    def get_user_by_email(self, email: str) -> User:
+        user = next((user for user in self.users if user.email == email), None)
         return user
