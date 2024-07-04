@@ -104,12 +104,12 @@ export class CognitoStack extends Construct {
       
       new CfnOutput(this, 'UserPoolIdOutput' +  stage, {
         value: this.userPool.userPoolId,
-        exportName: 'UserPoolId'
+        exportName: 'UserPoolId' + stage
       });
 
       new CfnOutput(this, 'ClientIdOutput' + stage, {
         value: this.client.userPoolClientId,
-        exportName: 'ClientId'
+        exportName: 'ClientId' + stage
       });
     }
 }
