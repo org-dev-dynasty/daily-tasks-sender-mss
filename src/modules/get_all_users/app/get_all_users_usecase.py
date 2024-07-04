@@ -1,5 +1,5 @@
-from shared.domain.irepositories.user_repository_interface import IUserRepository
-from shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
 
 
 class GetAllUsersUsecase:
@@ -7,7 +7,10 @@ class GetAllUsersUsecase:
     self.repo = repo
     
   def execute(self):
+    print("OLHAAAAAAAA USECASE")
     users = self.repo.get_all_users()
+    print("users USECASE")
+    print(users)
     
     if len(users) == 0:
       raise NoItemsFound("users")
