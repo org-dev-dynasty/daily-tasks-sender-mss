@@ -69,8 +69,8 @@ export class IacStack extends Stack {
         }
 
         new CfnOutput(this, `DailyTasksSenderMssRESTAPI-${stage}`, {
-            value: `${restApi.url}mss-dts`,
-            exportName: `AuthRestApiUrlValue`
+            value: `${restApi.url}/mss-dts`,
+            exportName: `DailyTasksSenderMssRestAPI-${stage}`
         });
     }
 }
