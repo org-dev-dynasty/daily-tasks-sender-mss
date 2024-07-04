@@ -46,8 +46,7 @@ export class LambdaStack extends Construct {
     }
 
     constructor(scope: Construct, apiGatewayResource: Resource, environmentVariables: Record<string, any>) {
-        super(scope, 'DailyTasksMssLambdaStack')
-
+        
         const githubRef = envs.GITHUB_REF || '';
         let stage;
         if (githubRef.includes('prod')) {
@@ -59,6 +58,7 @@ export class LambdaStack extends Construct {
         } else {
             stage = 'TEST';
         }
+        super(scope, `DailyTasksSenderMss-LambdaStack-${stage}`)
 
         this.lambdaLayer = new lambda.LayerVersion(this, `DailyTasksMssSharedLayer-${stage}`, {
             code: lambda.Code.fromAsset(path.join(__dirname, '../shared')),

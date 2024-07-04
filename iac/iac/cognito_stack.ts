@@ -46,12 +46,7 @@ export class CognitoStack extends Construct {
           replyTo: replyToEmail
       });
 
-      const removalPolicy = githubRef.includes('prod')
-          ? RemovalPolicy.RETAIN
-          : RemovalPolicy.DESTROY;
-
       this.userPool = new cognito.UserPool(this, `DailyTasksMssCognitoStack-${stage}`, {
-          removalPolicy: removalPolicy,
           selfSignUpEnabled: true,
           accountRecovery: AccountRecovery.EMAIL_ONLY,
           userVerification: {
@@ -105,11 +100,6 @@ export class CognitoStack extends Construct {
             callbackUrls: [redirectUrls],
             logoutUrls: [redirectUrls]
           }
-      });
-          
-      new CfnOutput(this, 'CognitoRemovalPolicy', {
-        value: removalPolicy.toString(),
-        exportName: 'CognitoRemovalPolicyValue'
       });
       
       new CfnOutput(this, 'UserPoolIdOutput', {
