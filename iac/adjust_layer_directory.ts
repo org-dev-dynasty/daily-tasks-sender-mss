@@ -24,7 +24,7 @@ export function adjustLayerDirectory(): void {
 
   // Define os diretórios de origem e destino para shared
   const sourceDirectory = path.join(rootDirectory, SOURCE_DIRECTORY_NAME, SHARED_DIR_NAME);
-  const destinationDirectory = path.join(iacDirectory, SHARED_DIR_NAME, SHARED_PYTHON_DIR_NAME, SOURCE_DIRECTORY_NAME, SHARED_DIR_NAME);
+  const destinationDirectory = path.join(iacDirectory, SHARED_DIR_NAME, SOURCE_DIRECTORY_NAME, SHARED_DIR_NAME);
 
   // Apaga o diretório de destino se ele existir
   if (fs.existsSync(destinationDirectory)) {
