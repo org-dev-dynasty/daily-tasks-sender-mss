@@ -1,5 +1,5 @@
-from src.shared.domain.irepositories.user_repository_interface import IUserRepository
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from shared.domain.irepositories.user_repository_interface import IUserRepository
+from shared.helpers.errors.usecase_errors import NoItemsFound
 
 
 class GetAllUsersUsecase:
