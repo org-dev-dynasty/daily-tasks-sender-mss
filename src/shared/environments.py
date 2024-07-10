@@ -2,8 +2,6 @@ import logging
 import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
-from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
 
 class Environments:
     """
@@ -52,8 +50,10 @@ class Environments:
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
+            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
             return UserRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
