@@ -28,6 +28,9 @@ export class LambdaStack extends Construct {
         } else {
             stage = 'TEST';
         }
+
+        console.log(`Creating lambda function for ${modifiedModuleName} in stage ${stage}`)
+        console.log(`Environment variables for ${modifiedModuleName}: ${JSON.stringify(environmentVariables)}`)
         const lambdaFunction = new lambda.Function(this, modifiedModuleName, {
             functionName: `${modifiedModuleName}-DailyTasksSenderMss-${stage}`,
             // need to take ../../src/modules/${moduleName} to get the correct path

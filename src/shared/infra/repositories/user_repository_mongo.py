@@ -35,6 +35,7 @@ class UserRepositoryMongo(IUserRepository):
     def get_all_users(self) -> List[User]:
         users_list = []
         try:
+            print(f'users_list: {users_list}')
             users = self.users_collection.find()
             print(f'users_find: {users}')
             print(f'type_users: {type(users)}')

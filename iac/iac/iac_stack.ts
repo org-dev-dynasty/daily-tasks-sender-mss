@@ -49,7 +49,7 @@ export class IacStack extends Stack {
         const cognitoStack = new CognitoStack(this, `DailyTasksSenderMssCognitoStack-${stage}`);
 
         const ENVIRONMENT_VARIABLES = {
-            'STAGE': envs.STAGE,
+            'STAGE': stage,
             'MONGODB_URL': envs.MONGODB_URL,
             'USER_POOL_ID': cognitoStack.userPool.userPoolId,
             'CLIENT_ID': cognitoStack.client.userPoolClientId,
