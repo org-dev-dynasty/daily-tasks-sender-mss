@@ -59,8 +59,8 @@ class Environments:
             from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
             return UserRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-            return UserRepositoryMongo(envs.mongo_url)
+            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+            return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
 

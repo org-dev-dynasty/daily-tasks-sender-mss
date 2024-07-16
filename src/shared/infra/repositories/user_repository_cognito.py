@@ -40,10 +40,14 @@ class UserRepositoryCognito(IUserRepository):
 
         except ClientError as e:
             error_code = e.response['Error']['Code']
+            print(f'e.response {e.response}')
+            print(f'error_code {error_code}')
             if error_code in ['NotAuthorizedException', 'UserNotFoundException']:
                 raise InvalidCredentials("Invalid email or password")
             elif error_code == 'UserNotConfirmedException':
                 raise UserNotConfirmed("User not confirmed")
+            elif error_code == 'UserNotFoundException' or error_code == 'ResourceNotFoundException':
+                raise NoItemsFound("user")
             else:
                 raise EntityError("An error occurred during login")
 
