@@ -19,7 +19,7 @@ class UserCognitoDTO:
         "password": "password",
         "phone": "custom:phone",
         "accepted_terms": "custom:acceptedTerms",
-        "accepted_notifications_email": "custom:acceptedNotificationMail",
+        "accepted_notifications_email": "custom:emailNotifications",
     }
     FROM_COGNITO_DICT = {value: key for key, value in TO_COGNITO_DICT.items()}
     FROM_COGNITO_DICT["sub"] = "user_id"
