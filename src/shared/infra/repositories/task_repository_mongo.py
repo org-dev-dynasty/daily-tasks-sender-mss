@@ -16,7 +16,7 @@ class TaskRepositoryMongo(ITaskRepository):
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         try:
-            task = self.collection.find_one({"task_id": task_id})
+            task = self.collection.find_one({"_id": task_id})
             if not task:
                 return None
             task_dto = TaskMongoDTO.from_mongo(task)
