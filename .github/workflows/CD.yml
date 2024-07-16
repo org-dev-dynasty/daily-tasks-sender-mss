@@ -53,6 +53,7 @@ jobs:
           echo REPLY_TO_EMAIL=${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
           echo GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           echo REDIRECT_URLS=${{ secrets.REDIRECT_URLS }}
+          echo BASE_PWD_COGNITO=${{ secrets.BASE_PWD_COGNITO }}
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
@@ -74,3 +75,4 @@ jobs:
           REPLY_TO_EMAIL: ${{ secrets.REPLY_TO_EMAIL }}
           GOOGLE_WEB_CLIENT_ID: ${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           REDIRECT_URLS: ${{ secrets.REDIRECT_URLS }}
+          BASE_PWD_COGNITO: ${{ secrets.BASE_PWD_COGNITO }}

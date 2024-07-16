@@ -25,20 +25,32 @@ class UserRepositoryCognito(IUserRepository):
         try:
             print(f'USER REPO COGNITO - client_id {self.client_id}')
             print(f'USER REPO COGNITO - user_pool_id {self.user_pool_id}')
+            base_pwd_cognito = Environments.get_envs().base_pwd_cognito
             response_login = self.client.initiate_auth(
                 ClientId=self.client_id,
                 AuthFlow='USER_PASSWORD_AUTH',
                 AuthParameters={
                     'USERNAME': email,
-                    'PASSWORD': password
+                    'PASSWORD': base_pwd_cognito
                 }
             )
-            print(f'response_login {response_login}')
-            dict_response = {}
-
-            dict_response["access_token"] = response_login["AuthenticationResult"]["AccessToken"]
-            dict_response["refresh_token"] = response_login["AuthenticationResult"]["RefreshToken"]
-            dict_response["id_token"] = response_login["AuthenticationResult"]["IdToken"]
+            if 'ChallengeName' in response_login and response_login['ChallengeName'] == 'NEW_PASSWORD_REQUIRED':
+                session = response_login['Session']
+                response_challenge = self.client.respond_to_auth_challenge(
+                    ClientId=self.client_id,
+                    ChallengeName='NEW_PASSWORD_REQUIRED',
+                    Session=session,
+                    ChallengeResponses={
+                        'USERNAME': email,
+                        'NEW_PASSWORD': password
+                    }
+                )
+                dict_response = {
+                "access_token": response_challenge["AuthenticationResult"]["AccessToken"],
+                "refresh_token": response_challenge["AuthenticationResult"]["RefreshToken"],
+                "id_token": response_challenge["AuthenticationResult"]["IdToken"]
+            }
+            
             return dict_response
 
         except ClientError as e:

@@ -56,6 +56,7 @@ export class IacStack extends Stack {
       USER_POOL_ID: cognitoStack.userPool.userPoolId,
       CLIENT_ID: cognitoStack.client.userPoolClientId,
       REGION: this.region,
+      BASE_PWD_COGNITO: envs.BASE_PWD_COGNITO,
     };
 
     const lambdaStack = new LambdaStack(
