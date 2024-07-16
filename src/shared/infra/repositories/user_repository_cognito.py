@@ -23,6 +23,8 @@ class UserRepositoryCognito(IUserRepository):
 
     def login(self, email: str, password: str) -> Dict:
         try:
+            print(f'USER REPO COGNITO - client_id {self.client_id}')
+            print(f'USER REPO COGNITO - user_pool_id {self.user_pool_id}')
             response_login = self.client.initiate_auth(
                 ClientId=self.client_id,
                 AuthFlow='USER_PASSWORD_AUTH',
@@ -31,6 +33,7 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
+            print(f'response_login {response_login}')
             dict_response = {}
 
             dict_response["access_token"] = response_login["AuthenticationResult"]["AccessToken"]
