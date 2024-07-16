@@ -10,6 +10,7 @@ class TaskMongoDTO:
     task_date: date
     task_hour: time
     task_description: Optional[str]
+    task_local: Optional[str]
     task_status: str
 
     def __init__(self, task_id: Optional[str], task_name: str, task_date: date, task_hour: time,  task_description: Optional[str], task_local: Optional[str], task_status: str):
@@ -18,19 +19,14 @@ class TaskMongoDTO:
         self.task_date = task_date
         self.task_hour = task_hour
         self.task_description = task_description
-        task_local = task_local
+        self.task_local = task_local
         self.task_status = task_status
 
     @staticmethod
     def from_mongo(data) -> "TaskMongoDTO":
         try:
-            print(f'data vinda do mongo: {data}')
-            obj_id = data["_id"]
-            print(f"obj_id AQUIIII: {obj_id}")
-            task_id = str(obj_id)
-
             return TaskMongoDTO(
-                task_id=task_id,
+                task_id=data["_id"],
                 task_name=data["task_name"],
                 task_date=data["task_date"],
                 task_hour=data["task_hour"],
@@ -58,6 +54,7 @@ class TaskMongoDTO:
     @classmethod
     def to_mongo(cls, task: Task):
         return {
+            "_id": task.task_id,
             "task_name": task.task_name,
             "task_date": task.task_date,
             "task_hour": task.task_hour,
