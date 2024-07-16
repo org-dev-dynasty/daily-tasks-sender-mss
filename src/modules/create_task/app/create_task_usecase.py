@@ -17,6 +17,4 @@ class CreateTaskUsecase:
             raise EntityError("task_status")
         
         task_response = self.repo.create_task(task)
-        print("TASK RESPONSEEEEE")
-        print(task_response.to_dict())
         return task_response
