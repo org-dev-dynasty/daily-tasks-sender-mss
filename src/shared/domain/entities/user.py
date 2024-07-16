@@ -68,7 +68,7 @@ class User(abc.ABC):
 
     @staticmethod
     def validate_email(email: str) -> bool:
-        rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+        rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+(\.\w+)+$'
 
         if email is None:
             return False
