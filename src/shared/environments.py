@@ -19,6 +19,7 @@ class Environments:
     client_id: str
     client_secret: str
     mongo_url: str
+    base_pwd_cognito: str
 
     def _configure_local(self):
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
@@ -45,6 +46,7 @@ class Environments:
             self.endpoint_url = os.environ.get("ENDPOINT_URL")
             self.user_pool_id = os.environ.get("USER_POOL_ID")
             self.client_id = os.environ.get("CLIENT_ID")
+            self.base_pwd_cognito = os.environ.get("BASE_PWD_COGNITO")
 
     @staticmethod
     def get_user_repo() -> IUserRepository:
