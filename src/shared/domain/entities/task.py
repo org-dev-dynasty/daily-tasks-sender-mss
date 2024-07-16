@@ -112,6 +112,8 @@ class Task(abc.ABC):
         return Task(
             task_id=task.get("task_id"),
             task_name=task.get("task_name"),
+            task_date=task.get("task_date"),
+            task_hour=task.get("task_hour"),
             task_description=task.get("task_description"),
             task_local=task.get("task_local"),
             task_status=task.get("task_status")
@@ -121,6 +123,8 @@ class Task(abc.ABC):
         return {
             "task_id": self.task_id,
             "task_name": self.task_name,
+            "task_date": self.task_date,
+            "task_hour": self.task_hour,
             "task_description": self.task_description,
             "task_local": self.task_local,
             "task_status": self.task_status
