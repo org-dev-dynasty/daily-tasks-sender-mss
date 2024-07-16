@@ -70,9 +70,10 @@ class Environments:
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
-            from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
+            # from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
+            from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
             print("OI MOCK")
-            return TaskRepositoryMock()
+            return TaskRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
             print("OI MONGOLLLL")
