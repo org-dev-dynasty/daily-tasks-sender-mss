@@ -21,7 +21,7 @@ class UserRepositoryCognito(IUserRepository):
         self.user_pool_id = Environments.get_envs().user_pool_id
         self.client_id = Environments.get_envs().client_id
 
-    def login_user(self, email: str, password: str) -> Dict:
+    def login(self, email: str, password: str) -> Dict:
         try:
             response_login = self.client.initiate_auth(
                 ClientId=self.client_id,
@@ -31,14 +31,8 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
-            access_token = response_login["AuthenticationResult"]["AccessToken"]
-            response_get_user = self.client.get_user(
-                AccessToken=access_token
-            )
+            dict_response = {}
 
-            user = UserCognitoDTO.from_cognito(response_get_user).to_entity()
-
-            dict_response = user.to_dict()
             dict_response["access_token"] = response_login["AuthenticationResult"]["AccessToken"]
             dict_response["refresh_token"] = response_login["AuthenticationResult"]["RefreshToken"]
             dict_response["id_token"] = response_login["AuthenticationResult"]["IdToken"]
@@ -79,7 +73,8 @@ class UserRepositoryCognito(IUserRepository):
         return users
 
     def create_user(self, user: User) -> User:
-        cognito_attributes = UserCognitoDTO.from_entity(user).to_cognito_attributes()
+        cognito_attributes = UserCognitoDTO.from_entity(
+            user).to_cognito_attributes()
         try:
 
             response = self.client.sign_up(
