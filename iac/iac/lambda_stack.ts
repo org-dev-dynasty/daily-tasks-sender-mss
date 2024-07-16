@@ -82,6 +82,7 @@ export class LambdaStack extends Construct {
         this.getAllUsersFunction = this.createLambdaApiGatewayIntegration('get_all_users', 'GET', apiGatewayResource, environmentVariables)
         this.loginFunction = this.createLambdaApiGatewayIntegration('login', 'POST', apiGatewayResource, environmentVariables)
 
+        
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction
         ]
