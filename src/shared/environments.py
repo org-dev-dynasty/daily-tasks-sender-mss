@@ -4,6 +4,7 @@ from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
 
+
 class Environments:
     """
     Defines the environment variables for the application. You should not instantiate this class directly. 
@@ -18,11 +19,13 @@ class Environments:
     client_id: str
     client_secret: str
     mongo_url: str
+    base_pwd_cognito: str
 
     def _configure_local(self):
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
 
     def load_envs(self):
+        print(f'os.environ {os.environ} DENTRO DE LOAD ENVS!!!!!!!!!')
         if "STAGE" not in os.environ or os.environ["STAGE"] == STAGE.TEST.value:
             self._configure_local()
 
@@ -43,22 +46,26 @@ class Environments:
             self.endpoint_url = os.environ.get("ENDPOINT_URL")
             self.user_pool_id = os.environ.get("USER_POOL_ID")
             self.client_id = os.environ.get("CLIENT_ID")
+            self.base_pwd_cognito = os.environ.get("BASE_PWD_COGNITO")
 
     @staticmethod
     def get_user_repo() -> IUserRepository:
         logging.info('chegou no get user repo ENVIRONMENTS')
+        print('AQUI CACETEEEEEEEE')
+
         envs = Environments.get_envs()
+        print(f'envsSSSSSSSSSSS!!!! {envs}')
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
             from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
             return UserRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-            return UserRepositoryMongo(envs.mongo_url)
+            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+            return UserRepositoryCognito()
         else:
             raise Exception("No user repository class found for this stage")
-        
+
     @staticmethod
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()

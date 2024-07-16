@@ -41,12 +41,6 @@ class User(abc.ABC):
         if not self.validate_password(password):
             raise EntityError("password")
 
-        if not isinstance(accepted_terms, bool):
-            raise EntityError("accepted_terms")
-
-        if not isinstance(accepted_notifications_email, bool):
-            raise EntityError("accepted_notifications_email")
-
         self.name = name
         self.email = email
         self.phone = phone
@@ -68,7 +62,7 @@ class User(abc.ABC):
 
     @staticmethod
     def validate_email(email: str) -> bool:
-        rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+        rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+(\.\w+)+$'
 
         if email is None:
             return False
