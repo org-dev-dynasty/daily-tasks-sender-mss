@@ -64,6 +64,8 @@ class User(abc.ABC):
     def validate_email(email: str) -> bool:
         rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+(\.\w+)+$'
 
+        if email is None:
+            return False
         if not re.search(rgx, email):
             return False
         if email == "":
