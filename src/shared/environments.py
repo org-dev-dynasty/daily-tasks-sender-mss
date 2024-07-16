@@ -71,9 +71,11 @@ class Environments:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
             from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
+            print("OI MOCK")
             return TaskRepositoryMock()
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
+            print("OI MONGOLLLL")
             return TaskRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No task repository class found for this stage")
