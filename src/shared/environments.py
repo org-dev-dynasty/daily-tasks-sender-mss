@@ -4,6 +4,7 @@ from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
 
+
 class Environments:
     """
     Defines the environment variables for the application. You should not instantiate this class directly. 
@@ -23,6 +24,7 @@ class Environments:
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
 
     def load_envs(self):
+        print(f'os.environ {os.environ} DENTRO DE LOAD ENVS!!!!!!!!!')
         if "STAGE" not in os.environ or os.environ["STAGE"] == STAGE.TEST.value:
             self._configure_local()
 
@@ -47,7 +49,10 @@ class Environments:
     @staticmethod
     def get_user_repo() -> IUserRepository:
         logging.info('chegou no get user repo ENVIRONMENTS')
+        print('AQUI CACETEEEEEEEE')
+
         envs = Environments.get_envs()
+        print(f'envsSSSSSSSSSSS!!!! {envs}')
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
@@ -58,7 +63,7 @@ class Environments:
             return UserRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No user repository class found for this stage")
-        
+
     @staticmethod
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
