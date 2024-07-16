@@ -11,7 +11,7 @@ class TaskRepositoryMongo(ITaskRepository):
         self.collection = get_tasks_collection(mongo_url)
 
     def create_task(self, task: Task) -> Task:
-        self.collection.insert_one(task.dict())
+        self.collection.insert_one(task.to_dict())
         return task
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
