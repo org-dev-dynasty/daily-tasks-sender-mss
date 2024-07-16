@@ -16,8 +16,8 @@ class UserCognitoDTO:
     TO_COGNITO_DICT = {
         "name": "name",
         "email": "email",
-        "phone": "phone_number",
         "password": "password",
+        "phone": "custom:phone",
         "accepted_terms": "custom:acceptedTerms",
         "accepted_notifications_email": "custom:acceptedNotificationMail",
     }

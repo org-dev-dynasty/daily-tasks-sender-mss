@@ -6,7 +6,7 @@ class UserViewmodel:
     email: str
 
     def __init__(self, user: User):
-        self.user_id = user.user_id
+        self.user_id = user.cognito_id
         self.name = user.name
         self.email = user.email
 

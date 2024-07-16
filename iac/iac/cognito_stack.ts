@@ -61,10 +61,10 @@ export class CognitoStack extends Construct {
               },
           },
           customAttributes: {
-              name: new cognito.StringAttribute({minLen: 1, maxLen: 2048, mutable: true}),
-              phone: new cognito.StringAttribute({minLen: 1, maxLen: 2048, mutable: true}),
-              emailVerified: new cognito.BooleanAttribute({mutable: true}),
-              acceptedTerms: new cognito.BooleanAttribute({mutable: true}),
+            name: new cognito.StringAttribute({minLen: 1, maxLen: 2048, mutable: true}),
+            phone: new cognito.StringAttribute({minLen: 1, maxLen: 2048, mutable: true}),
+            emailVerified: new cognito.BooleanAttribute({mutable: true}),
+            acceptedNotificationMail: new cognito.BooleanAttribute({mutable: true}),
           },
           email: email
       });

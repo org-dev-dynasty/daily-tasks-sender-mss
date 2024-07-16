@@ -3,7 +3,7 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .login_usecase import LoginUseCase
 from .login_controller import LoginController
 
-repo = Environments.get_user_repo()()
+repo = Environments.get_user_repo()
 usecase = LoginUseCase(repo)
 controller = LoginController(usecase)
 
