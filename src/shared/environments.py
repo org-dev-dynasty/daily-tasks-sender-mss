@@ -7,6 +7,8 @@ from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMo
 from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
 from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
 
+
+
 class Environments:
     """
     Defines the environment variables for the application. You should not instantiate this class directly. 
@@ -29,7 +31,7 @@ class Environments:
         if "STAGE" not in os.environ or os.environ["STAGE"] == STAGE.TEST.value:
             self._configure_local()
 
-        self.stage = STAGE[os.environ.get("STAGE")]
+        self.stage = STAGE(os.environ.get("STAGE"))
         self.mongo_url = os.environ.get("MONGODB_URL")
         print(f'self.db_url {self.mongo_url}')
 
@@ -54,9 +56,11 @@ class Environments:
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
+            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
             return UserRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
-            return UserRepositoryCognito()
+            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
+            return UserRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No user repository class found for this stage")
         
@@ -64,8 +68,13 @@ class Environments:
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
+
             return TaskRepositoryMongo(envs.mongo_url)
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
+            return TaskRepositoryMock()
+        elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
             return TaskRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No task repository class found for this stage")

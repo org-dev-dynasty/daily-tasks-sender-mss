@@ -1,12 +1,15 @@
 import logging
 import os
+print(os.getcwd())
+print(os.listdir())
+print(os.listdir('../../opt/python'))
 
 from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
 from .get_all_users_usecase import GetAllUsersUsecase
 from .get_all_users_controller import GetAllUsersController
 
-repo = Environments.get_user_repo()()
+repo = Environments.get_user_repo()
 logging.info(repo)
 usecase = GetAllUsersUsecase(repo)
 logging.info(usecase)

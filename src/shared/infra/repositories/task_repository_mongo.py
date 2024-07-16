@@ -21,5 +21,3 @@ class TaskRepositoryMongo(ITaskRepository):
             print(f'erro mongol repo: {e}')
             raise ValueError(f'Error creating task, erro: {e}')
 
-    # def get_all_tasks(self) -> List[Task]:
-    #     pass

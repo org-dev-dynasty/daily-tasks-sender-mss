@@ -13,7 +13,7 @@ class IUserRepository(ABC):
   def create_user(self, user: User) -> User:
     pass
 
-  def login_user(self, login: str, password: str) -> dict:
+  def login(self, login: str, password: str) -> dict:
     pass
   
   def get_user_by_email(self, email: str) -> User:

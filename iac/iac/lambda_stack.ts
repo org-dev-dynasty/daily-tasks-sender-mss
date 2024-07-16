@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda'
 import {Resource, LambdaIntegration} from 'aws-cdk-lib/aws-apigateway'
 import {Duration} from 'aws-cdk-lib'
 import * as path from 'path'
+import { envs } from '../envs'
 
 export class LambdaStack extends Construct {
     functionsThatNeedCognitoPermissions: lambda.Function[] = []
@@ -17,9 +18,22 @@ export class LambdaStack extends Construct {
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
         // create_user -> Create_user
+        const githubRef = envs.GITHUB_REF || '';
+        let stage;
+        if (githubRef.includes('prod')) {
+            stage = 'PROD';
+        } else if (githubRef.includes('homolog')) {
+            stage = 'HOMOLOG';
+        } else if (githubRef.includes('dev')) {
+            stage = 'DEV';
+        } else {
+            stage = 'TEST';
+        }
 
+        console.log(`Creating lambda function for ${modifiedModuleName} in stage ${stage}`)
+        console.log(`Environment variables for ${modifiedModuleName}: ${JSON.stringify(environmentVariables)}`)
         const lambdaFunction = new lambda.Function(this, modifiedModuleName, {
-            functionName: `${modifiedModuleName}`,
+            functionName: `${modifiedModuleName}-DailyTasksSenderMss-${stage}`,
             // need to take ../../src/modules/${moduleName} to get the correct path
             code: lambda.Code.fromAsset(path.join(__dirname, `../../src/modules/${moduleName}`)),
             handler: `app.${moduleName}_presenter.lambda_handler`,
@@ -36,14 +50,26 @@ export class LambdaStack extends Construct {
     }
 
     constructor(scope: Construct, apiGatewayResource: Resource, environmentVariables: Record<string, any>) {
-        super(scope, 'DailyTasksMssLambdaStack')
+        
+        const githubRef = envs.GITHUB_REF || '';
+        let stage;
+        if (githubRef.includes('prod')) {
+            stage = 'PROD';
+        } else if (githubRef.includes('homolog')) {
+            stage = 'HOMOLOG';
+        } else if (githubRef.includes('dev')) {
+            stage = 'DEV';
+        } else {
+            stage = 'TEST';
+        }
+        super(scope, `DailyTasksSenderMss-LambdaStack-${stage}`)
 
-        this.lambdaLayer = new lambda.LayerVersion(this, 'DailyTasksMssLayer', {
+        this.lambdaLayer = new lambda.LayerVersion(this, `DailyTasksMssSharedLayer-${stage}`, {
             code: lambda.Code.fromAsset(path.join(__dirname, '../shared')),
             compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
         })
 
-        this.libLayer = new lambda.LayerVersion(this, 'DailyTasksMssLibLayer', {
+        this.libLayer = new lambda.LayerVersion(this, `DailyTasksMssLibLayer-${stage}`, {
             code: lambda.Code.fromAsset(path.join(__dirname, '../requirements')),
             compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
         })

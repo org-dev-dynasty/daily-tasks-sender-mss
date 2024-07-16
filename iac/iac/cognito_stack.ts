@@ -14,9 +14,19 @@ export class CognitoStack extends Construct {
     public readonly client: cognito.UserPoolClient;
 
     constructor(scope: Construct, id: string) {
-      const githubRef = process.env.GITHUB_REF || '';
+      const githubRef = envs.GITHUB_REF || '';
+        let stage;
+        if (githubRef.includes('prod')) {
+            stage = 'PROD';
+        } else if (githubRef.includes('homolog')) {
+            stage = 'HOMOLOG';
+        } else if (githubRef.includes('dev')) {
+            stage = 'DEV';
+        } else {
+            stage = 'TEST';
+        }
       
-      super(scope, `${envs.STACK_NAME}CognitoStack-${githubRef}`);
+      super(scope, `${envs.STACK_NAME}CognitoStack-${stage}`);
 
       const fromEmail = envs.FROM_EMAIL || '';
       const replyToEmail = envs.REPLY_TO_EMAIL || '';
@@ -36,12 +46,7 @@ export class CognitoStack extends Construct {
           replyTo: replyToEmail
       });
 
-      const removalPolicy = githubRef.includes('prod')
-          ? RemovalPolicy.RETAIN
-          : RemovalPolicy.DESTROY;
-
-      this.userPool = new cognito.UserPool(this, 'dts_user_pool', {
-          removalPolicy: removalPolicy,
+      this.userPool = new cognito.UserPool(this, `DailyTasksMssCognitoStack-${stage}`, {
           selfSignUpEnabled: true,
           accountRecovery: AccountRecovery.EMAIL_ONLY,
           userVerification: {
@@ -65,7 +70,7 @@ export class CognitoStack extends Construct {
       });
 
       
-      const googleProvider = new UserPoolIdentityProviderGoogle(this, `${envs.STACK_NAME}-GoogleProvider` , {
+      const googleProvider = new UserPoolIdentityProviderGoogle(this, `${envs.STACK_NAME}-GoogleProvider-${stage}` , {
         clientId: googleClientId,
         clientSecretValue: googleSecretValue.secretValue,
         scopes: ['openid', 'profile', 'email'],
@@ -80,8 +85,8 @@ export class CognitoStack extends Construct {
           
       this.userPool.registerIdentityProvider(googleProvider)
         
-      this.client = this.userPool.addClient('dts_pool_client', {
-          userPoolClientName: 'dts_pool_client',
+      this.client = this.userPool.addClient(`DailyTasksMssUserPoolClient-${stage}`, {
+          userPoolClientName: `DailyTasksMssUserPoolClient-${stage}`,
           generateSecret: false,
           authFlows: {
               adminUserPassword: true,
@@ -96,20 +101,15 @@ export class CognitoStack extends Construct {
             logoutUrls: [redirectUrls]
           }
       });
-          
-      new CfnOutput(this, 'CognitoRemovalPolicy', {
-        value: removalPolicy.toString(),
-        exportName: 'CognitoRemovalPolicyValue'
-      });
       
-      new CfnOutput(this, 'UserPoolIdOutput', {
+      new CfnOutput(this, 'UserPoolIdOutput' +  stage, {
         value: this.userPool.userPoolId,
-        exportName: 'UserPoolId'
+        exportName: 'UserPoolId' + stage
       });
 
-      new CfnOutput(this, 'ClientIdOutput', {
+      new CfnOutput(this, 'ClientIdOutput' + stage, {
         value: this.client.userPoolClientId,
-        exportName: 'ClientId'
+        exportName: 'ClientId' + stage
       });
     }
 }
