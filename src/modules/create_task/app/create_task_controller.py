@@ -22,7 +22,7 @@ class CreateTaskController:
             if request.data.get('task_status') is None:
                 raise MissingParameters('task_status')
             
-            task_description = request.data.get('task_description') if request.data.get('task_description') != "" else None
+            task_description = request.data.get('task_description') if request.data.get('task_description') != "" else None    
             task_local = request.data.get('task_local') if request.data.get('task_local') != "" else None
             
             task_dict = {
