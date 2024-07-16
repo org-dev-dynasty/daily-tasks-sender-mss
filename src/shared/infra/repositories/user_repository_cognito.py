@@ -34,21 +34,11 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': base_pwd_cognito
                 }
             )
-            if 'ChallengeName' in response_login and response_login['ChallengeName'] == 'NEW_PASSWORD_REQUIRED':
-                session = response_login['Session']
-                response_challenge = self.client.respond_to_auth_challenge(
-                    ClientId=self.client_id,
-                    ChallengeName='NEW_PASSWORD_REQUIRED',
-                    Session=session,
-                    ChallengeResponses={
-                        'USERNAME': email,
-                        'NEW_PASSWORD': password
-                    }
-                )
-                dict_response = {
-                "access_token": response_challenge["AuthenticationResult"]["AccessToken"],
-                "refresh_token": response_challenge["AuthenticationResult"]["RefreshToken"],
-                "id_token": response_challenge["AuthenticationResult"]["IdToken"]
+            
+            dict_response = {
+                'access_token': response_login['AuthenticationResult']['AccessToken'],
+                'id_token': response_login['AuthenticationResult']['IdToken'],
+                'refresh_token': response_login['AuthenticationResult']['RefreshToken']
             }
             
             return dict_response
@@ -103,6 +93,30 @@ class UserRepositoryCognito(IUserRepository):
                 UserAttributes=cognito_attributes)
 
             user.cognito_id = response.get("UserSub")
+            
+            base_pwd_cognito = Environments.get_envs().base_pwd_cognito
+            response_login = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': user.email,
+                    'PASSWORD': base_pwd_cognito
+                }
+            )
+            
+            if 'ChallengeName' in response_login and response_login['ChallengeName'] == 'NEW_PASSWORD_REQUIRED':
+                session = response_login['Session']
+                self.client.respond_to_auth_challenge(
+                    ClientId=self.client_id,
+                    ChallengeName='NEW_PASSWORD_REQUIRED',
+                    Session=session,
+                    ChallengeResponses={
+                        'USERNAME': user.email,
+                        'NEW_PASSWORD': user.password
+                    }
+                )
+            
+            return user
 
         except self.client.exceptions.UsernameExistsException:
             raise DuplicatedItem("email")
@@ -112,5 +126,3 @@ class UserRepositoryCognito(IUserRepository):
 
         except self.client.exceptions.InvalidParameterException as e:
             raise EntityError(e.response.get('Error').get('Message'))
-
-        return user
