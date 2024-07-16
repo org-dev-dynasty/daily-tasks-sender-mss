@@ -84,8 +84,7 @@ class UserRepositoryCognito(IUserRepository):
     def create_user(self, user: User) -> User:
         cognito_attributes = UserCognitoDTO.from_entity(
             user).to_cognito_attributes()
-        cognito_attributes.pop("password")
-        cognito_attributes.pop("email")
+        cognito_attributes = [attr for attr in cognito_attributes if attr['Name'] != 'password']
         try:
 
             response = self.client.sign_up(
