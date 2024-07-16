@@ -93,6 +93,8 @@ class UserRepositoryCognito(IUserRepository):
                 Username=user.email,
                 Password=user.password,
                 UserAttributes=cognito_attributes)
+            
+            print(f'USER REPO COGNITO response CREATE USER {response}')
 
             user.cognito_id = response.get("UserSub")
             
@@ -105,6 +107,8 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': base_pwd_cognito
                 }
             )
+            
+            print(f'USER REPO COGNITO response INITIATE AUTH CREATE USER {response_login}')
             
             if 'ChallengeName' in response_login and response_login['ChallengeName'] == 'NEW_PASSWORD_REQUIRED':
                 session = response_login['Session']
