@@ -129,4 +129,3 @@ class Test_Task:
                 task_local="a", 
                 task_status="ACTIVE"
             )
-

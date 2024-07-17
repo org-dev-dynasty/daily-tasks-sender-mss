@@ -12,3 +12,7 @@ class ITaskRepository(ABC):
   @abstractmethod
   def create_task(self, task: Task) -> Task:
     pass
+  
+  @abstractmethod
+  def get_task_by_id(self, task_id: str) -> Task:
+    pass

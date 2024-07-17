@@ -20,8 +20,8 @@ class TaskRepositoryMock(ITaskRepository):
         self.tasks.append(task)
         return task
 
-    # def get_task_by_id(self, task_id: int) -> Optional[Task]:
-    #     return next((task for task in self.tasks if task.task_id == task_id), None)
+    def get_task_by_id(self, task_id: int) -> Optional[Task]:
+        return next((task for task in self.tasks if task.task_id == task_id), None)
 
     # def update_task(self, task_id: int, task: Task) -> Optional[Task]:
     #     for i, t in enumerate(self.tasks):
