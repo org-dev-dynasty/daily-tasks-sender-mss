@@ -34,12 +34,7 @@ class UserRepositoryCognito(IUserRepository):
             )
             return UserCognitoDTO.from_cognito(response).to_entity()
         except ClientError as e:
-            error_code = e.response['Error']['Code']
-            if error_code == 'UserNotFoundException':
-                raise NoItemsFound("user")
-            else:
-                print(f'ERROR GET USER BY EMAIL {e}')
-                raise EntityError("An error occurred while fetching user")
+            raise ValueError("An error occurred while getting user by email: " + str(e))
 
     def login(self, email: str, password: str) -> Dict:
         try:
@@ -82,7 +77,7 @@ class UserRepositoryCognito(IUserRepository):
         code = self.generate_confirmation_code()
         cognito_attributes.append({'Name': 'custom:confirmationCode', 'Value': code})
         base_pwd_cognito = Environments.get_envs().base_pwd_cognito
-        try:
+        try:            
             response = self.client.sign_up(
                 ClientId=self.client_id,
                 Username=user.email,
