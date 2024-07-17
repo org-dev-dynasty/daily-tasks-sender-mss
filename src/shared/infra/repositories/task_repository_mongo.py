@@ -7,8 +7,8 @@ from typing import List, Optional
 
 class TaskRepositoryMongo(ITaskRepository):
 
-    def __init__(self):
-        self.collection = get_tasks_collection()
+    def __init__(self, mongo_url: str):
+        self.collection = get_tasks_collection(mongo_url)
 
     def create_task(self, task: Task) -> Task:
         self.collection.insert_one(task.dict())
