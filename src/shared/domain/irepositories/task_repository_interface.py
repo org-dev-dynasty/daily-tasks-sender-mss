@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
+from datetime import date, time
 
 from src.shared.domain.entities.task import Task
 
@@ -15,4 +16,7 @@ class ITaskRepository(ABC):
   
   @abstractmethod
   def get_task_by_id(self, task_id: str) -> Task:
+    pass
+
+  def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
     pass
