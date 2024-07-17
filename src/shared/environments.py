@@ -3,16 +3,11 @@ import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
-from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
-from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
-
-
 
 
 class Environments:
     """
-    Defines the environment variables for the application. You should not instantiate this class directly. 
+    Defines the environment variables for the application. You should not instantiate this class directly.
     Please use Environments.get_envs() method instead.
     """
 
@@ -75,9 +70,6 @@ class Environments:
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
-
-            return TaskRepositoryMongo(envs.mongo_url)
-        elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
             return TaskRepositoryMock()
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
