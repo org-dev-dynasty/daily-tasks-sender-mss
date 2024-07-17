@@ -134,7 +134,7 @@ class UserRepositoryCognito(IUserRepository):
             print(f'MAILER {mailer}')
             print(f'MAIL BODY {mail_body}')
             
-            res = mailer.send()
+            res = mailer.send(mail_body)
             
             print(f'RES MAILER {res}')
             
