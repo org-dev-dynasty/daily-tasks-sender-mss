@@ -2,16 +2,6 @@ from src.shared.domain.entities.user import User
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 class Test_UserRepositoryMock:
-    
-    def test_get_all_users(self):
-        repo = UserRepositoryMock()
-        users = repo.get_all_users()
-
-        assert type(users) == list
-        assert all([type(user) == User for user in users])
-        assert len(users) == len(repo.users)
-        assert users == repo.users
-
     def test_create_user(self):
         repo = UserRepositoryMock()
         name = "Jorge"

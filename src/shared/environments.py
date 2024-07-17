@@ -3,6 +3,11 @@ import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
+from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
+from src.shared.infra.repositories.task_repository_mongo import TaskRepositoryMongo
+from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+
+
 
 
 class Environments:
@@ -58,8 +63,8 @@ class Environments:
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
-            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-            return UserRepositoryMongo(envs.mongo_url)
+            from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
+            return UserRepositoryMock()
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()
@@ -70,6 +75,9 @@ class Environments:
     def get_task_repo() -> ITaskRepository:
         envs = Environments.get_envs()
         if envs.stage == STAGE.TEST:
+
+            return TaskRepositoryMongo(envs.mongo_url)
+        elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
             return TaskRepositoryMock()
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
