@@ -64,16 +64,10 @@ class Task(abc.ABC):
             return False
         if name == "":
             return False
-        if re.search(r'\d', name):
-            return False
         return True
     
     @staticmethod
     def validate_attribute(attribute: str) -> bool:
-        if attribute is None:
-            return False
-        if len(attribute) < 2:
-            return False
         if attribute == "":
             return False
         return True
