@@ -58,8 +58,8 @@ class Environments:
         logging.info(f'envs.get_envs() {envs}')
         if envs.stage == STAGE.TEST:
             print(f'get_user_repo, envs.db_url: {envs.mongo_url}')
-            from src.shared.infra.repositories.user_repository_mongo import UserRepositoryMongo
-            return UserRepositoryMongo(envs.mongo_url)
+            from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
+            return UserRepositoryMock()
         elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
             from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
             return UserRepositoryCognito()

@@ -54,6 +54,7 @@ jobs:
           echo GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           echo REDIRECT_URLS=${{ secrets.REDIRECT_URLS }}
           echo BASE_PWD_COGNITO=${{ secrets.BASE_PWD_COGNITO }}
+          echo MAILERSEND_API_KEY=${{ secrets.MAILERSEND_API_KEY }}
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
@@ -76,3 +77,4 @@ jobs:
           GOOGLE_WEB_CLIENT_ID: ${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           REDIRECT_URLS: ${{ secrets.REDIRECT_URLS }}
           BASE_PWD_COGNITO: ${{ secrets.BASE_PWD_COGNITO }}
+          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
