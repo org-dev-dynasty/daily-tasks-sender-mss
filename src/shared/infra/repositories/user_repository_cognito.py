@@ -38,6 +38,7 @@ class UserRepositoryCognito(IUserRepository):
             if error_code == 'UserNotFoundException':
                 raise NoItemsFound("user")
             else:
+                print(f'ERROR GET USER BY EMAIL {e}')
                 raise EntityError("An error occurred while fetching user")
 
     def login(self, email: str, password: str) -> Dict:
