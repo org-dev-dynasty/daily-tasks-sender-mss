@@ -58,6 +58,8 @@ export class IacStack extends Stack {
       REGION: this.region,
       BASE_PWD_COGNITO: envs.BASE_PWD_COGNITO,
       MAILERSEND_API_KEY: envs.MAILERSEND_API_KEY,
+      FROM_EMAIL: envs.FROM_EMAIL,
+      REPLY_TO_EMAIL: envs.REPLY_TO_EMAIL,
     };
 
     const lambdaStack = new LambdaStack(
