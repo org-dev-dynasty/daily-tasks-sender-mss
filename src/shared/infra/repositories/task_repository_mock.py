@@ -23,12 +23,21 @@ class TaskRepositoryMock(ITaskRepository):
     def get_task_by_id(self, task_id: int) -> Optional[Task]:
         return next((task for task in self.tasks if task.task_id == task_id), None)
 
-    # def update_task(self, task_id: int, task: Task) -> Optional[Task]:
-    #     for i, t in enumerate(self.tasks):
-    #         if t.task_id == task_id:
-    #             self.tasks[i] = task
-    #             return task
-    #     return None
+    def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
+        task = self.get_task_by_id(task_id)
+        if task_name:
+            task.task_name = task_name
+        if task_date:
+            task.task_date = task_date
+        if task_hour:
+            task.task_hour = task_hour
+        if task_description:
+            task.task_description = task_description
+        if task_local:
+            task.task_local = task_local
+        if task_status:
+            task.task_status = task_status
+        return task
 
     # def delete_task(self, task_id: int) -> bool:
     #     task = self.get_task_by_id(task_id)
