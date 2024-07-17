@@ -20,9 +20,14 @@ class CreateUserUsecase:
         
         user_exists = self.repo.get_user_by_email(user.email)
         
+        print('VOLTOU DO REPO CREATE USER')
+        print('user_exists', user_exists)
+        
         if user_exists is not None:
             raise DuplicatedItem('email')
+        else:
+            user.email = user.email.lower()
+            user_response = self.repo.create_user(user)
+            return user_response
+        
 
-        user.email = user.email.lower()
-        user_response = self.repo.create_user(user)
-        return user_response
