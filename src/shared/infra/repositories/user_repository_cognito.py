@@ -110,12 +110,11 @@ class UserRepositoryCognito(IUserRepository):
                 "email": os.environ.get('FROM_EMAIL')
             }
             
-            email_to = [
-                {
+            email_to = {
                 "name": name,
                 "email": to_email
-                }
-            ]
+            }
+            
             
             reply_to = {
                 "name": "Dev Dynasty",
@@ -126,16 +125,16 @@ class UserRepositoryCognito(IUserRepository):
             
             mail_body = {}
             
-            mailer.set_mail_from(mail_from, mail_body)
-            mailer.set_mail_to(email_to, mail_body)
-            mailer.set_reply_to(reply_to, mail_body)
+            mailer.set_mail_from(mail_from['email'], mail_body)
+            mailer.set_mail_to(email_to['email'], mail_body)
+            mailer.set_reply_to(reply_to['email'], mail_body)
             mailer.set_html_content(confirmation_html, mail_body)
             mailer.set_subject("Dev Dynasty - Confirmation Code", mail_body)
             
             print(f'MAILER {mailer}')
             print(f'MAIL BODY {mail_body}')
             
-            res = mailer.send(mail_body)
+            res = mailer.send()
             
             print(f'RES MAILER {res}')
             
