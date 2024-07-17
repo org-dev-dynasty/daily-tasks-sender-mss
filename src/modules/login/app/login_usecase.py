@@ -14,6 +14,8 @@ class LoginUseCase:
 
         if not User.validate_password(password):
             raise EntityError('password')
+        
+        print(f'chegou no usecase {email} {password}')
 
         data = self.user_repository.login(email, password)
         if data is None:

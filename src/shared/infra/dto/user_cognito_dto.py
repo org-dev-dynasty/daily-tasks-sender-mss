@@ -16,10 +16,10 @@ class UserCognitoDTO:
     TO_COGNITO_DICT = {
         "name": "name",
         "email": "email",
-        "phone": "phone_number",
         "password": "password",
+        "phone": "custom:phone",
         "accepted_terms": "custom:acceptedTerms",
-        "accepted_notifications_email": "custom:acceptedNotificationMail",
+        "accepted_notifications_email": "custom:emailNotifications",
     }
     FROM_COGNITO_DICT = {value: key for key, value in TO_COGNITO_DICT.items()}
     FROM_COGNITO_DICT["sub"] = "user_id"
@@ -49,9 +49,11 @@ class UserCognitoDTO:
         )
 
     def to_cognito_attributes(self) -> List[dict]:
+        print(f'CHEGOU NO TO COGNITO ATTRIBUTES ')
         user_attributes = [self.parse_attribute(value=getattr(self, att), name=self.TO_COGNITO_DICT[att]) for att in
                            self.TO_COGNITO_DICT]
-        user_attributes = [att for att in user_attributes if att["Value"] != str(None)]
+        print(f'CHEGOU NO TO COGNITO ATTRIBUTES 2 {user_attributes}')
+        user_attributes = [att for att in user_attributes if att["Value"] != 'None' and att["Value"] != '']
 
         return user_attributes
 

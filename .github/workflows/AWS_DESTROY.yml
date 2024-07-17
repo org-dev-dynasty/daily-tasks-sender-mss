@@ -1,16 +1,8 @@
-name: Python Typescript CD
-on:
-  workflow_run:
-    workflows: [ "Check & Create PR" ]
-    types:
-      - completed
-  push:
-    branches:
-      - dev
-      - homolog
-      - prod
+name: AWS Destroy
+on: 
+  workflow_dispatch:
 jobs:
-  DeployToAWS:
+  DestroyAWS:
     environment:
       name: ${{ github.ref }}
     runs-on: ubuntu-latest
@@ -54,19 +46,11 @@ jobs:
           echo GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           echo REDIRECT_URLS=${{ secrets.REDIRECT_URLS }}
           echo BASE_PWD_COGNITO=${{ secrets.BASE_PWD_COGNITO }}
-          echo MAILERSEND_API_KEY=${{ secrets.MAILERSEND_API_KEY }}
-      - name: CDK Bootstrap
+      - name: CDK Destroy
         run: |
-          echo "CDK Bootstrap"
+          echo "CDK Destroy"
           cd iac
-          aws cloudformation describe-stacks --stack-name CDKToolkit 2>&1 > /dev/null || \
-            cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/sa-east-1
-      - name: Deploy with CDK
-        run: |
-          source $GITHUB_ENV
-          cd iac
-          cdk synth
-          cdk deploy --require-approval never
+          cdk destroy --force
         env:
           STAGE: ${{ secrets.STAGE }}
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
@@ -77,4 +61,3 @@ jobs:
           GOOGLE_WEB_CLIENT_ID: ${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           REDIRECT_URLS: ${{ secrets.REDIRECT_URLS }}
           BASE_PWD_COGNITO: ${{ secrets.BASE_PWD_COGNITO }}
-          MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}

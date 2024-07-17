@@ -20,8 +20,9 @@ class LoginController:
                 raise MissingParameters('password')
 
             data = self.usecase(request.data.get('email'), request.data.get('password'))
-            # login_user_viewmodel = LoginViewmodel(data)
-            response = OK(body="User logged in successfully")
+            login_user_viewmodel = LoginViewmodel(access_token=data['access_token'], id_token=data['id_token'],
+                                                  refresh_token=data['refresh_token'])
+            response = OK(body=login_user_viewmodel.to_dict())
 
             return response
 
