@@ -11,7 +11,7 @@ class Test_CreateUserController:
         controller = CreateUserController(usecase)
         request = HttpRequest(body={
             'name': 'John Doe',
-            'email': 'john@gmail.com',
+            'email': 'johnretardado@gmail.com',
             'password': 'Teste@01',
             'phone': '11987655142',
             'accepted_terms': True,
@@ -22,5 +22,5 @@ class Test_CreateUserController:
 
         assert response.status_code == 201
         assert response.body['user']['name'] == 'John Doe'
-        assert response.body['user']['email'] == 'john@gmail.com'
+        assert response.body['user']['email'] == 'johnretardado@gmail.com'
         assert response.body['message'] == 'the user was created'

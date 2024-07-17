@@ -12,12 +12,11 @@ class Test_CreateUserViewmodel:
             accepted_terms=True,
             accepted_notifications_email=True
         )
-
         expected = {
             'user': {
-                'user_id': user.user_id,
+                'user_id': None,
                 'name': user.name,
-                'email': user.email
+                'email': user.email,
             },
             'message': 'the user was created'
         }

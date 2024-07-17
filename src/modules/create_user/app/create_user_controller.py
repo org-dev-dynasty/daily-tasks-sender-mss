@@ -50,7 +50,11 @@ class CreateUserController:
 
             new_user = User.parse_object(user_dict)
             created_user = self.createUserUsecase(new_user)
-
+            
+            if hasattr(created_user, 'verification_code'):
+                viewmodel_with_code = CreateUserViewmodel(created_user, created_user.verification_code)
+                resp_with_code = Created(viewmodel_with_code.to_dict())
+                return resp_with_code
             viewmodel = CreateUserViewmodel(created_user)
             response = Created(viewmodel.to_dict())
 

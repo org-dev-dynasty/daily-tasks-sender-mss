@@ -1,6 +1,7 @@
 from typing import List
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.usecase_errors import DuplicatedItem
 
 
 class UserRepositoryMock(IUserRepository):
@@ -12,10 +13,6 @@ class UserRepositoryMock(IUserRepository):
             User("Brenheta", "brenheta@gmail.com", "11499999999", "Teste14@", True, False),
             User("Merola", "merola.gay@gmail.com", "11599999999", "Teste15@", True, True, '1'),
         ]
-
-    def get_all_users(self) -> List[User]:
-        users = self.users
-        return users
 
     def create_user(self, user: User) -> User:
         self.users.append(user)

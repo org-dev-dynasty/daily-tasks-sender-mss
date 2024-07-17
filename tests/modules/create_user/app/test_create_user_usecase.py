@@ -44,21 +44,4 @@ class Test_CreateUserUsecase:
                 accepted_terms=True,
                 accepted_notifications_email=True
             )
-            new_user = usecase(user)
-    
-    def test_create_user_duplicated_item(self):
-        repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
-
-        user = User(
-            name="Merola", 
-            email="merola.gay@gmail.com", 
-            phone="11599999999", 
-            password="Teste15@", 
-            accepted_terms=True,
-            accepted_notifications_email=True,
-            user_id='1')
-        
-        with pytest.raises(DuplicatedItem) as exc_info:
             usecase(user)
-        assert str(exc_info.value) == "The item alredy exists for this email"

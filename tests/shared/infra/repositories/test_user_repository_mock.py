@@ -5,7 +5,7 @@ class Test_UserRepositoryMock:
     def test_create_user(self):
         repo = UserRepositoryMock()
         name = "Jorge"
-        email = "jorgin@gmail.com"
+        email = "jorgin21221@gmail.com"
         phone = "11917283748"
         password = "Teste123@"
         accepted_terms = True

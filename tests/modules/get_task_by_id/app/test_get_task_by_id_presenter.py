@@ -57,7 +57,6 @@ class Test_GetTaskByIdPresenter:
                 "timeEpoch": 1583348638390
             },
             "body": json.dumps({
-                "task_id": "1",
                 "task_name": "TaskUm",
                 "task_date": "2021-12-12",
                 "task_hour": "12:00:00",

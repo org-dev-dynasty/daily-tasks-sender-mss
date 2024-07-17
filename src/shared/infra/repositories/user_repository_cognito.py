@@ -90,7 +90,10 @@ class UserRepositoryCognito(IUserRepository):
             
             self.send_confirmation_code_mail(user.email, user.name, code)
             
-            return user
+            return {
+                "user": user,
+                "verification_code": code
+            }
 
         except self.client.exceptions.UsernameExistsException:
             raise DuplicatedItem("email")
