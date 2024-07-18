@@ -22,6 +22,7 @@ export class LambdaStack extends Construct {
     updateTaskFunction: lambda.Function
     deleteTaskByIdFunction: lambda.Function
     getTaskByDayFunction: lambda.Function
+    updateTaskStatusFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -98,6 +99,7 @@ export class LambdaStack extends Construct {
         this.updateTaskFunction = this.createLambdaApiGatewayIntegration('update_task', 'PUT', apiGatewayResource, environmentVariables)
         this.deleteTaskByIdFunction = this.createLambdaApiGatewayIntegration('delete_task_by_id', 'DELETE', apiGatewayResource, environmentVariables)
         this.getTaskByDayFunction = this.createLambdaApiGatewayIntegration('get_task_by_day', 'GET', apiGatewayResource, environmentVariables)
+        this.updateTaskStatusFunction = this.createLambdaApiGatewayIntegration('update_task_status', 'PUT', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
