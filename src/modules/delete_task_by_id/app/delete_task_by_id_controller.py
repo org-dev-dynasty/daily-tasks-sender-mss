@@ -17,6 +17,7 @@ class DeleteTaskByIdController:
             if request.data.get("task_id") is None:
                 raise MissingParameters("task_id")
             
+            print("VAI ENTRAR NA PORRA!!!! DO USECASE")
             self.DeleteTaskByIdUsecase(task_id=request.data.get(
                 "task_id"))
     
