@@ -33,3 +33,14 @@ class TaskRepositoryMongo(ITaskRepository):
             task = task_dto.to_entity()
             tasks.append(task)
         return tasks
+
+    def delete_task_by_id(self, task_id: str) -> None:
+        try:
+            task = self.collection.find_one({"_id": task_id})
+            if not task:
+                return None
+            self.collection.delete_one({"_id": task_id})
+        except Exception as e:
+            print(f"Error: {e}")
+            return ValueError(f"Error on delete task by id, err: {e}")
+
