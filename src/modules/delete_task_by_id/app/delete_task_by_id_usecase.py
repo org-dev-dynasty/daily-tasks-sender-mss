@@ -8,5 +8,7 @@ class DeleteTaskByIdUsecase:
     def __call__(self, task_id: str) -> None:
         if not task_id:
             raise EntityError("Task ID")
-        if not self.task_repo.delete_task(task_id):
-            raise EntityError("Task not found")
+        try:
+            self.task_repo.delete_task_by_id(task_id)
+        except Exception as e:
+            raise EntityError("Task") from e

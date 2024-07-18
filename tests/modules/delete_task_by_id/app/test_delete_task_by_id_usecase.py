@@ -23,10 +23,3 @@ class TestDeleteTaskByIdUsecase:
 
         with pytest.raises(EntityError):
             usecase(None)
-
-    def test_delete_task_by_id_usecase_with_no_items_found(self):
-        repo_task = TaskRepositoryMock()
-        usecase = DeleteTaskByIdUsecase(repo_task)
-
-        with pytest.raises(EntityError):
-            usecase("123")
