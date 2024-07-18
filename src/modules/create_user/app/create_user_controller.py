@@ -51,17 +51,17 @@ class CreateUserController:
             created_user = self.createUserUsecase(new_user)
             
             print('created_user CONTROLLER: ' + str(created_user))
-            
+            if isinstance(created_user, User):
+                print('passou do IF VERIFICATION CODE')
+                viewmodel = CreateUserViewmodel(created_user)
+                response = Created(viewmodel.to_dict())
+                return response
             if 'verification_code' in created_user:
                 print('ENTROU NO IF DO VERIFICATION CODE')
                 viewmodel_with_code = CreateUserViewmodel(created_user['user'], created_user['verification_code'])
                 resp_with_code = Created(viewmodel_with_code.to_dict())
                 return resp_with_code
-            print('passou do IF VERIFICATION CODE')
-            viewmodel = CreateUserViewmodel(created_user)
-            response = Created(viewmodel.to_dict())
-
-            return response
+            
 
         except DuplicatedItem as err:
             return Conflict(

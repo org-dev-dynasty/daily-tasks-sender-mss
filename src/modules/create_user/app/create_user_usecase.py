@@ -8,7 +8,7 @@ class CreateUserUsecase:
     def __init__(self, repo: IUserRepository):
         self.repo = repo
 
-    def __call__(self, user: User) -> User:
+    def __call__(self, user: User) -> dict:
         if not user.name:
             raise EntityError("name")
         if not user.email:
@@ -21,6 +21,7 @@ class CreateUserUsecase:
         user.email = user.email.lower()
         user_response = self.repo.create_user(user)
         print('user_response USECASE: ' + str(user_response))
+        print('user_response USECASE TYPE: ' + str(type(user_response)))
         return user_response
         
 
