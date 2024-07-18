@@ -48,3 +48,8 @@ class TaskRepositoryMock(ITaskRepository):
 
     def get_task_by_day(self, task_date: date) -> List[Task]:
         return [task for task in self.tasks if task.task_date == task_date]
+
+    def update_task_status(self, task_id: str, task_status: str) -> Task:
+        task = self.get_task_by_id(task_id)
+        task.task_status = task_status
+        return task
