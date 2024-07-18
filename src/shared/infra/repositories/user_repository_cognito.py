@@ -171,6 +171,10 @@ class UserRepositoryCognito(IUserRepository):
                         {'Name': 'custom:confirmationCode', 'Value': ''}
                     ]
                 )
+                self.client.admin_confirm_sign_up(
+                    UserPoolId=self.user_pool_id,
+                    Username=email
+                )
                 
                 return { "message": "User confirmed successfully" }
             else:
@@ -200,6 +204,7 @@ class UserRepositoryCognito(IUserRepository):
                     {'Name': 'custom:confirmationCode', 'Value': code}
                 ]
             )
+            
             
             self.send_confirmation_code_mail(email, user_attrs.get('name'), code)
             
