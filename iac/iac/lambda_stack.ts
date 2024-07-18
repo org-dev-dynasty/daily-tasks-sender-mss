@@ -14,6 +14,7 @@ export class LambdaStack extends Construct {
     getAllUsersFunction: lambda.Function
     loginFunction: lambda.Function
     createUserFunction: lambda.Function
+    confirmUserEmailFunction: lambda.Function
 
     getTaskByIdFunction: lambda.Function
     createTaskFunction: lambda.Function
@@ -88,10 +89,12 @@ export class LambdaStack extends Construct {
         this.createUserFunction = this.createLambdaApiGatewayIntegration('create_user', 'POST', apiGatewayResource, environmentVariables)
         this.getTaskByIdFunction = this.createLambdaApiGatewayIntegration('get_task_by_id', 'GET', apiGatewayResource, environmentVariables)
         this.createTaskFunction = this.createLambdaApiGatewayIntegration('create_task', 'POST', apiGatewayResource, environmentVariables)
+        this.confirmUserEmailFunction = this.createLambdaApiGatewayIntegration('confirm_user_email', 'POST', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
-            this.createUserFunction
+            this.createUserFunction,
+            this.confirmUserEmailFunction,
         ]
     }
 }
