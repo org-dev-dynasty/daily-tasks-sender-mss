@@ -11,7 +11,7 @@ class ConfirmUserEmailUsecase:
   def __call__(self, email: str, verification_code: str) -> User:
     if not User.validate_email(email):
       raise EntityError('email')
-    if verification_code == '':
+    if len(verification_code) != 6:
       raise EntityError('verification_code')
     
     user = self.repo.confirm_user(email, verification_code)
