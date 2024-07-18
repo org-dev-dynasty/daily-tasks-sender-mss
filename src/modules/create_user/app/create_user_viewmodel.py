@@ -18,8 +18,8 @@ class UserViewmodel:
         
 
     def to_dict(self):
-        if hasattr(self, 'verification_code'):
-            print('HAS ATTR verification_code')
+        if 'verification_code' in self.__dict__:
+            print('if verification_code is in self dict')
             print('self.verification_code: ' + str(self.verification_code))
             return {
                 'user_id': self.user_id,
