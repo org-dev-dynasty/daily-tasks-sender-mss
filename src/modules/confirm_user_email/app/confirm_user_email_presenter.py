@@ -4,7 +4,7 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .confirm_user_email_usecase import ConfirmUserEmailUsecase
 from .confirm_user_email_controller import ConfirmUserEmailController
 
-repo = Environments.get_task_repo()
+repo = Environments.get_user_repo()
 logging.info(repo)
 usecase = ConfirmUserEmailUsecase(repo)
 logging.info(usecase)
