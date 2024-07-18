@@ -38,7 +38,7 @@ class User(abc.ABC):
         if not self.validate_email(email):
             raise EntityError("email")
 
-        if not self.validate_password(password):
+        if password and not self.validate_password(password):
             raise EntityError("password")
 
         self.name = name

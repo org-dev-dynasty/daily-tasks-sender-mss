@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from src.shared.domain.entities.user import User
 
@@ -9,7 +9,7 @@ class UserCognitoDTO:
     name: str
     email: str
     phone: str  # with country code
-    password: str
+    password: Optional[str]
     accepted_terms: bool
     accepted_notifications_email: bool
 
@@ -25,9 +25,10 @@ class UserCognitoDTO:
     FROM_COGNITO_DICT["sub"] = "user_id"
 
     def __init__(self, user_id: str, email: str, name: str, phone: str,
-                 password: str = None, accepted_terms: bool = None,
+                 password: Optional[str] = None, accepted_terms: bool = None,
                  accepted_notifications_email: bool = None
                  ):
+        print(f'CHEGOU NO INIT DO USER COGNITO DTO')
         self.user_id = user_id
         self.name = name
         self.email = email
@@ -35,6 +36,7 @@ class UserCognitoDTO:
         self.password = password
         self.accepted_terms = accepted_terms
         self.accepted_notifications_email = accepted_notifications_email
+        print(f'CHEGOU NO FIM INIT DO USER COGNITO DTO')
 
     @staticmethod
     def from_entity(user: User):
