@@ -11,11 +11,13 @@ class UserViewmodel:
         print('verification_code: ' + str(verification_code))
         
         if verification_code is not None:
+            print('if verification_code is not None')
             self.user_id = data["user_id"]
             self.name = data["name"]
             self.email = data["email"]
             self.verification_code = verification_code
         else:
+            print('else verification_code is None')
             self.user_id = data.user_id
             self.name = data.name
             self.email = data.email
