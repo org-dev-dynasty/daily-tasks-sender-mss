@@ -1,5 +1,5 @@
-from src.modules.confirm_user_email.app.confirm_user_email_usecase import ConfirmUserEmailUsecase
-from src.modules.confirm_user_email.app.confirm_user_email_viewmodel import ConfirmUserEmailViewmodel
+from .confirm_user_email_usecase import ConfirmUserEmailUsecase
+from .confirm_user_email_viewmodel import ConfirmUserEmailViewmodel
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.controller_errors import MissingParameters, WrongTypeParameter
 from src.shared.helpers.errors.usecase_errors import NoItemsFound
