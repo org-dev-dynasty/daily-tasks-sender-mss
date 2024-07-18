@@ -54,9 +54,11 @@ class CreateUserController:
             print('created_user CONTROLLER: ' + str(created_user))
             
             if hasattr(created_user, 'verification_code'):
+                print('ENTROU NO IF DO VERIFICATION CODE')
                 viewmodel_with_code = CreateUserViewmodel(created_user, created_user.verification_code)
                 resp_with_code = Created(viewmodel_with_code.to_dict())
                 return resp_with_code
+            print('passou do IF VERIFICATION CODE')
             viewmodel = CreateUserViewmodel(created_user)
             response = Created(viewmodel.to_dict())
 
