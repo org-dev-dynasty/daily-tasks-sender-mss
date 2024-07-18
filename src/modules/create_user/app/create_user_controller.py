@@ -53,7 +53,7 @@ class CreateUserController:
             
             print('created_user CONTROLLER: ' + str(created_user))
             
-            if hasattr(created_user, 'verification_code'):
+            if 'verification_code' in created_user:
                 print('ENTROU NO IF DO VERIFICATION CODE')
                 viewmodel_with_code = CreateUserViewmodel(created_user, created_user.verification_code)
                 resp_with_code = Created(viewmodel_with_code.to_dict())
