@@ -61,7 +61,6 @@ class CreateUserController:
                 viewmodel_with_code = CreateUserViewmodel(created_user['user'], created_user['verification_code'])
                 resp_with_code = Created(viewmodel_with_code.to_dict())
                 return resp_with_code
-            
 
         except DuplicatedItem as err:
             return Conflict(

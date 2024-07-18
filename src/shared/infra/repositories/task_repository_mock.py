@@ -12,6 +12,9 @@ class TaskRepositoryMock(ITaskRepository):
             Task(task_id="5", task_name="TaskCinco", task_hour="12:00:00", task_date="2021-12-12", task_description="Description for task 5", task_local="Local 5", task_status="INACTIVE"),
         ]
 
+    def get_all_tasks(self) -> List[Task]:
+        return self.tasks
+    
     def create_task(self, task: Task) -> Task:
         self.tasks.append(task)
         return task

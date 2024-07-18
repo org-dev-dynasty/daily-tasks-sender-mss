@@ -17,6 +17,7 @@ export class LambdaStack extends Construct {
 
     getTaskByIdFunction: lambda.Function
     createTaskFunction: lambda.Function
+    getAllTasksFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -88,6 +89,7 @@ export class LambdaStack extends Construct {
         this.createUserFunction = this.createLambdaApiGatewayIntegration('create_user', 'POST', apiGatewayResource, environmentVariables)
         this.getTaskByIdFunction = this.createLambdaApiGatewayIntegration('get_task_by_id', 'GET', apiGatewayResource, environmentVariables)
         this.createTaskFunction = this.createLambdaApiGatewayIntegration('create_task', 'POST', apiGatewayResource, environmentVariables)
+        this.getAllTasksFunction = this.createLambdaApiGatewayIntegration('get_all_tasks', 'GET', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,

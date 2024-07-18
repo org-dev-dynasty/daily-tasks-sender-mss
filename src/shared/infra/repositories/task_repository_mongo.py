@@ -26,6 +26,14 @@ class TaskRepositoryMongo(ITaskRepository):
             print(f"Error: {e}")
             return ValueError(f"Error on get task by id, err: {e}")
 
+    def get_all_tasks(self) -> List[Task]:
+        tasks = []
+        for task in self.collection.find():
+            task_dto = TaskMongoDTO.from_mongo(task)
+            task = task_dto.to_entity()
+            tasks.append(task)
+        return tasks
+
     def delete_task_by_id(self, task_id: str) -> None:
         try:
             task = self.collection.find_one({"_id": task_id})
@@ -35,3 +43,4 @@ class TaskRepositoryMongo(ITaskRepository):
         except Exception as e:
             print(f"Error: {e}")
             return ValueError(f"Error on delete task by id, err: {e}")
+
