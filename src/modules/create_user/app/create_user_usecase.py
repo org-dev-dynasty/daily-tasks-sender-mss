@@ -20,6 +20,7 @@ class CreateUserUsecase:
         
         user.email = user.email.lower()
         user_response = self.repo.create_user(user)
+        print('user_response USECASE: ' + str(user_response))
         return user_response
         
 
