@@ -14,14 +14,14 @@ class User(abc.ABC):
     accepted_notifications_email: bool
 
     def __init__(
-            self,
-            name: str,
-            email: str,
-            phone: Optional[str] = None,
-            password: Optional[str] = None,
-            accepted_terms: bool = False,
-            accepted_notifications_email: bool = False,
-            user_id: Optional[str] = None
+        self,
+        name: str,
+        email: str,
+        phone: Optional[str] = None,
+        password: Optional[str] = None,
+        accepted_terms: bool = False,
+        accepted_notifications_email: bool = False,
+        user_id: Optional[str] = None
     ) -> None:
 
         if user_id is None:
@@ -65,6 +65,8 @@ class User(abc.ABC):
         rgx = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+(\.\w+)+$'
 
         if email is None:
+            return False
+        if (type(email) != str):
             return False
         if not re.search(rgx, email):
             return False

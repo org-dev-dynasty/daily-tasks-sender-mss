@@ -29,3 +29,7 @@ class UserRepositoryMock(IUserRepository):
     def get_user_by_email(self, email: str) -> User:
         user = next((user for user in self.users if user.email == email), None)
         return user
+    
+    def confirm_user(self, email: str, verification_code: str) -> User:
+        user = next((user for user in self.users if user.email == email), None)
+        return user
