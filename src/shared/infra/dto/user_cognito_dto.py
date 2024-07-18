@@ -71,7 +71,7 @@ class UserCognitoDTO:
             name=user_data.get("name"),
             email=user_data.get("email"),
             phone=user_data.get("phone"),
-            password=None,
+            password=user_data.get("password"),
             accepted_terms=eval(user_data.get("accepted_terms").title()),
             accepted_notifications_email=eval(user_data.get("accepted_notifications_email").title()),
         )
