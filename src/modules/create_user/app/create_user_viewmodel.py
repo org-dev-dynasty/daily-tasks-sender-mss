@@ -5,16 +5,18 @@ class UserViewmodel:
     name: str
     email: str
 
-    def __init__(self, data, verification_code=None):
+    def __init__(self, data: User, verification_code=None):
         print('chegou no user viewmodel')
         print('data: ' + str(data))
         print('verification_code: ' + str(verification_code))
         
         if verification_code is not None:
             print('if verification_code is not None')
-            self.user_id = data["user_id"]
-            self.name = data["name"]
-            self.email = data["email"]
+            print(data.user_id)
+            print(data.name)
+            self.user_id = data.user_id
+            self.name = data.name
+            self.email = data.email
             self.verification_code = verification_code
         else:
             print('else verification_code is None')
@@ -24,6 +26,7 @@ class UserViewmodel:
         
 
     def to_dict(self):
+        print('to_dict user viewmodel')
         if 'verification_code' in self.__dict__:
             print('if verification_code is in self dict')
             print('self.verification_code: ' + str(self.verification_code))
@@ -33,7 +36,7 @@ class UserViewmodel:
                 'email': self.email,
                 'verification_code': self.verification_code
             }
-        
+        print('passou do if verification_code in this dict')
         return {
             'user_id': self.user_id,
             'name': self.name,
@@ -56,6 +59,7 @@ class CreateUserViewmodel:
             
         print('CREATE user: ' + str(user))
         print('CREATE self.user: ' + str(self.user))
+        print('CREATE self' + str(self))
         print('CREATE self.user.to_dict(): ' + str(self.user.to_dict()))
             
 
