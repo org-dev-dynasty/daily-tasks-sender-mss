@@ -1,3 +1,4 @@
+from src.shared.helpers.errors.domain_errors import EntityError
 from .confirm_user_email_usecase import ConfirmUserEmailUsecase
 from .confirm_user_email_viewmodel import ConfirmUserEmailViewmodel
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
@@ -34,6 +35,8 @@ class ConfirmUserEmailController:
     except WrongTypeParameter as e:
       return BadRequest(body=e.message)
     except NoItemsFound as e:
+      return BadRequest(body=e.message)
+    except EntityError as e:
       return BadRequest(body=e.message)
     except Exception as e:
       return InternalServerError(body=f"Internal server error: {str(e)}")
