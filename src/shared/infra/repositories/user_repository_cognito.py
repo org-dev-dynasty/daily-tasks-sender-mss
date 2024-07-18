@@ -159,6 +159,8 @@ class UserRepositoryCognito(IUserRepository):
             
             user_attrs = {attr['Name']: attr['Value'] for attr in resp['UserAttributes']}
             
+            print(f'USER REPO COGNITO CONFIRM USER {user_attrs}')
+            
             if user_attrs.get('custom:confirmation_code') == confirmation_code:
                 self.client.admin_update_user_attributes(
                     UserPoolId=self.user_pool_id,

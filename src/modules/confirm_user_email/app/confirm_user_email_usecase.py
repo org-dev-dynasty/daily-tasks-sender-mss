@@ -15,8 +15,8 @@ class ConfirmUserEmailUsecase:
     print(f'len verification_code: {len(verification_code)}')
     if not User.validate_email(email):
       raise EntityError('email')
-    
-    print(f'passou dos ifs')
+    if len(verification_code) != 6:
+      raise EntityError('verification_code')
     
     user = self.repo.confirm_user(email, verification_code)
     

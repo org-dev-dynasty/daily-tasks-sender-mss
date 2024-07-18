@@ -21,7 +21,13 @@ class Test_ConfirmUserEmailUsecase:
         
         with pytest.raises(EntityError):
             usecase(email=0, verification_code="123456")
-          
+            
+    def test_confirm_user_email_usecase_with_invalid_verification_code(self):
+        repo = UserRepositoryMock()
+        usecase = ConfirmUserEmailUsecase(repo)
+        
+        with pytest.raises(EntityError):
+            usecase(email="digao@gmail.com", verification_code="")
             
     def test_confirm_user_email_usecase_with_no_items_found(self):
         repo = UserRepositoryMock()
