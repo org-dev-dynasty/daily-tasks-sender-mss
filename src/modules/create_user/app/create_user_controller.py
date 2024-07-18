@@ -1,5 +1,4 @@
 import datetime
-import json
 
 from .create_user_viewmodel import CreateUserViewmodel
 from src.shared.domain.entities.user import User
@@ -53,7 +52,7 @@ class CreateUserController:
             
             print('created_user CONTROLLER: ' + str(created_user))
             
-            if 'verification_code' in created_user:
+            if 'verification_code' in created_user.__dict__:
                 print('ENTROU NO IF DO VERIFICATION CODE')
                 viewmodel_with_code = CreateUserViewmodel(created_user, created_user.verification_code)
                 resp_with_code = Created(viewmodel_with_code.to_dict())
