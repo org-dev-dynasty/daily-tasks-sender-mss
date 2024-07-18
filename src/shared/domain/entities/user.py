@@ -94,7 +94,7 @@ class User(abc.ABC):
 
         if password is None:
             return False
-        if not re.search(rgx, password):
+        if not re.match(rgx, password):
             return False
         if password == "":
             return False

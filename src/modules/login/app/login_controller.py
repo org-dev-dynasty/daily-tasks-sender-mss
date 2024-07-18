@@ -27,20 +27,14 @@ class LoginController:
             return response
 
         except NoItemsFound as e:
-            return NotFound(
-                body="User not found" if e.message == 'user' else f"User not found with parameters {e.message}")
-
+            return NotFound(body=e.message)
         except ForbiddenAction as e:
-            return Forbidden(body=f"Action forbidden for {e.message}")
-
+            return Forbidden(body=e.message)
         except MissingParameters as e:
-            return BadRequest(body=f"Missing parameter {e.message}")
-
+            return BadRequest(body=e.message)
         except EntityError as e:
-            return BadRequest(body=f"Invalid {e.message}")
-
+            return BadRequest(body=e.message)
         except InvalidCredentials as e:
-            return Forbidden(body=f"Invalid credentials for {e.message}")
-
+            return Forbidden(body=e.message)
         except Exception as e:
             return InternalServerError(body=str(e))
