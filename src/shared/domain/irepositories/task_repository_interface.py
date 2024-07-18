@@ -23,3 +23,6 @@ class ITaskRepository(ABC):
   
   def delete_task_by_id(self, task_id: str) -> None:
     pass
+
+  def get_task_by_day(self, task_date: date) -> List[Task]:
+    pass
