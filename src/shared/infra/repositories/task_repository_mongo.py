@@ -3,6 +3,7 @@ from src.shared.domain.irepositories.task_repository_interface import ITaskRepos
 from src.shared.infra.dto.task_mongo_dto import TaskMongoDTO
 from src.shared.infra.repositories.database.mongodb.task_collection import get_tasks_collection
 from typing import List, Optional
+from datetime import date, time
 
 
 class TaskRepositoryMongo(ITaskRepository):
@@ -34,6 +35,29 @@ class TaskRepositoryMongo(ITaskRepository):
             tasks.append(task)
         return tasks
 
+    def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
+        try:
+            update_task = {}
+            if task_name:
+                update_task["task_name"] = task_name
+            if task_date:
+                update_task["task_date"] = task_date
+            if task_hour:
+                update_task["task_hour"] = task_hour
+            if task_description:
+                update_task["task_description"] = task_description
+            if task_local:
+                update_task["task_local"] = task_local
+            if task_status:
+                update_task["task_status"] = task_status
+
+            self.collection.update_one({"_id": task_id}, {"$set": update_task})
+            task = self.get_task_by_id(task_id)
+            return task
+        except Exception as e:
+            print(f"Error: {e}")
+            return ValueError(f"Error on update task, err: {e}")
+
     def delete_task_by_id(self, task_id: str) -> None:
         try:
             task = self.collection.find_one({"_id": task_id})
@@ -43,4 +67,3 @@ class TaskRepositoryMongo(ITaskRepository):
         except Exception as e:
             print(f"Error: {e}")
             return ValueError(f"Error on delete task by id, err: {e}")
-
