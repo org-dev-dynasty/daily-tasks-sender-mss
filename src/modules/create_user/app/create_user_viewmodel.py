@@ -19,6 +19,8 @@ class UserViewmodel:
 
     def to_dict(self):
         if hasattr(self, 'verification_code'):
+            print('HAS ATTR verification_code')
+            print('self.verification_code: ' + str(self.verification_code))
             return {
                 'user_id': self.user_id,
                 'name': self.name,
@@ -42,6 +44,10 @@ class CreateUserViewmodel:
             self.user = UserViewmodel(user)
         else:
             self.user = UserViewmodel(user, verification_code)
+            
+        print('CREATE user: ' + str(user))
+        print('CREATE self.user: ' + str(self.user))
+        print('CREATE self.user.to_dict(): ' + str(self.user.to_dict()))
             
 
     def to_dict(self):
