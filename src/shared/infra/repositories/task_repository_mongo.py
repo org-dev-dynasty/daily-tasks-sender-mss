@@ -7,16 +7,16 @@ from typing import List, Optional
 
 class TaskRepositoryMongo(ITaskRepository):
 
-    def __init__(self):
-        self.collection = get_tasks_collection()
+    def __init__(self, mongo_url: str):
+        self.collection = get_tasks_collection(mongo_url)
 
     def create_task(self, task: Task) -> Task:
-        self.collection.insert_one(task.dict())
+        self.collection.insert_one(task.to_dict())
         return task
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         try:
-            task = self.collection.find_one({"task_id": task_id})
+            task = self.collection.find_one({"_id": task_id})
             if not task:
                 return None
             task_dto = TaskMongoDTO.from_mongo(task)

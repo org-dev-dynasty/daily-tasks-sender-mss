@@ -1,4 +1,5 @@
 import re
+import uuid
 import abc
 from typing import Optional
 from datetime import datetime, date, time
@@ -27,7 +28,7 @@ class Task(abc.ABC):
             task_status: str = "ACTIVE"
     ):
         if task_id is None:
-            self.task_id = None
+            self.task_id = uuid.uuid4().hex
         else:
             self.task_id = task_id
 
@@ -40,10 +41,10 @@ class Task(abc.ABC):
         if not self.validate_hour(task_hour):
             raise EntityError("task_hour")
 
-        if not self.validate_attribute(task_description):
+        if not self.validate_description(task_description):
             raise EntityError("task_description")
 
-        if not self.validate_attribute(task_local):
+        if not self.validate_local(task_local):
             raise EntityError("task_local")
 
         if not self.validate_task_status(task_status):
@@ -64,17 +65,25 @@ class Task(abc.ABC):
             return False
         if name == "":
             return False
-        if re.search(r'\d', name):
-            return False
         return True
     
     @staticmethod
-    def validate_attribute(attribute: str) -> bool:
-        if attribute is None:
+    def validate_description(description: str) -> bool:
+        if description is None:
+            return True
+        if len(description) < 2:
             return False
-        if len(attribute) < 2:
+        if description == "":
             return False
-        if attribute == "":
+        return True
+
+    @staticmethod
+    def validate_local(local: str) -> bool:
+        if local is None:
+            return True
+        if len(local) < 2:
+            return False
+        if local == "":
             return False
         return True
     
@@ -121,7 +130,7 @@ class Task(abc.ABC):
 
     def to_dict(self) -> dict:
         return {
-            "task_id": self.task_id,
+            "_id": self.task_id,
             "task_name": self.task_name,
             "task_date": self.task_date,
             "task_hour": self.task_hour,

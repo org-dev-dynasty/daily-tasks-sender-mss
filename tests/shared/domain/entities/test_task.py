@@ -27,16 +27,6 @@ class Test_Task:
     def test_entity_incorrectly_task_name(self):
         with pytest.raises(EntityError):
             Task(
-                task_id="2", 
-                task_name="Complete project 123",
-                task_date="2021-10-10",
-                task_hour="12:00:00", 
-                task_description="Finish the project by EOD", 
-                task_local="Office", 
-                task_status="ACTIVE"
-            )
-        with pytest.raises(EntityError):
-            Task(
                 task_id="3", 
                 task_name="", 
                 task_date="2021-10-10",
@@ -79,16 +69,6 @@ class Test_Task:
             )
         with pytest.raises(EntityError):
             Task(
-                task_id="7", 
-                task_name="Meeting", 
-                task_date="2021-10-10",
-                task_hour="12:00:00",
-                task_description=None, 
-                task_local="Office", 
-                task_status="ACTIVE"
-            )
-        with pytest.raises(EntityError):
-            Task(
                 task_id="8",
                 task_name="Meeting", 
                 task_date="2021-10-10",
@@ -107,16 +87,6 @@ class Test_Task:
                 task_hour="12:00:00",
                 task_description="Present the quarterly report", 
                 task_local="", 
-                task_status="ACTIVE"
-            )
-        with pytest.raises(EntityError):
-            Task(
-                task_id="12", 
-                task_name="Presentation", 
-                task_date="2021-10-10",
-                task_hour="12:00:00",
-                task_description="Present the quarterly report", 
-                task_local=None, 
                 task_status="ACTIVE"
             )
         with pytest.raises(EntityError):
