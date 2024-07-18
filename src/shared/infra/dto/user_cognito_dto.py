@@ -65,6 +65,8 @@ class UserCognitoDTO:
                      att["Name"] in UserCognitoDTO.FROM_COGNITO_DICT}
         user_data["created_at"] = data.get("UserCreateDate")
         user_data["updated_at"] = data.get("UserLastModifiedDate")
+        
+        print(f'USER DATA FROM COGNITO: {user_data}')
 
         return UserCognitoDTO(
             user_id=user_data.get("user_id"),
@@ -77,6 +79,8 @@ class UserCognitoDTO:
         )
 
     def to_entity(self) -> User:
+        print(f'CHEGOU NO TO ENTITY')
+        print(f'SELF: {str(self)}')
         return User(
             user_id=self.user_id,
             name=self.name,
