@@ -6,6 +6,10 @@ class UserViewmodel:
     email: str
 
     def __init__(self, data, verification_code=None):
+        print('chegou no user viewmodel')
+        print('data: ' + str(data))
+        print('verification_code: ' + str(verification_code))
+        
         if verification_code is not None:
             self.user_id = data["user_id"]
             self.name = data["name"]
@@ -45,6 +49,7 @@ class CreateUserViewmodel:
         if verification_code is None:
             self.user = UserViewmodel(user)
         else:
+            print('entrou no else CREATE USER VIEWMODEL')
             self.user = UserViewmodel(user, verification_code)
             
         print('CREATE user: ' + str(user))
