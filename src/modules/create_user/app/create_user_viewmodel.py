@@ -10,7 +10,7 @@ class UserViewmodel:
             self.user_id = data["user_id"]
             self.name = data["name"]
             self.email = data["email"]
-            self.verification_code = data["verification_code"]
+            self.verification_code = verification_code
         else:
             self.user_id = data.user_id
             self.name = data.name
