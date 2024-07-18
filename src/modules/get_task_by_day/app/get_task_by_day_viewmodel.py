@@ -1,6 +1,5 @@
-from typing import List, Optional
-from datetime import date, time, timedelta, datetime
-from collections import defaultdict
+from datetime import date, time
+from typing import Optional, List
 
 from src.shared.domain.entities.task import Task
 
@@ -33,7 +32,7 @@ class TaskViewmodel:
             "task_status": self.task_status
         }
 
-class GetAllTasksViewmodel:
+class GetTaskByDayViewmodel:
     tasks_viewmodel_list: List[TaskViewmodel]
 
     def __init__(self, tasks: List[Task]) -> None:
@@ -51,35 +50,13 @@ class GetAllTasksViewmodel:
             tasks_list.append(task_viewmodel)
         
         self.tasks_viewmodel_list = tasks_list
-    
-    def to_dict(self) -> dict:
-        tasks_by_date = defaultdict(list)
-        Task.validate_date
-        current_day = date.today()
-        
+
+    def to_dict(self):
+        tasks_list = []
         for task_viewmodel in self.tasks_viewmodel_list:
-            task_date = task_viewmodel.task_date
-            if task_date == current_day:
-                date_key = "Hoje"
-            elif task_date == current_day + timedelta(days=1):
-                date_key = "Amanhã"
-            else:
-                date_key = task_date
-            
-            tasks_by_date[date_key].append(task_viewmodel.to_dict())
-        
-        tasks = {date_key: tasks for date_key, tasks in tasks_by_date.items()}
-        
-        colors = ['red', 'blue', 'green']
-        dots = {}
-        for date_key, task_list in tasks_by_date.items():
-            task_date_str = task_list[0]["task_date"]  # Usando a data da primeira tarefa na lista
-            num_tasks = min(len(task_list), 3)
-            dots[task_date_str] = {'dots': [{'key': f'dot{i+1}', 'color': colors[i]} for i in range(num_tasks)]}
+            task_viewmodel_to_dict = task_viewmodel.to_dict()
+            tasks_list.append(task_viewmodel_to_dict)
         
         return {
-            "message": "Task list retrieved successfully",
-            "tasks": tasks,
-            "dots": dots,
-            "CurrentDay": current_day.isoformat()
+            "tasks": tasks_list
         }

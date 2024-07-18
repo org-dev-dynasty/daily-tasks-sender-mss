@@ -67,3 +67,12 @@ class TaskRepositoryMongo(ITaskRepository):
         except Exception as e:
             print(f"Error: {e}")
             return ValueError(f"Error on delete task by id, err: {e}")
+
+    def get_task_by_day(self, task_date: date) -> List[Task]:
+        tasks = []
+        for task in self.collection.find({"task_date": task_date}):
+            task_dto = TaskMongoDTO.from_mongo(task)
+            task = task_dto.to_entity()
+            tasks.append(task)
+        return tasks
+    

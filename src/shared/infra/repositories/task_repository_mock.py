@@ -39,16 +39,12 @@ class TaskRepositoryMock(ITaskRepository):
             task.task_status = task_status
         return task
 
-    # def delete_task(self, task_id: int) -> bool:
-    #     task = self.get_task_by_id(task_id)
-    #     if task:
-    #         self.tasks.remove(task)
-    #         return True
-    #     return False
-
     def delete_task_by_id(self, task_id: str) -> bool:
         task = self.get_task_by_id(task_id)
         if task:
             self.tasks.remove(task)
             return True
         return False
+
+    def get_task_by_day(self, task_date: date) -> List[Task]:
+        return [task for task in self.tasks if task.task_date == task_date]
