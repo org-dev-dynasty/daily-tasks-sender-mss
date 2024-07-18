@@ -20,3 +20,6 @@ class ITaskRepository(ABC):
 
   def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
     pass
+  
+  def delete_task_by_id(self, task_id: str) -> None:
+    pass

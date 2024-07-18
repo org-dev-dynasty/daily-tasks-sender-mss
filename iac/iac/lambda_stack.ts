@@ -14,11 +14,13 @@ export class LambdaStack extends Construct {
     getAllUsersFunction: lambda.Function
     loginFunction: lambda.Function
     createUserFunction: lambda.Function
+    confirmUserEmailFunction: lambda.Function
 
     getTaskByIdFunction: lambda.Function
     createTaskFunction: lambda.Function
     getAllTasksFunction: lambda.Function
     updateTaskFunction: lambda.Function
+    deleteTaskByIdFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
@@ -90,12 +92,15 @@ export class LambdaStack extends Construct {
         this.createUserFunction = this.createLambdaApiGatewayIntegration('create_user', 'POST', apiGatewayResource, environmentVariables)
         this.getTaskByIdFunction = this.createLambdaApiGatewayIntegration('get_task_by_id', 'GET', apiGatewayResource, environmentVariables)
         this.createTaskFunction = this.createLambdaApiGatewayIntegration('create_task', 'POST', apiGatewayResource, environmentVariables)
+        this.confirmUserEmailFunction = this.createLambdaApiGatewayIntegration('confirm_user_email', 'POST', apiGatewayResource, environmentVariables)
         this.getAllTasksFunction = this.createLambdaApiGatewayIntegration('get_all_tasks', 'GET', apiGatewayResource, environmentVariables)
         this.updateTaskFunction = this.createLambdaApiGatewayIntegration('update_task', 'PUT', apiGatewayResource, environmentVariables)
+        this.deleteTaskByIdFunction = this.createLambdaApiGatewayIntegration('delete_task_by_id', 'DELETE', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
-            this.createUserFunction
+            this.createUserFunction,
+            this.confirmUserEmailFunction,
         ]
     }
 }
