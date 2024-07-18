@@ -16,3 +16,6 @@ class ITaskRepository(ABC):
   @abstractmethod
   def get_task_by_id(self, task_id: str) -> Task:
     pass
+  
+  def delete_task_by_id(self, task_id: str) -> None:
+    pass
