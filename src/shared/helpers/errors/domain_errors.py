@@ -22,3 +22,7 @@ class EntityParameterError(EntityError):
     @property
     def message(self):
         return self.__message
+    
+class WrongEntityError(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Field {message} is not equal')

@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.environments import Environments
-from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError, WrongEntityError
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction, UserAlreadyConfirmed, NoItemsFound, \
     InvalidCredentials, UserNotConfirmed, DuplicatedItem, InvalidTokenError
 from src.shared.infra.dto.user_cognito_dto import UserCognitoDTO
@@ -174,7 +174,7 @@ class UserRepositoryCognito(IUserRepository):
                 
                 return { "message": "User confirmed successfully" }
             else:
-                raise EntityError("confirmation_code")
+                raise WrongEntityError("confirmation_code")
             
         except ClientError as e:
             error_code = e.response['Error']['Code']
