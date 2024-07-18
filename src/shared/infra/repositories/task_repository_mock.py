@@ -22,7 +22,7 @@ class TaskRepositoryMock(ITaskRepository):
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         return next((task for task in self.tasks if task.task_id == task_id), None)
 
-    def delete_task(self, task_id: str) -> bool:
+    def delete_task_by_id(self, task_id: str) -> bool:
         task = self.get_task_by_id(task_id)
         if task:
             self.tasks.remove(task)
