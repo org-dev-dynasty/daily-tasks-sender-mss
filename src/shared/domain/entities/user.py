@@ -92,8 +92,6 @@ class User(abc.ABC):
 
         rgx = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@$!%#*?&]{6,}$'
 
-        if password is None:
-            return False
         if not re.match(rgx, password):
             return False
         if password == "":
