@@ -172,7 +172,7 @@ class UserRepositoryCognito(IUserRepository):
                     ]
                 )
                 
-                return { "message": "User confirmed successfully" }
+                return UserCognitoDTO.from_cognito(resp).to_entity()
             else:
                 raise EntityError("confirmation_code")
             
