@@ -76,12 +76,11 @@ class UserRepositoryCognito(IUserRepository):
         cognito_attributes = [attr for attr in cognito_attributes if attr['Name'] != 'password']
         code = self.generate_confirmation_code()
         cognito_attributes.append({'Name': 'custom:confirmationCode', 'Value': code})
-        base_pwd_cognito = Environments.get_envs().base_pwd_cognito
         try:            
             response = self.client.sign_up(
                 ClientId=self.client_id,
                 Username=user.email,
-                Password=base_pwd_cognito,
+                Password=user.password,
                 UserAttributes=cognito_attributes)
             
             print(f'USER REPO COGNITO response CREATE USER {response}')
