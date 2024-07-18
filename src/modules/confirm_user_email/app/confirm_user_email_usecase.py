@@ -18,11 +18,11 @@ class ConfirmUserEmailUsecase:
     if len(verification_code) != 6:
       raise EntityError('verification_code')
     
-    user = self.repo.confirm_user(email, verification_code)
+    confirmation = self.repo.confirm_user(email, verification_code)
     
-    if user is None:
+    if confirmation is None:
       raise NoItemsFound('email')
     
-    return user
+    return confirmation
     
     
