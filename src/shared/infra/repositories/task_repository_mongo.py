@@ -25,3 +25,11 @@ class TaskRepositoryMongo(ITaskRepository):
         except Exception as e:
             print(f"Error: {e}")
             return ValueError(f"Error on get task by id, err: {e}")
+
+    def get_all_tasks(self) -> List[Task]:
+        tasks = []
+        for task in self.collection.find():
+            task_dto = TaskMongoDTO.from_mongo(task)
+            task = task_dto.to_entity()
+            tasks.append(task)
+        return tasks
