@@ -24,6 +24,7 @@ class ConfirmUserEmailController:
       if type(request.data.get('verification_code')) is not str:
         raise WrongTypeParameter('verification_code', 'string', type(request.data.get('verification_code')))
       
+      print(f'chegou no controller {request.data.get("email")} {request.data.get("verification_code")}')
       self.usecase(request.data.get('email'), request.data.get('verification_code'))
       
       viewmodel = ConfirmUserEmailViewmodel()
