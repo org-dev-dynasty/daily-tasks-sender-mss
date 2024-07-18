@@ -9,6 +9,10 @@ class ConfirmUserEmailUsecase:
     self.repo = repo
   
   def __call__(self, email: str, verification_code: str) -> User:
+    print(f'chegou no usecase {email} {verification_code}')
+    print(f'email: {email}')
+    print(f'verification_code: {verification_code}')
+    print(f'len verification_code: {len(verification_code)}')
     if not User.validate_email(email):
       raise EntityError('email')
     if len(verification_code) != 6:
