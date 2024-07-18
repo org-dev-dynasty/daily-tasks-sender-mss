@@ -75,4 +75,13 @@ class TaskRepositoryMongo(ITaskRepository):
             task = task_dto.to_entity()
             tasks.append(task)
         return tasks
-    
+
+    def update_task_status(self, task_id: str, task_status: str) -> Task:
+        try:
+            self.collection.update_one({"_id": task_id}, {"$set": {"task_status": task_status}})
+            task = self.get_task_by_id(task_id)
+            print(task)
+            return task
+        except Exception as e:
+            print(f"Error: {e}")
+            return ValueError(f"Error on update task status, err: {e}")
