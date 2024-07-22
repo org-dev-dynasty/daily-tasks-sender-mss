@@ -21,6 +21,11 @@ class IUserRepository(ABC):
   def confirm_user(self, email: str, verification_code: str) -> User:
     pass
   
+  @abstractmethod
+  def create_user_oauth(self, user) -> dict:
+    pass 
+  
+  
   # @abstractmethod
   # def get_user_by_id(self, user_id: int) -> User:
   #   pass
