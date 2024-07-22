@@ -22,6 +22,7 @@ export class LambdaStack extends Construct {
     updateTaskFunction: lambda.Function
     deleteTaskByIdFunction: lambda.Function
     getTaskByDayFunction: lambda.Function
+    createUserOAuthFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(moduleName: string, method: string, mssApiResource: Resource, environmentVariables: Record<string, any>) {
         const modifiedModuleName = moduleName.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
