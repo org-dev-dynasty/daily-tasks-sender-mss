@@ -1,6 +1,6 @@
 import datetime
 
-from .create_user_OAuth_viewmodel import CreateUserOAuthViewmodel
+from .create_user_oauth_viewmodel import CreateUserOAuthViewmodel
 from src.shared.domain.entities.user import User
 from .create_user_oauth_usecase import CreateUserOAuthUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
