@@ -256,7 +256,7 @@ class UserRepositoryCognito(IUserRepository):
             else:
                 raise ValueError("An error occurred while finishing sign up")
             
-    def create_oauth_user(self, user: User) -> dict:
+    def create_user_oauth(self, user: User) -> dict:
         try:
             resp_create = self.create_user(user)
             code = resp_create.get('verification_code')
