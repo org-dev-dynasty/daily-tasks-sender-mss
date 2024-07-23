@@ -18,7 +18,7 @@ class CreateUserOAuthUsecase:
         base_pwd = Environments.get_envs().base_pwd_cognito
         
         user = User(name=name, email=email, phone=phone, password=base_pwd, accepted_terms=True, accepted_notifications_email=True)
-        user_response = self.repo.create_user_oauth(user)
-        return user_response
+        tokens_response = self.repo.create_user_oauth(user)
+        return tokens_response
         
 

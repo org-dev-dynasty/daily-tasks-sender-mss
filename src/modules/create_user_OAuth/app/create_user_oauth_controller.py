@@ -11,7 +11,7 @@ from src.shared.helpers.external_interfaces.http_codes import BadRequest, Intern
     Created
 
 
-class CreateUserController:
+class CreateUserOAuthController:
     def __init__(self, usecase: CreateUserOAuthUsecase) -> None:
         self.CreateUserOAuthUsecase = usecase
 
