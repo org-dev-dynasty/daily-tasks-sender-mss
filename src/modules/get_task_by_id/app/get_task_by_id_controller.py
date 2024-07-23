@@ -14,6 +14,7 @@ class GetTaskByIdController:
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
+            print(f"request.data.get('requester_user'): {request.data.get('requester_user')}")
             if request.data.get("task_id") is None:
                 raise MissingParameters("task_id")
 

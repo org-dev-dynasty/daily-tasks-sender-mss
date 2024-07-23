@@ -36,8 +36,9 @@ class CreateUserController:
                 'phone': phone,
             }
 
-            new_user = User.parse_object(user_dict)
-            created_user = self.CreateUserOAuthUsecase(new_user)
+            created_user = self.CreateUserOAuthUsecase(
+                user_dict.get('email'), user_dict.get('name'), user_dict.get('phone')
+            )
 
 
             viewmodel = CreateUserOAuthViewmodel(access_token=created_user['access_token'], id_token=created_user['id_token'],
