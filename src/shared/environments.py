@@ -20,6 +20,9 @@ class Environments:
     client_secret: str
     mongo_url: str
     base_pwd_cognito: str
+    open_ai_api_key: str
+    open_ai_model: str
+    prompt: str
 
     def _configure_local(self):
         os.environ["STAGE"] = os.environ.get("STAGE") or STAGE.TEST.value
@@ -32,6 +35,10 @@ class Environments:
         self.stage = STAGE(os.environ.get("STAGE"))
         self.mongo_url = os.environ.get("MONGODB_URL")
         print(f'self.db_url {self.mongo_url}')
+        
+        self.open_ai_api_key = os.environ.get("OPENAI_API_KEY")
+        self.open_ai_model = os.environ.get("OPENAI_MODEL")
+        self.prompt = os.environ.get("PROMPT")
 
         if self.stage == STAGE.TEST:
             self.s3_bucket_name = "bucket-test"
