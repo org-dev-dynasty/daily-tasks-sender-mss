@@ -256,4 +256,42 @@ class UserRepositoryCognito(IUserRepository):
             else:
                 raise ValueError("An error occurred while finishing sign up")
             
+    def create_oauth_user(self, user: User) -> dict:
+        try:
+            resp_create = self.create_user(user)
+            code = resp_create.get('verification_code')
+            self.send_confirmation_code_mail(user.email, user.name, code)
+            
+            self.confirm_user(user.email, code)
+            
+            tokens = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': user.email,
+                    'PASSWORD': user.password
+                }
+            )
+            
+            dict_response = {
+                'access_token': tokens['AuthenticationResult']['AccessToken'],
+                'id_token': tokens['AuthenticationResult']['IdToken'],
+                'refresh_token': tokens['AuthenticationResult']['RefreshToken']
+            }
+            
+            return dict_response
+            
+        except DuplicatedItem:
+            raise DuplicatedItem("user")
+        except InvalidCredentials:
+            raise InvalidCredentials("password")
+        except EntityError as e:
+            raise EntityError(e)
+        except WrongEntityError as e:
+            raise WrongEntityError(e)
+        except ValueError as e:
+            raise ValueError(e)
+            
+            
+            
             
