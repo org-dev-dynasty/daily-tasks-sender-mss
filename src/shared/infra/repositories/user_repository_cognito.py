@@ -2,7 +2,7 @@ import os
 import boto3
 import random
 import string
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from mailersend import emails
 from botocore.exceptions import ClientError
 
@@ -291,6 +291,30 @@ class UserRepositoryCognito(IUserRepository):
             raise WrongEntityError(e)
         except ValueError as e:
             raise ValueError(e)
+        
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        try:
+            response = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='REFRESH_TOKEN_AUTH',
+                AuthParameters={
+                    'REFRESH_TOKEN': refresh_token
+                }
+            )
+            
+            tokens = {
+                'access_token': response['AuthenticationResult']['AccessToken'],
+                'id_token': response['AuthenticationResult']['IdToken']
+            }
+            
+            return tokens['access_token'], tokens['id_token'], refresh_token
+
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == 'NotAuthorizedException':
+                raise InvalidTokenError("refresh_token")
+            else:
+                raise ValueError("An error occurred while refreshing token")
             
             
             

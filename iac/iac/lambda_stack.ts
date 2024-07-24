@@ -15,6 +15,8 @@ export class LambdaStack extends Construct {
     loginFunction: lambda.Function
     createUserFunction: lambda.Function
     confirmUserEmailFunction: lambda.Function
+    createUserOAuthFunction: lambda.Function
+    refreshTokenFunction: lambda.Function
 
     getTaskByIdFunction: lambda.Function
     createTaskFunction: lambda.Function
@@ -22,7 +24,6 @@ export class LambdaStack extends Construct {
     updateTaskFunction: lambda.Function
     deleteTaskByIdFunction: lambda.Function
     getTaskByDayFunction: lambda.Function
-    createUserOAuthFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(
         moduleName: string, 
@@ -113,11 +114,14 @@ export class LambdaStack extends Construct {
         this.deleteTaskByIdFunction = this.createLambdaApiGatewayIntegration('delete_task_by_id', 'DELETE', apiGatewayResource, environmentVariables, authorizer)
         this.getTaskByDayFunction = this.createLambdaApiGatewayIntegration('get_task_by_day', 'GET', apiGatewayResource, environmentVariables, authorizer)
         this.createUserOAuthFunction = this.createLambdaApiGatewayIntegration('create_user_OAuth', 'POST', apiGatewayResource, environmentVariables)
+        this.refreshTokenFunction = this.createLambdaApiGatewayIntegration('refresh_token', 'POST', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
             this.createUserFunction,
             this.confirmUserEmailFunction,
+            this.createUserOAuthFunction,
+            this.refreshTokenFunction,
         ]
     }
 }

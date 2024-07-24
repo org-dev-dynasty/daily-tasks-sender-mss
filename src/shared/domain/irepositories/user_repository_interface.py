@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Tuple
 
 from src.shared.domain.entities.user import User
 
@@ -24,6 +24,10 @@ class IUserRepository(ABC):
   @abstractmethod
   def create_user_oauth(self, user) -> dict:
     pass 
+  
+  @abstractmethod
+  def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+    pass
   
   
   # @abstractmethod

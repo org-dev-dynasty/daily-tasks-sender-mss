@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.usecase_errors import DuplicatedItem
@@ -40,3 +40,6 @@ class UserRepositoryMock(IUserRepository):
         user.user_id = str(len(self.users) + 1)
         self.users.append(user)
         return {"message": "User created successfully"}
+    
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        return ("access_token here", "refresh_token here")
