@@ -6,7 +6,7 @@ from src.shared.domain.entities.task import Task
 
 class TaskMongoDTO:
     task_id: Optional[str]
-    id_user: str
+    user_id: str
     task_name: str
     task_date: date
     task_hour: time
@@ -14,9 +14,9 @@ class TaskMongoDTO:
     task_local: Optional[str]
     task_status: str
 
-    def __init__(self, task_id: Optional[str], id_user: str, task_name: str, task_date: date, task_hour: time,  task_description: Optional[str], task_local: Optional[str], task_status: str):
+    def __init__(self, task_id: Optional[str], user_id: str, task_name: str, task_date: date, task_hour: time,  task_description: Optional[str], task_local: Optional[str], task_status: str):
         self.task_id = task_id
-        self.id_user = id_user
+        self.user_id = user_id
         self.task_name = task_name
         self.task_date = task_date
         self.task_hour = task_hour
@@ -29,7 +29,7 @@ class TaskMongoDTO:
         try:
             return TaskMongoDTO(
                 task_id=data["_id"],
-                id_user=data["id_user"],
+                user_id=data["user_id"],
                 task_name=data["task_name"],
                 task_date=data["task_date"],
                 task_hour=data["task_hour"],
@@ -46,7 +46,7 @@ class TaskMongoDTO:
         print('OI TO TAAAASK ENTITY')
         return Task(
             task_id=self.task_id,
-            id_user=self.id_user,
+            user_id=self.user_id,
             task_name=self.task_name,
             task_date=self.task_date,
             task_hour=self.task_hour,
@@ -59,7 +59,7 @@ class TaskMongoDTO:
     def to_mongo(cls, task: Task):
         return {
             "_id": task.task_id,
-            "id_user": task.id_user,
+            "user_id": task.user_id,
             "task_name": task.task_name,
             "task_date": task.task_date,
             "task_hour": task.task_hour,
@@ -71,7 +71,7 @@ class TaskMongoDTO:
     def from_entity(task: Task) -> "TaskMongoDTO":
         return TaskMongoDTO(
             task_id=task.task_id,
-            id_user=task.id_user,
+            user_id=task.user_id,
             task_name=task.task_name,
             task_date=task.task_date,
             task_hour=task.task_hour,
