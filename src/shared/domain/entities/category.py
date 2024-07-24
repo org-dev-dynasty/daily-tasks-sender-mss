@@ -56,7 +56,9 @@ class Category(abc.ABC):
     def validate_color(color: str) -> bool:
         if not color:
             return False
-        if len(color) != 7:
+        if len(color) < 4:
+            return False
+        if len(color) > 7:
             return False
         if color[0] != "#":
             return False
