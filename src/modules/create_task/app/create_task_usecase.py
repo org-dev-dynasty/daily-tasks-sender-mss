@@ -9,6 +9,8 @@ class CreateTaskUsecase:
     def __call__(self, task: Task) -> Task:
         if not task.task_name:
             raise EntityError("task_name")
+        if not task.user_id:
+            raise EntityError("user_id")
         if not task.task_date:
             raise EntityError("task_date")
         if not task.task_hour:
