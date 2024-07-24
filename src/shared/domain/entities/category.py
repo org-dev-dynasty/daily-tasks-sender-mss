@@ -7,13 +7,13 @@ from src.shared.helpers.errors.domain_errors import EntityError
 class Category(abc.ABC):
     category_id: Optional[str]
     user_id: str
-    category_name: str
+    category_name: Optional[str]
     category_primary_color: str
     category_secondary_color: str
 
     def __init__(
             self,
-            category_name: str,
+            category_name: Optional[str],
             user_id: str,
             category_primary_color: str,
             category_secondary_color: str,
@@ -29,7 +29,10 @@ class Category(abc.ABC):
         else:
             self.user_id = user_id
         
-        if not self.validate_name(category_name):
+        if category_name:
+            if self.validate_name(category_name):
+                self.category_name = category_name
+
             raise EntityError("category_name")
         
         if not self.validate_color(category_primary_color):
@@ -44,8 +47,6 @@ class Category(abc.ABC):
     
     @staticmethod
     def validate_name(category_name: str) -> bool:
-        if not category_name:
-            return False
         if len(category_name) < 2:
             return False
         if len(category_name) == "":
