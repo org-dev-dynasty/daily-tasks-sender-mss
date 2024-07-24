@@ -316,6 +316,15 @@ class UserRepositoryCognito(IUserRepository):
             else:
                 raise ValueError("An error occurred while refreshing token")
             
+    def get_all_users(self) -> List[User]:
+        try:
+            response = self.client.list_users(
+                UserPoolId=self.user_pool_id
+            )
+            return [UserCognitoDTO.from_cognito(user).to_entity() for user in response['Users']]
+        except ClientError as e:
+            raise ValueError("An error occurred while getting all users")
+            
             
             
             

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import List, Tuple
 
 from src.shared.domain.entities.user import User
 
@@ -27,6 +27,10 @@ class IUserRepository(ABC):
   
   @abstractmethod
   def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+    pass
+  
+  @abstractmethod
+  def get_all_users(self) -> List[User]:
     pass
   
   

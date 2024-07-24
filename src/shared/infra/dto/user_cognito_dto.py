@@ -68,6 +68,8 @@ class UserCognitoDTO:
         user_data["created_at"] = data.get("UserCreateDate")
         user_data["updated_at"] = data.get("UserLastModifiedDate")
         
+        user_data['pagination_token'] = data.get('PaginationToken')
+        
         print(f'USER DATA FROM COGNITO: {user_data}')
 
         return UserCognitoDTO(

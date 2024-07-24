@@ -43,3 +43,6 @@ class UserRepositoryMock(IUserRepository):
     
     def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
         return ("access_token here", "refresh_token here")
+    
+    def get_all_users(self) -> List[User]:
+        return self.users
