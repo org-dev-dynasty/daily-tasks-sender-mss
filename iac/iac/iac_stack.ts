@@ -60,6 +60,9 @@ export class IacStack extends Stack {
       MAILERSEND_API_KEY: envs.MAILERSEND_API_KEY,
       FROM_EMAIL: envs.FROM_EMAIL,
       REPLY_TO_EMAIL: envs.REPLY_TO_EMAIL,
+      OPENAI_API_KEY: envs.OPENAI_API_KEY,
+      OPENAI_MODEL: envs.OPENAI_MODEL,
+      PROMPT: envs.PROMPT,
     };
 
     const lambdaStack = new LambdaStack(
