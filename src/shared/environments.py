@@ -3,6 +3,7 @@ import os
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
+from src.shared.domain.irepositories.category_repository_interface import ICategoryRepository
 
 
 class Environments:
@@ -80,6 +81,18 @@ class Environments:
             return TaskRepositoryMongo(envs.mongo_url)
         else:
             raise Exception("No task repository class found for this stage")
+
+    @staticmethod
+    def get_category_repo() -> ICategoryRepository:
+        envs = Environments.get_envs()
+        if envs.stage == STAGE.TEST:
+            from src.shared.infra.repositories.category_repository_mock import CategoryRepositoryMock
+            return CategoryRepositoryMock()
+        elif envs.stage in [STAGE.DEV, STAGE.HOMOLOG, STAGE.PROD]:
+            from src.shared.infra.repositories.category_repository_mongo import CategoryRepositoryMongo
+            return CategoryRepositoryMongo(envs.mongo_url)
+        else:
+            raise Exception("No category repository class found for this stage")
 
     @staticmethod
     def get_envs() -> "Environments":

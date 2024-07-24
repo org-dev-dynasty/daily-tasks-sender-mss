@@ -11,6 +11,7 @@ from src.shared.helpers.errors.domain_errors import EntityError
 class Task(abc.ABC):
     task_id: Optional[str]
     user_id: str
+    category_id: str
     task_name: str
     task_date: date
     task_hour: time
@@ -22,6 +23,7 @@ class Task(abc.ABC):
             self,
             task_name: str,
             user_id: str,
+            category_id: str,
             task_date: date,
             task_hour: time,
             task_id: Optional[str] = None,
@@ -29,15 +31,20 @@ class Task(abc.ABC):
             task_local: Optional[str] = None,
             task_status: str = "ACTIVE"
     ):
-        if task_id is None:
+        if not task_id:
             self.task_id = uuid.uuid4().hex
         else:
             self.task_id = task_id
 
-        if user_id is None:
+        if not user_id:
             raise EntityError("user_id")
         else:
             self.user_id = user_id
+        
+        if not category_id:
+            raise EntityError("category_id")
+        else:
+            self.category_id = category_id
 
         if not self.validate_name(task_name):
             raise EntityError("task_name")
