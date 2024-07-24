@@ -321,8 +321,10 @@ class UserRepositoryCognito(IUserRepository):
             response = self.client.list_users(
                 UserPoolId=self.user_pool_id
             )
+            print(f'RESPONSE GET ALL USERS {response}')
             return [UserCognitoDTO.from_cognito(user).to_entity() for user in response['Users']]
         except ClientError as e:
+            print(f'ERROR GET ALL USERS {e}')
             raise ValueError("An error occurred while getting all users")
             
             
