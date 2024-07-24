@@ -27,9 +27,9 @@ class TaskRepositoryMongo(ITaskRepository):
             print(f"Error: {e}")
             return ValueError(f"Error on get task by id, err: {e}")
 
-    def get_all_tasks(self) -> List[Task]:
+    def get_all_tasks(self, user_id: str) -> List[Task]:
         tasks = []
-        for task in self.collection.find():
+        for task in self.collection.find({"user_id": user_id}):
             task_dto = TaskMongoDTO.from_mongo(task)
             task = task_dto.to_entity()
             tasks.append(task)
