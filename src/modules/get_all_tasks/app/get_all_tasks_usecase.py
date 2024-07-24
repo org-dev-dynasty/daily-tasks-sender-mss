@@ -5,8 +5,8 @@ class GetAllTasksUsecase:
     def __init__(self, repo: ITaskRepository):
         self.repo = repo
     
-    def execute(self):
-        tasks = self.repo.get_all_tasks()
+    def execute(self, user_id: str):
+        tasks = self.repo.get_all_tasks(user_id=user_id)
 
         if len(tasks) == 0:
             raise NoItemsFound("tasks")
