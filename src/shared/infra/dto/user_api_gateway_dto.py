@@ -7,7 +7,7 @@ class UserAPIGatewayDTO:
   @staticmethod
   def from_api_gateway(data: dict) -> "UserAPIGatewayDTO":
     return UserAPIGatewayDTO(
-      user_id=data['user_id']
+      user_id=data['sub']
     )
     
   def to_dict(self) -> dict:
