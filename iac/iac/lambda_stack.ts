@@ -122,6 +122,7 @@ export class LambdaStack extends Construct {
             this.confirmUserEmailFunction,
             this.createUserOAuthFunction,
             this.refreshTokenFunction,
+            this.getAllUsersFunction
         ]
     }
 }
