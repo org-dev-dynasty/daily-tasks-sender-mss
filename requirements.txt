@@ -1,2 +1,3 @@
 pymongo
 mailersend
+openai==0.28
