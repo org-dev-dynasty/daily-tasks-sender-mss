@@ -10,8 +10,10 @@ class RefreshTokenViewmodel:
     
   def to_dict(self):
     return {
-      'access_token': self.access_token,
-      'id_token': self.id_token,
-      'refresh_token': self.refresh_token,
+      'tokens': {
+        'access_token': self.access_token,
+        'id_token': self.id_token,
+        'refresh_token': self.refresh_token,
+      },
       'message': 'Tokens refreshed successfully'
     }
