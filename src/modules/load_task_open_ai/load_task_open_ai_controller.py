@@ -18,21 +18,16 @@ class LoadTaskOpenAiController:
     def __call__(self, request: IRequest) -> IResponse:
         try:
             if request.data.get('task_message') is None:
-                raise MissingParameters('accepted_terms')
+                raise MissingParameters('task_message')
 
             task_message = request.data.get('task_message')
-
             response = self.loadTaskOpenAiUsecase(task_message)
 
-            print('response CONTROLLER: ' + str(response))
-            if isinstance(response, User):
-                print('passou do IF VERIFICATION CODE')
-                viewmodel = LoadTaskOpenAiViewodel(response)
-                return viewmodel
+            viewmodel = LoadTaskOpenAiViewodel(response)
+            return Created(body=viewmodel.to_dict())
 
         except DuplicatedItem as err:
-            return Conflict(
-                body=f"Usuário ja cadastrado com esses dados: {err.message}" if err.message != "user" else "Usuário ja cadastrado com esses dados")
+            return Conflict(body=f"Usuário já cadastrado com esses dados: {err.message}" if err.message != "user" else "Usuário já cadastrado com esses dados")
 
         except MissingParameters as err:
             return BadRequest(body=f"Parâmetro ausente: {err.message}")
