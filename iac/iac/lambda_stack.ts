@@ -100,7 +100,7 @@ export class LambdaStack extends Construct {
         this.updateTaskFunction = this.createLambdaApiGatewayIntegration('update_task', 'PUT', apiGatewayResource, environmentVariables)
         this.deleteTaskByIdFunction = this.createLambdaApiGatewayIntegration('delete_task_by_id', 'DELETE', apiGatewayResource, environmentVariables)
         this.getTaskByDayFunction = this.createLambdaApiGatewayIntegration('get_task_by_day', 'GET', apiGatewayResource, environmentVariables)
-        this.loadTaskOpenAiFunction = this.createLambdaApiGatewayIntegration('load_task_openai', 'POST', apiGatewayResource, environmentVariables)
+        this.loadTaskOpenAiFunction = this.createLambdaApiGatewayIntegration('load_task_open_ai', 'POST', apiGatewayResource, environmentVariables)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
