@@ -58,7 +58,7 @@ class Category(abc.ABC):
             return False
         if len(color) < 4:
             return False
-        if len(color) > 7:
+        if len(color) > 9:
             return False
         if color[0] != "#":
             return False
