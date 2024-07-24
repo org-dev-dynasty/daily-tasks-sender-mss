@@ -25,17 +25,13 @@ class CreateTaskController:
 
             
             if request.data.get('task_description') is None:
-                print("FUNFOU CACETE")
                 task_description = None
             else:
-                print("PROVAVELMENTE DEU MERDA!!!!!!!!!!!!")
                 task_description = request.data.get('task_description')
                 
             if request.data.get('task_local') is None:
-                print('funfou pra caralho!')
                 task_local = None
             else:
-                print("deu merda..")
                 task_local = request.data.get('task_local')
             
             task_dict = {
