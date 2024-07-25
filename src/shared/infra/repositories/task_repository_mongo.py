@@ -41,7 +41,7 @@ class TaskRepositoryMongo(ITaskRepository):
         tasks = []
         for task in allTasks:
             task = {
-                'task_id': task['_id'],
+                'task_id': str(task['_id']),
                 'category': task['category'][0] if 'category' in task and len(task['category']) > 0 else None,
                 'task_name': task['task_name'],
                 'task_date': task['task_date'],
