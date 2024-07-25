@@ -30,6 +30,11 @@ class TaskRepositoryMongo(ITaskRepository):
     def get_all_tasks(self, user_id: str) -> List[Task]:
         allTasks = self.collection.aggregate([
             {
+                '$match': {
+                    'user_id': user_id
+                }
+            },
+            {
                 '$lookup': {
                     'from': 'catecories',
                     'localField': 'category_id',
@@ -41,7 +46,7 @@ class TaskRepositoryMongo(ITaskRepository):
         tasks = []
         for task in allTasks:
             task = {
-                'task_id': str(task['_id']),
+                'task_id': str(task.get('_id')),
                 'category': task['category'][0] if 'category' in task and len(task['category']) > 0 else None,
                 'task_name': task['task_name'],
                 'task_date': task['task_date'],
