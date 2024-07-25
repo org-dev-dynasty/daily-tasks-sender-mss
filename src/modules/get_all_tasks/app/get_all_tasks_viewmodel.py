@@ -1,12 +1,13 @@
 from typing import List, Optional
-from datetime import date, time, timedelta, datetime
+from datetime import date, time
 from collections import defaultdict
 
 from src.shared.domain.entities.task import Task
+from src.shared.domain.entities.category import Category
 
 class TaskViewmodel:
     task_id: str
-    category_id: str
+    category: Category
     task_name: str
     task_date: date
     task_hour: time
@@ -14,9 +15,9 @@ class TaskViewmodel:
     task_local: Optional[str]
     task_status: str
 
-    def __init__(self, task_id: str, category_id: str, task_name: str, task_date: date, task_hour: time, task_description: Optional[str], task_local: Optional[str], task_status: str) -> None:
+    def __init__(self, task_id: str, category: Category, task_name: str, task_date: date, task_hour: time, task_description: Optional[str], task_local: Optional[str], task_status: str) -> None:
         self.task_id = task_id
-        self.category_id = category_id
+        self.category = category
         self.task_name = task_name
         self.task_date = task_date
         self.task_hour = task_hour
@@ -27,7 +28,7 @@ class TaskViewmodel:
     def to_dict(self) -> dict:
         return {
             "task_id": self.task_id,
-            "category_id": self.category_id,
+            "category": self.category,
             "task_name": self.task_name,
             "task_date": self.task_date,
             "task_hour": self.task_hour,
@@ -44,7 +45,7 @@ class GetAllTasksViewmodel:
         for task in tasks:
             task_viewmodel = TaskViewmodel(
                 task.task_id,
-                task.category_id,
+                task.category,
                 task.task_name,
                 task.task_date,
                 task.task_hour,
@@ -58,7 +59,7 @@ class GetAllTasksViewmodel:
     
     def to_dict(self) -> dict:
         tasks_by_date = defaultdict(list)
-        current_day = date.today()
+        current_day = date.today().isoformat()
         
         for task_viewmodel in self.tasks_viewmodel_list:
             task_date = task_viewmodel.task_date
@@ -82,5 +83,5 @@ class GetAllTasksViewmodel:
             "message": "Task list retrieved successfully",
             "tasks": tasks,
             "dots": dots,
-            "CurrentDay": current_day.isoformat()
+            "CurrentDay": current_day
         }
