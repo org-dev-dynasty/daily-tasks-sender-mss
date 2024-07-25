@@ -28,12 +28,17 @@ class TaskRepositoryMongo(ITaskRepository):
             return ValueError(f"Error on get task by id, err: {e}")
 
     def get_all_tasks(self, user_id: str) -> List[Task]:
-        tasks = []
-        for task in self.collection.find({"user_id": user_id}):
-            task_dto = TaskMongoDTO.from_mongo(task)
-            task = task_dto.to_entity()
-            tasks.append(task)
-        return tasks
+        allTasks = self.collection.aggregate([
+            {
+                '$lookup': {
+                    'from': 'catecories',
+                    'localFiled': 'category_id',
+                    'foreignField': '_id',
+                    'as': 'category'
+                }
+            }
+        ])
+        return allTasks
 
     def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         try:
