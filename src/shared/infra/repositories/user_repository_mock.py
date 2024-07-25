@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.usecase_errors import DuplicatedItem
@@ -33,3 +33,16 @@ class UserRepositoryMock(IUserRepository):
     def confirm_user(self, email: str, verification_code: str) -> User:
         user = next((user for user in self.users if user.email == email), None)
         return user
+    
+    def create_user_oauth(self, user) -> dict:
+        if self.get_user_by_email(user.email):
+            raise DuplicatedItem("email")
+        user.user_id = str(len(self.users) + 1)
+        self.users.append(user)
+        return {"message": "User created successfully"}
+    
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        return ("access_token here", "refresh_token here")
+    
+    def get_all_users(self) -> List[User]:
+        return self.users

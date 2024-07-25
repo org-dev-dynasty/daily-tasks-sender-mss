@@ -10,6 +10,8 @@ from src.shared.helpers.errors.domain_errors import EntityError
 
 class Task(abc.ABC):
     task_id: Optional[str]
+    user_id: str
+    category_id: str
     task_name: str
     task_date: date
     task_hour: time
@@ -20,6 +22,8 @@ class Task(abc.ABC):
     def __init__(
             self,
             task_name: str,
+            user_id: str,
+            category_id: str,
             task_date: date,
             task_hour: time,
             task_id: Optional[str] = None,
@@ -27,10 +31,20 @@ class Task(abc.ABC):
             task_local: Optional[str] = None,
             task_status: str = "ACTIVE"
     ):
-        if task_id is None:
+        if not task_id:
             self.task_id = uuid.uuid4().hex
         else:
             self.task_id = task_id
+
+        if not user_id:
+            raise EntityError("user_id")
+        else:
+            self.user_id = user_id
+        
+        if not category_id:
+            raise EntityError("category_id")
+        else:
+            self.category_id = category_id
 
         if not self.validate_name(task_name):
             raise EntityError("task_name")
@@ -120,6 +134,8 @@ class Task(abc.ABC):
     def parse_object(task: dict) -> 'Task':
         return Task(
             task_id=task.get("task_id"),
+            user_id=task.get("user_id"),
+            category_id=task.get("category_id"),
             task_name=task.get("task_name"),
             task_date=task.get("task_date"),
             task_hour=task.get("task_hour"),
@@ -131,6 +147,8 @@ class Task(abc.ABC):
     def to_dict(self) -> dict:
         return {
             "_id": self.task_id,
+            "user_id": self.user_id,
+            "category_id": self.category_id,
             "task_name": self.task_name,
             "task_date": self.task_date,
             "task_hour": self.task_hour,

@@ -26,16 +26,16 @@ class TermsNotAccepted(BaseError):
         super().__init__(f'Terms not accepted for {message}')
 
 
-class UserAlreadyConfirmed:
+class UserAlreadyConfirmed(BaseError):
     def __init__(self, message: str):
         super().__init__(f'The user is already confirmed for {message}')
 
 
-class InvalidTokenError:
+class InvalidTokenError(BaseError):
     def __init__(self, message: str):
         super().__init__(f'The token is invalid for {message}')
 
 
-class UserNotConfirmed:
+class UserNotConfirmed(BaseError):
     def __init__(self, message: str):
         super().__init__(f'The user is not confirmed for {message}')

@@ -1,6 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Stack, StackProps, aws_iam as iam, CfnOutput } from "aws-cdk-lib";
-import { Cors, RestApi } from "aws-cdk-lib/aws-apigateway";
+import { Cors, RestApi, CognitoUserPoolsAuthorizer } from "aws-cdk-lib/aws-apigateway";
 import { Construct } from "constructs";
 import { LambdaStack } from "./lambda_stack";
 import { CognitoStack } from "./cognito_stack";
@@ -45,10 +45,17 @@ export class IacStack extends Stack {
       },
     });
 
+    
     const cognitoStack = new CognitoStack(
       this,
       `DailyTasksSenderMssCognitoStack-${stage}`
     );
+
+    const auth = new CognitoUserPoolsAuthorizer(this, `DailyTasksSenderMssCognitoAuthorizer-${stage}`, {
+      cognitoUserPools: [cognitoStack.userPool],
+      authorizerName: `DailyTasksSenderMssCognitoAuthorizer-${stage}`,
+      identitySource: "method.request.header.Authorization",
+    });
 
     const ENVIRONMENT_VARIABLES = {
       STAGE: stage,
@@ -68,7 +75,8 @@ export class IacStack extends Stack {
     const lambdaStack = new LambdaStack(
       this,
       apigatewayResource,
-      ENVIRONMENT_VARIABLES
+      ENVIRONMENT_VARIABLES,
+      auth
     );
 
     const cognitoAdminPolicy = new iam.PolicyStatement({

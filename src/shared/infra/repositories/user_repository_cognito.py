@@ -2,7 +2,7 @@ import os
 import boto3
 import random
 import string
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from mailersend import emails
 from botocore.exceptions import ClientError
 
@@ -255,5 +255,78 @@ class UserRepositoryCognito(IUserRepository):
                 raise NoItemsFound("user")
             else:
                 raise ValueError("An error occurred while finishing sign up")
+            
+    def create_user_oauth(self, user: User) -> dict:
+        try:
+            resp_create = self.create_user(user)
+            code = resp_create.get('verification_code')
+            self.send_confirmation_code_mail(user.email, user.name, code)
+            
+            self.confirm_user(user.email, code)
+            
+            tokens = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': user.email,
+                    'PASSWORD': user.password
+                }
+            )
+            
+            dict_response = {
+                'access_token': tokens['AuthenticationResult']['AccessToken'],
+                'id_token': tokens['AuthenticationResult']['IdToken'],
+                'refresh_token': tokens['AuthenticationResult']['RefreshToken']
+            }
+            
+            return dict_response
+            
+        except DuplicatedItem:
+            raise DuplicatedItem("user")
+        except InvalidCredentials:
+            raise InvalidCredentials("password")
+        except EntityError as e:
+            raise EntityError(e)
+        except WrongEntityError as e:
+            raise WrongEntityError(e)
+        except ValueError as e:
+            raise ValueError(e)
+        
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        try:
+            response = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='REFRESH_TOKEN_AUTH',
+                AuthParameters={
+                    'REFRESH_TOKEN': refresh_token
+                }
+            )
+            
+            tokens = {
+                'access_token': response['AuthenticationResult']['AccessToken'],
+                'id_token': response['AuthenticationResult']['IdToken']
+            }
+            
+            return tokens['access_token'], tokens['id_token'], refresh_token
+
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == 'NotAuthorizedException':
+                raise InvalidTokenError("refresh_token")
+            else:
+                raise ValueError("An error occurred while refreshing token")
+            
+    def get_all_users(self) -> List[User]:
+        try:
+            response = self.client.list_users(
+                UserPoolId=self.user_pool_id
+            )
+            print(f'RESPONSE GET ALL USERS {response}')
+            return [UserCognitoDTO.from_cognito(user).to_entity() for user in response['Users']]
+        except ClientError as e:
+            print(f'ERROR GET ALL USERS {e}')
+            raise ValueError("An error occurred while getting all users")
+            
+            
             
             

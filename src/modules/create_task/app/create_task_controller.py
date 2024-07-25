@@ -1,4 +1,6 @@
 from src.shared.domain.entities.task import Task
+from src.shared.environments import Environments, STAGE
+from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .create_task_usecase import CreateTaskUsecase
 from .create_task_viewmodel import CreateTaskViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
@@ -14,6 +16,9 @@ class CreateTaskController:
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
+            
+            print(f"request.data.get('requester_user'): {request.data.get('requester_user')}")
+            
             if request.data.get('task_name') is None:
                 raise MissingParameters('task_name')
             if request.data.get('task_date') is None:
@@ -22,6 +27,8 @@ class CreateTaskController:
                 raise MissingParameters('task_hour')
             if request.data.get('task_status') is None:
                 raise MissingParameters('task_status')
+            if request.data.get('category_id') is None:
+                raise MissingParameters('category_id')
 
             
             if request.data.get('task_description') is None:
@@ -34,8 +41,16 @@ class CreateTaskController:
             else:
                 task_local = request.data.get('task_local')
             
+            if Environments.get_envs().stage is not STAGE.TEST:
+                if request.data.get('requester_user') is None:
+                    raise MissingParameters('requester_user')
+                user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
+            
+            
             task_dict = {
                 'task_name': request.data.get('task_name'),
+                'user_id': user_id,
+                'category_id': request.data.get('category_id'),
                 'task_date': request.data.get('task_date'),
                 'task_hour': request.data.get('task_hour'),
                 'task_description': task_description,

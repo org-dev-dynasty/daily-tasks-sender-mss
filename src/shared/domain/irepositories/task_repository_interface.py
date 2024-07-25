@@ -7,7 +7,7 @@ from src.shared.domain.entities.task import Task
 
 class ITaskRepository(ABC):
   @abstractmethod
-  def get_all_tasks(self) -> List[Task]:
+  def get_all_tasks(self, user_id: str) -> List[Task]:
     pass
   
   @abstractmethod
