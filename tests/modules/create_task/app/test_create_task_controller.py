@@ -14,11 +14,16 @@ class Test_CreateTaskController:
 
         request = HttpRequest(body={
             'task_name': 'prova de os',
+            'category_id': '1',
             'task_description': 'prova de OS',
             'task_date': '2021-10-10',
             'task_hour': '12:00:00',
             'task_local': 'maua',
             'task_status': 'ACTIVE'
+        }, headers={
+            'requester_user': {
+                'sub': '1'
+            }
         })
 
         response = controller(request)
