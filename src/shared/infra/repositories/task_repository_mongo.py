@@ -38,7 +38,20 @@ class TaskRepositoryMongo(ITaskRepository):
                 }
             }
         ])
-        return allTasks
+        tasks = []
+        for task in allTasks:
+            task = {
+                'task_id': task['_id'],
+                'category': task['category'][0] if 'category' in task and len(task['category']) > 0 else None,
+                'task_name': task['task_name'],
+                'task_date': task['task_date'],
+                'task_hour': task['task_hour'],
+                'task_description': task.get('task_description', None),
+                'task_local': task.get('task_local', None),
+                'task_status': task['task_status']
+            }
+            tasks.append(task)
+        return tasks
 
     def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         try:
