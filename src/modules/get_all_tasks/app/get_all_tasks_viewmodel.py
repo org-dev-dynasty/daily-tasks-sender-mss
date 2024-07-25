@@ -1,8 +1,6 @@
 from typing import List, Optional
-from datetime import date, time
+from datetime import date, time, datetime
 from collections import defaultdict
-
-from src.shared.domain.entities.task import Task
 
 class CategoryViewmodel:
     category_id: str
@@ -50,7 +48,7 @@ class TaskViewmodel:
             "category": self.category.to_dict() if self.category else None,
             "task_name": self.task_name,
             "task_date": self.task_date.isoformat(),
-            "task_hour": self.task_hour.isoformat(),  
+            "task_hour": self.task_hour.isoformat(),
             "task_description": self.task_description,
             "task_local": self.task_local,
             "task_status": self.task_status
@@ -59,25 +57,28 @@ class TaskViewmodel:
 class GetAllTasksViewmodel:
     tasks_viewmodel_list: List[TaskViewmodel]
 
-    def __init__(self, tasks: List[Task]) -> None:
+    def __init__(self, tasks: List[dict]) -> None:
         tasks_list = []
         for task in tasks:
+            task_date = datetime.strptime(task['task_date'], '%Y-%m-%d').date()
+            task_hour = datetime.strptime(task['task_hour'], '%H:%M:%S').time()
+
             category_viewmodel = CategoryViewmodel(
-                category_id=task.category.category_id,
-                category_name=task.category.category_name,
-                category_primary_color=task.category.category_primary_color,
-                category_secondary_color=task.category.category_secondary_color
-            ) if task.category else None
+                category_id=task['category']['category_id'],
+                category_name=task['category']['category_name'],
+                category_primary_color=task['category']['category_primary_color'],
+                category_secondary_color=task['category']['category_secondary_color']
+            ) if task.get('category') else None
 
             task_viewmodel = TaskViewmodel(
-                task_id=task.task_id,
+                task_id=task['task_id'],
                 category=category_viewmodel,
-                task_name=task.task_name,
-                task_date=task.task_date,
-                task_hour=task.task_hour,
-                task_description=task.task_description,
-                task_local=task.task_local,
-                task_status=task.task_status
+                task_name=task['task_name'],
+                task_date=task_date,
+                task_hour=task_hour,
+                task_description=task.get('task_description'),
+                task_local=task.get('task_local'),
+                task_status=task['task_status']
             )
             tasks_list.append(task_viewmodel)
         
