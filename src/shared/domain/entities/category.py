@@ -29,11 +29,10 @@ class Category(abc.ABC):
         else:
             self.user_id = user_id
         
-        if category_name:
-            if self.validate_name(category_name):
-                self.category_name = category_name
-
-            raise EntityError("category_name")
+        if category_name is not None:
+            if not self.validate_name(category_name):
+                raise EntityError("category_name")
+            self.category_name = category_name
         
         if not self.validate_color(category_primary_color):
             raise EntityError("category_primary_color")
