@@ -22,8 +22,8 @@ class GetAllTasksController:
             tasks = self.usecase.execute(user_id=user_id)
             viewmodel = GetAllTasksViewmodel(tasks)
 
-            # return OK(viewmodel.to_dict())
-            return OK(tasks)
+            return OK(viewmodel.to_dict())
+            # return OK(tasks)
         except NoItemsFound as e:
             return NotFound(str(e))
         except EntityError as e:
