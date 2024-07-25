@@ -5,6 +5,6 @@ class GetAllCategoriesUsecase:
   def __init__(self, repo: ICategoryRepository):
     self.repo = repo
     
-  def __call__(self):
-    categories = self.repo.get_all_categories()
+  def execute(self, user_id: str):
+    categories = self.repo.get_all_categories(user_id)
     return categories
