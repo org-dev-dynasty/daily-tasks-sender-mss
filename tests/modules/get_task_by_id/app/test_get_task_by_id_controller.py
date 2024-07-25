@@ -10,7 +10,15 @@ class Test_GetTaskByIdController:
         repo = TaskRepositoryMock()
         usecase = GetTaskByIdUsecase(repo)
         controller = GetTaskByIdController(usecase)
-        request = HttpRequest(query_params={"task_id": repo.tasks[0].task_id})
+        request = HttpRequest(
+            query_params={
+                "task_id": repo.tasks[0].task_id
+            }, headers={
+                'requester_user': {
+                    'sub': '1'
+                }
+            }
+        )
 
         response = controller(request)
 
@@ -32,7 +40,11 @@ class Test_GetTaskByIdController:
         repo = TaskRepositoryMock()
         usecase = GetTaskByIdUsecase(repo)
         controller = GetTaskByIdController(usecase)
-        request = HttpRequest(query_params={})
+        request = HttpRequest(query_params={}, headers={
+            'requester_user': {
+                'sub': '1'
+            }
+        })
 
         response = controller(request)
 
@@ -43,7 +55,11 @@ class Test_GetTaskByIdController:
         repo = TaskRepositoryMock()
         usecase = GetTaskByIdUsecase(repo)
         controller = GetTaskByIdController(usecase)
-        request = HttpRequest(query_params={"task_id": "123"})
+        request = HttpRequest(query_params={"task_id": "123"}, headers={
+            'requester_user': {
+                'sub': '1'
+            }
+        })
 
         response = controller(request)
 
