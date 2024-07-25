@@ -109,8 +109,11 @@ class GetAllTasksViewmodel:
             actual_date_key = current_day if task_date_str == current_day else task_date_str
             if actual_date_key not in dots:
                 dots[actual_date_key] = {'dots': []}
-            num_tasks = min(len(dots[actual_date_key]['dots']) + 1, len(colors))
-            dots[actual_date_key]['dots'].append({'key': f'dot{num_tasks}', 'color': colors[num_tasks - 1]})
+                if actual_date_key == current_day:
+                    dots[actual_date_key]['selected'] = True
+            num_tasks = len(dots[actual_date_key]['dots']) + 1
+            if num_tasks <= len(colors):
+                dots[actual_date_key]['dots'].append({'key': f'dot{num_tasks}', 'color': colors[num_tasks - 1]})
         
         return {
             "message": "Task list retrieved successfully",
