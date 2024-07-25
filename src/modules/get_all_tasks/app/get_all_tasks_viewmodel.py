@@ -64,7 +64,7 @@ class GetAllTasksViewmodel:
             task_date = task_viewmodel.task_date
             if task_date == current_day:
                 date_key = "Hoje"
-            elif task_date == datetime.now().date() + timedelta(days=1):
+            elif task_date == (datetime.now().date() + timedelta(days=1)).isoformat():
                 date_key = "Amanhã"
             else:
                 date_key = task_date
