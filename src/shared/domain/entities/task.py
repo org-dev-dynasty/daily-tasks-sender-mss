@@ -135,6 +135,7 @@ class Task(abc.ABC):
         return Task(
             task_id=task.get("task_id"),
             user_id=task.get("user_id"),
+            category_id=task.get("category_id"),
             task_name=task.get("task_name"),
             task_date=task.get("task_date"),
             task_hour=task.get("task_hour"),
@@ -147,6 +148,7 @@ class Task(abc.ABC):
         return {
             "_id": self.task_id,
             "user_id": self.user_id,
+            "category_id": self.category_id,
             "task_name": self.task_name,
             "task_date": self.task_date,
             "task_hour": self.task_hour,
