@@ -32,7 +32,7 @@ class TaskRepositoryMongo(ITaskRepository):
             {
                 '$lookup': {
                     'from': 'catecories',
-                    'localFiled': 'category_id',
+                    'localField': 'category_id',
                     'foreignField': '_id',
                     'as': 'category'
                 }
