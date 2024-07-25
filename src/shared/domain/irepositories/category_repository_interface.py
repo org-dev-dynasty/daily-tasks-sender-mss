@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import List
-
 from src.shared.domain.entities.category import Category
 
 class ICategoryRepository(ABC):
@@ -9,7 +8,7 @@ class ICategoryRepository(ABC):
         pass
 
     @abstractmethod
-    def create_category(self, category: dict) -> Category:
+    def create_category(self, category: Category) -> Category:
         pass
 
     @abstractmethod
