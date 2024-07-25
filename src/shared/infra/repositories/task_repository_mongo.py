@@ -36,13 +36,15 @@ class TaskRepositoryMongo(ITaskRepository):
             },
             {
                 '$lookup': {
-                    'from': 'catecories',
+                    'from': 'categories',
                     'localField': 'category_id',
                     'foreignField': '_id',
                     'as': 'category'
                 }
             }
         ])
+        
+        print(f"allTasks: {allTasks}")
 
         tasks = []
         for task in allTasks:
