@@ -2,7 +2,7 @@ from src.shared.domain.entities.task import Task
 from src.shared.domain.irepositories.task_repository_interface import ITaskRepository
 from src.shared.infra.dto.task_mongo_dto import TaskMongoDTO
 from src.shared.infra.repositories.database.mongodb.task_collection import get_tasks_collection
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from datetime import date, time
 
 
@@ -27,7 +27,7 @@ class TaskRepositoryMongo(ITaskRepository):
             print(f"Error: {e}")
             return ValueError(f"Error on get task by id, err: {e}")
 
-    def get_all_tasks(self, user_id: str) -> List[Task]:
+    def get_all_tasks(self, user_id: str) -> List[Dict[str, Any]]:
         allTasks = self.collection.aggregate([
             {
                 '$match': {
@@ -43,19 +43,26 @@ class TaskRepositoryMongo(ITaskRepository):
                 }
             }
         ])
+
         tasks = []
         for task in allTasks:
-            task = {
+            task_viewmodel = {
                 'task_id': str(task.get('_id')),
-                'category': task['category'][0] if 'category' in task and len(task['category']) > 0 else None,
-                'task_name': task['task_name'],
-                'task_date': task['task_date'],
-                'task_hour': task['task_hour'],
+                'category': {
+                    'category_id': str(task['category'].get('_id')),
+                    'category_name': task['category'].get('category_name'),
+                    'category_primary_color': task['category'].get('category_primary_color'),
+                    'category_secondary_color': task['category'].get('category_secondary_color')
+                } if 'category' in task else None,
+                'task_name': task.get('task_name'),
+                'task_date': task.get('task_date'),
+                'task_hour': task.get('task_hour'),
                 'task_description': task.get('task_description', None),
                 'task_local': task.get('task_local', None),
-                'task_status': task['task_status']
+                'task_status': task.get('task_status')
             }
-            tasks.append(task)
+            tasks.append(task_viewmodel)
+        
         return tasks
 
     def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
