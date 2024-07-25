@@ -53,11 +53,15 @@ class TaskRepositoryMongo(ITaskRepository):
 
         tasks = []
         for task in allTasksList:
-            print("task:")
             category = task.get('category')
             task_viewmodel = {
                 'task_id': str(task.get('_id')),
-                'category': category,
+                'category': {
+                    'category_id': str(category[0].get('_id')),
+                    'category_name': category[0].get('category_name'),
+                    'category_primary_color': category[0].get('category_primary_color'),
+                    'category_secondary_color': category[0].get('category_secondary_color')
+                },
                 'task_name': task.get('task_name'),
                 'task_date': task.get('task_date'),
                 'task_hour': task.get('task_hour'),
@@ -65,9 +69,8 @@ class TaskRepositoryMongo(ITaskRepository):
                 'task_local': task.get('task_local', None),
                 'task_status': task.get('task_status')
             }
-            print(f"task_viewmodel: {task_viewmodel}")
             tasks.append(task_viewmodel)
-            
+
         print(tasks)
         
         return tasks
