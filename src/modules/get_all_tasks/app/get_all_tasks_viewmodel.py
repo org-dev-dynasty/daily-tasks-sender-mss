@@ -58,14 +58,13 @@ class GetAllTasksViewmodel:
     
     def to_dict(self) -> dict:
         tasks_by_date = defaultdict(list)
-        Task.validate_date
         current_day = date.today().isoformat()
         
         for task_viewmodel in self.tasks_viewmodel_list:
             task_date = task_viewmodel.task_date
             if task_date == current_day:
                 date_key = "Hoje"
-            elif task_date == current_day + timedelta(days=1):
+            elif task_date == datetime.now().date() + timedelta(days=1):
                 date_key = "Amanhã"
             else:
                 date_key = task_date
