@@ -35,7 +35,7 @@ class CreateCategoryController:
             }
 
             new_category = Category.parse_object(category_dict)
-            created_category = self.usecase(new_category)
+            created_category = self.usecase.execute(new_category)
             viewmodel = CreateCategoryViewmodel.to_dict(created_category)
             
             return Created(viewmodel)
