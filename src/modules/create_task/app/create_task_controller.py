@@ -27,6 +27,8 @@ class CreateTaskController:
                 raise MissingParameters('task_hour')
             if request.data.get('task_status') is None:
                 raise MissingParameters('task_status')
+            if request.data.get('category_id') is None:
+                raise MissingParameters('category_id')
 
             
             if request.data.get('task_description') is None:
@@ -52,6 +54,7 @@ class CreateTaskController:
             task_dict = {
                 'task_name': request.data.get('task_name'),
                 'user_id': user_id,
+                'category_id': request.data.get('category_id'),
                 'task_date': request.data.get('task_date'),
                 'task_hour': request.data.get('task_hour'),
                 'task_description': task_description,
