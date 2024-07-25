@@ -5,7 +5,7 @@ class UpdateTaskUsecase:
     def __init__(self, repo: ITaskRepository):
         self.repo = repo
 
-    def execute(self, task_id: str, task_name: str, task_date: str, task_hour: str, task_description: str, task_local: str, task_status: str):
+    def execute(self, task_id: str, category_id: str, task_name: str, task_date: str, task_hour: str, task_description: str, task_local: str, task_status: str):
         if not task_name is None:
             if not Task.validate_name(task_name):
                 raise ValueError("Invalid task name")
@@ -23,6 +23,6 @@ class UpdateTaskUsecase:
         if not Task.validate_local(task_local):
             raise ValueError("Invalid task local")
         
-        result = self.repo.update_task(task_id, task_name, task_date, task_hour, task_description, task_local, task_status)
+        result = self.repo.update_task(task_id, category_id, task_name, task_date, task_hour, task_description, task_local, task_status)
         return result
     
