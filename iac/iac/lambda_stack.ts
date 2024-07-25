@@ -27,6 +27,7 @@ export class LambdaStack extends Construct {
 
     getAllCategoriesFunction: lambda.Function
     createCategoryFunction: lambda.Function
+    deleteCategoryByIdFunction: lambda.Function
 
     createLambdaApiGatewayIntegration(
         moduleName: string, 
@@ -114,6 +115,7 @@ export class LambdaStack extends Construct {
         this.getTaskByDayFunction = this.createLambdaApiGatewayIntegration('get_task_by_day', 'GET', apiGatewayResource, environmentVariables, authorizer)
         this.getAllCategoriesFunction = this.createLambdaApiGatewayIntegration('get_all_categories', 'GET', apiGatewayResource, environmentVariables, authorizer)
         this.createCategoryFunction = this.createLambdaApiGatewayIntegration('create_category', 'POST', apiGatewayResource, environmentVariables, authorizer)
+        this.deleteCategoryByIdFunction = this.createLambdaApiGatewayIntegration('delete_category_by_id', 'DELETE', apiGatewayResource, environmentVariables, authorizer)
 
         this.functionsThatNeedCognitoPermissions = [
             this.loginFunction,
