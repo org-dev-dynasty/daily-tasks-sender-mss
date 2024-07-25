@@ -99,7 +99,10 @@ class GetAllTasksViewmodel:
         
         tasks = {date_key: tasks for date_key, tasks in tasks_by_date.items()}
         
-        colors = ['red', 'blue', 'green']
+        colors = []
+        for task_viewmodel in self.tasks_viewmodel_list[:3]:
+            colors.append(task_viewmodel.category.category_primary_color)
+        
         dots = {}
         for date_key, task_list in tasks_by_date.items():
             num_tasks = min(len(task_list), len(colors))
