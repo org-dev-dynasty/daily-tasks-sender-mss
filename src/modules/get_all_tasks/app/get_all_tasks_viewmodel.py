@@ -116,7 +116,7 @@ class GetAllTasksViewmodel:
                 dots[actual_date_key]['dots'].append({'key': f'dot{num_tasks}', 'color': colors[num_tasks - 1]})
         
         return {
-            "message": "Task list retrieved successfully",
+            "message": "Tarefas encontradas com sucesso",
             "tasks": tasks,
             "dots": dots,
             "CurrentDay": current_day
