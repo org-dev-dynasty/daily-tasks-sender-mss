@@ -90,12 +90,7 @@ class GetAllTasksViewmodel:
         
         for task_viewmodel in self.tasks_viewmodel_list:
             task_date_str = task_viewmodel.task_date.isoformat()
-            if task_date_str == current_day:
-                date_key = "Hoje"
-            else:
-                date_key = task_date_str
-            
-            tasks_by_date[date_key].append(task_viewmodel.to_dict())
+            tasks_by_date[task_date_str].append(task_viewmodel.to_dict())
         
         tasks = {date_key: tasks for date_key, tasks in tasks_by_date.items()}
         
