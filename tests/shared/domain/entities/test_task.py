@@ -9,6 +9,8 @@ class Test_Task:
     def test_entity_correctly(self):
         task = Task(
             task_id="1",
+            category_id="1",
+            user_id="1",
             task_hour="12:00:00",
             task_date="2021-10-10", 
             task_name="Complete project", 
@@ -29,6 +31,8 @@ class Test_Task:
             Task(
                 task_id="3", 
                 task_name="", 
+                category_id="1",
+                user_id="1",
                 task_date="2021-10-10",
                 task_hour="12:00:00",
                 task_description="Finish the project by EOD", 
@@ -38,6 +42,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="4", 
+                category_id="1",
+                user_id="1",
                 task_name=None, 
                 task_date="2021-10-10",
                 task_hour="12:00:00",
@@ -48,6 +54,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="5", 
+                category_id="1",
+                user_id="1",
                 task_name="a", 
                 task_date="2021-10-10",
                 task_hour="12:00:00",
@@ -60,6 +68,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="6", 
+                category_id="1",
+                user_id="1",
                 task_name="Meeting",
                 task_date="2021-10-10",
                 task_hour="12:00:00",
@@ -70,6 +80,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="8",
+                category_id="1",
+                user_id="1",
                 task_name="Meeting", 
                 task_date="2021-10-10",
                 task_hour="12:00:00",
@@ -82,6 +94,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="11", 
+                category_id="1",
+                user_id="1",
                 task_name="Presentation", 
                 task_date="2021-10-10",
                 task_hour="12:00:00",
@@ -92,6 +106,8 @@ class Test_Task:
         with pytest.raises(EntityError):
             Task(
                 task_id="13", 
+                category_id="1",
+                user_id="1",
                 task_name="Presentation", 
                 task_date="2021-10-10",
                 task_hour="12:00:00",
