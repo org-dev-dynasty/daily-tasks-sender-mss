@@ -27,9 +27,12 @@ class UpdateTaskController:
                 updateTask["task_local"] = request.data.get("task_local")
             if request.data.get("task_status") is not None:
                 updateTask["task_status"] = request.data.get("task_status")
+            if request.data.get("category_id") is not None:
+                updateTask["category_id"] = request.data.get("category_id")
             
             self.usecase.execute(
                 task_id=request.data.get("task_id"),
+                category_id=updateTask.get("category_id"),
                 task_name=updateTask.get("task_name"),
                 task_date=updateTask.get("task_date"),
                 task_hour=updateTask.get("task_hour"),
