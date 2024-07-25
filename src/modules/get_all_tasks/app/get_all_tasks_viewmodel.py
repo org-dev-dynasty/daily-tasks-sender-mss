@@ -58,7 +58,7 @@ class GetAllTasksViewmodel:
     
     def to_dict(self) -> dict:
         tasks_by_date = defaultdict(list)
-        current_day = date.today().isoformat()
+        current_day = date.today()
         
         for task_viewmodel in self.tasks_viewmodel_list:
             task_date = task_viewmodel.task_date
