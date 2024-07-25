@@ -67,6 +67,9 @@ class TaskRepositoryMongo(ITaskRepository):
                 'task_status': task.get('task_status')
             }
             tasks.append(task_viewmodel)
+        print(f"tasks:")
+        for task in tasks:
+            print(task)
         
         return tasks
 
