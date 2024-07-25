@@ -8,6 +8,8 @@ class Test_CreateTaskViewmodel:
     def test_get_task_viewmodel(self):
         task = Task(
             task_name='Task',
+            category_id='1',
+            user_id='1',
             task_description='Description of task 1',
             task_local='Local of task 1',
             task_date='2021-12-31',
