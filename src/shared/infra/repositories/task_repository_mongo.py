@@ -51,19 +51,19 @@ class TaskRepositoryMongo(ITaskRepository):
         tasks = []
         for task in allTasks:
             print(f"task:")
-            category = task.get('category')
-            task_viewmodel = {
-                'task_id': str(task.get('_id')),
-                'category': category,
-                'task_name': task.get('task_name'),
-                'task_date': task.get('task_date'),
-                'task_hour': task.get('task_hour'),
-                'task_description': task.get('task_description', None),
-                'task_local': task.get('task_local', None),
-                'task_status': task.get('task_status')
-            }
-            print(f"task_viewmodel: {task_viewmodel}")
-            tasks.append(task_viewmodel)
+            # category = task.get('category')
+            # task_viewmodel = {
+            #     'task_id': str(task.get('_id')),
+            #     'category': category,
+            #     'task_name': task.get('task_name'),
+            #     'task_date': task.get('task_date'),
+            #     'task_hour': task.get('task_hour'),
+            #     'task_description': task.get('task_description', None),
+            #     'task_local': task.get('task_local', None),
+            #     'task_status': task.get('task_status')
+            # }
+            # print(f"task_viewmodel: {task_viewmodel}")
+            tasks.append(task)
         
         print(tasks)
         
