@@ -19,8 +19,8 @@ class GetAllTasksController:
                     raise MissingParameters('requester_user')
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
             
-            users = self.usecase.execute(user_id=user_id)
-            viewmodel = GetAllTasksViewmodel(users)
+            tasks = self.usecase.execute(user_id=user_id)
+            viewmodel = GetAllTasksViewmodel(tasks)
 
             return OK(viewmodel.to_dict())
         except NoItemsFound as e:
