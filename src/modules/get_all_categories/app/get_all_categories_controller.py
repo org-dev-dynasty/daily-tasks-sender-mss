@@ -20,7 +20,8 @@ class GetAllCategoriesController:
         user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
         
       categories = self.usecase.execute(user_id)
-      
+      print("categories")
+      print(categories)
       viewmodel = GetAllCategoriesViewmodel(categories) 
       
       return OK(viewmodel.to_dict())
