@@ -4,8 +4,7 @@ class CreateCategoryViewmodel:
     def __init__(self):
         pass
 
-    def to_dict(self, category: Category):
+    def to_dict(self):
         return {
-            "category": category.to_dict(),
             "message": "Category created successfully"
         }
