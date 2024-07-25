@@ -44,7 +44,9 @@ class TaskRepositoryMongo(ITaskRepository):
             }
         ])
         
-        print(f"allTasks: {allTasks}")
+        print(f"allTasks:")
+        for task in allTasks:
+            print(task)
 
         tasks = []
         for task in allTasks:
