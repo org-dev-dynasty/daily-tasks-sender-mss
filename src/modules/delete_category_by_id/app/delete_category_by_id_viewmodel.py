@@ -5,5 +5,5 @@ class DeleteCategoryByIdViewmodel:
 
     def to_dict(self) -> dict:
         return {
-            "message": "the category was deleted successfully"
+            "message": "Categoria deletada com sucesso"
         }
