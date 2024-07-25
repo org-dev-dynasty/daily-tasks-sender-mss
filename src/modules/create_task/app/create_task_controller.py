@@ -44,6 +44,7 @@ class CreateTaskController:
             if Environments.get_envs().stage is not STAGE.TEST:
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
+                print(request.data.get('requester_user'))
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
             
             
