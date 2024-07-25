@@ -32,7 +32,7 @@ class TaskMongoDTO:
             return TaskMongoDTO(
                 task_id=data["_id"],
                 user_id=data["user_id"],
-                category_id=data["category_id"],
+                category_id=data.get("category_id"),
                 task_name=data["task_name"],
                 task_date=data["task_date"],
                 task_hour=data["task_hour"],
