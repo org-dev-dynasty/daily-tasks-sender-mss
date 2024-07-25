@@ -75,7 +75,7 @@ class TaskRepositoryMongo(ITaskRepository):
         
         return tasks
 
-    def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
+    def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         try:
             update_task = {}
             if task_name:
@@ -90,6 +90,8 @@ class TaskRepositoryMongo(ITaskRepository):
                 update_task["task_local"] = task_local
             if task_status:
                 update_task["task_status"] = task_status
+            if category_id:
+                update_task["category_id"] = category_id
 
             self.collection.update_one({"_id": task_id}, {"$set": update_task})
             task = self.get_task_by_id(task_id)
