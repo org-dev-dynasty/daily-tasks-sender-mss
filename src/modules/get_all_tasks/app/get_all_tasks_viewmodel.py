@@ -3,8 +3,6 @@ from datetime import date, time
 from collections import defaultdict
 
 from src.shared.domain.entities.task import Task
-from src.shared.domain.entities.category import Category
-
 
 class CategoryViewmodel:
     category_id: str
