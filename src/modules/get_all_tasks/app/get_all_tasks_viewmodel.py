@@ -47,7 +47,7 @@ class TaskViewmodel:
             "task_id": self.task_id,
             "category": self.category.to_dict() if self.category else None,
             "task_name": self.task_name,
-            "task_date": self.task_date.isoformat(),
+            "task_date": self.task_date.strftime('%d/%m/%Y'),
             "task_hour": self.task_hour.isoformat(),
             "task_description": self.task_description,
             "task_local": self.task_local,
@@ -90,7 +90,12 @@ class GetAllTasksViewmodel:
         
         for task_viewmodel in self.tasks_viewmodel_list:
             task_date_str = task_viewmodel.task_date.isoformat()
-            tasks_by_date[task_date_str].append(task_viewmodel.to_dict())
+            if task_date_str == current_day:
+                date_key = "Hoje"
+            else:
+                date_key = task_viewmodel.task_date.strftime('%d/%m/%Y')
+            
+            tasks_by_date[date_key].append(task_viewmodel.to_dict())
         
         tasks = {date_key: tasks for date_key, tasks in tasks_by_date.items()}
         
@@ -101,7 +106,8 @@ class GetAllTasksViewmodel:
         dots = {}
         for date_key, task_list in tasks_by_date.items():
             num_tasks = min(len(task_list), len(colors))
-            dots[date_key] = {'dots': [{'key': f'dot{i+1}', 'color': colors[i]} for i in range(num_tasks)]}
+            actual_date_key = date.today().isoformat() if date_key == "Hoje" else date_key
+            dots[actual_date_key] = {'dots': [{'key': f'dot{i+1}', 'color': colors[i]} for i in range(num_tasks)]}
         
         return {
             "message": "Task list retrieved successfully",
