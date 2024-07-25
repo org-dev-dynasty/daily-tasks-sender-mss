@@ -1,5 +1,3 @@
-
-
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
 from .get_all_categories_controller import GetAllCategoriesController
 from .get_all_categories_usecase import GetAllCategoriesUsecase
