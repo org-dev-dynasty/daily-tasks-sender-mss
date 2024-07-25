@@ -81,5 +81,5 @@ class Category(abc.ABC):
             "user_id": self.user_id,
             "category_name": self.category_name,
             "category_primary_color": self.category_primary_color,
-            "category_secondary_color": self.category_secondary
+            "category_secondary_color": self.category_secondary_color
         }
