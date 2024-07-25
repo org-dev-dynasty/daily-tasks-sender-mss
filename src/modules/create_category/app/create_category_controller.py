@@ -36,9 +36,10 @@ class CreateCategoryController:
 
             new_category = Category.parse_object(category_dict)
             self.usecase.execute(new_category)
-            viewmodel = CreateCategoryViewmodel.to_dict()
             
-            return Created(viewmodel)
+            viewmodel = CreateCategoryViewmodel()
+
+            return Created(body=viewmodel.to_dict())
 
         except MissingParameters as err:
             return BadRequest(body=f"Parâmetro ausente: {err.message}")
