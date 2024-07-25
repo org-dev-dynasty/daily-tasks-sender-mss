@@ -8,6 +8,8 @@ class Test_CreateTaskUsecase:
 
     def test_create_task_usecase(self):
         task = Task(
+            user_id='1',
+            category_id='1',
             task_name="prova de os",
             task_description="prova de OS",
             task_date="2021-10-10",
@@ -35,6 +37,8 @@ class Test_CreateTaskUsecase:
         with pytest.raises(EntityError):
             task = Task(
                 task_name=None,
+                category_id='1',
+                user_id='1',
                 task_description="prova de OS",
                 task_date="2021-10-10",
                 task_hour="12:00:00",
