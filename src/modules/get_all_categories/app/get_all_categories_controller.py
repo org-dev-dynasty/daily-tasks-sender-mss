@@ -17,9 +17,9 @@ class GetAllCategoriesController:
       if Environments.get_envs().stage is not STAGE.TEST:
         if request.data.get('requester_user') is None:
           raise MissingParameters('requester_user')
-        requester_user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
+        user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
         
-      categories = self.usecase()
+      categories = self.usecase.execute(user_id)
       
       viewmodel = GetAllCategoriesViewmodel(categories) 
       
