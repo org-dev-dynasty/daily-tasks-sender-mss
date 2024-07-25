@@ -104,10 +104,13 @@ class GetAllTasksViewmodel:
             colors.append(task_viewmodel.category.category_primary_color)
         
         dots = {}
-        for date_key, task_list in tasks_by_date.items():
-            num_tasks = min(len(task_list), len(colors))
-            actual_date_key = date.today().isoformat() if date_key == "Hoje" else date_key
-            dots[actual_date_key] = {'dots': [{'key': f'dot{i+1}', 'color': colors[i]} for i in range(num_tasks)]}
+        for task_viewmodel in self.tasks_viewmodel_list:
+            task_date_str = task_viewmodel.task_date.isoformat()
+            actual_date_key = current_day if task_date_str == current_day else task_date_str
+            if actual_date_key not in dots:
+                dots[actual_date_key] = {'dots': []}
+            num_tasks = min(len(dots[actual_date_key]['dots']) + 1, len(colors))
+            dots[actual_date_key]['dots'].append({'key': f'dot{num_tasks}', 'color': colors[num_tasks - 1]})
         
         return {
             "message": "Task list retrieved successfully",
