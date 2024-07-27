@@ -33,6 +33,9 @@ class IUserRepository(ABC):
   def get_all_users(self) -> List[User]:
     pass
   
+  @abstractmethod
+  def change_password(self, oldPassword: str, newPassword: str, access_token: str) -> dict:
+    pass
   
   # @abstractmethod
   # def get_user_by_id(self, user_id: int) -> User:
