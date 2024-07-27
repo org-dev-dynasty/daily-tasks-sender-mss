@@ -14,7 +14,9 @@ const envs = {
   REDIRECT_URLS: process.env.REDIRECT_URLS,
   GITHUB_REF: process.env.GITHUB_REF_NAME,
   BASE_PWD_COGNITO: process.env.BASE_PWD_COGNITO,
-  MAILERSEND_API_KEY: process.env.MAILERSEND_API_KEY
+  MAILERSEND_API_KEY: process.env.MAILERSEND_API_KEY,
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  OPENAI_MODEL: process.env.OPENAI_MODEL,
 }
 
 export {envs}
