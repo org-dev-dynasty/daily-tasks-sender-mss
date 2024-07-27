@@ -46,3 +46,6 @@ class UserRepositoryMock(IUserRepository):
     
     def get_all_users(self) -> List[User]:
         return self.users
+
+    def change_password(self, oldPassword: str, newPassword: str, access_token: str) -> dict:
+        return {"message": "Password changed successfully"}
