@@ -107,9 +107,12 @@ class UserRepositoryCognito(IUserRepository):
         try:
             mailer = emails.NewEmail(os.environ.get('MAILERSEND_API_KEY'))
             
+            domain_mail = os.environ.get('FROM_EMAIL')
+            reply_to_email = os.environ.get('REPLY_TO_EMAIL')
+            
             mail_from = {
                 "name": "Dev Dynasty",
-                "email": os.environ.get('FROM_EMAIL')
+                "email": "noreply@trial-351ndgw81vqgzqx8.mlsender.net"
             }
             
             email_to = {
@@ -120,7 +123,7 @@ class UserRepositoryCognito(IUserRepository):
             
             reply_to = {
                 "name": "Dev Dynasty",
-                "email": os.environ.get('REPLY_TO_EMAIL')
+                "email": "reply@trial-351ndgw81vqgzqx8.mlsender.net"
             }
             
             confirmation_html = generate_confirmation_mail(code)
