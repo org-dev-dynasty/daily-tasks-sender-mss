@@ -43,20 +43,20 @@ jobs:
           npm i
       - name: Setup envs
         run: |
-          echo STAGE:${{ secrets.STAGE }} >> $GITHUB_ENV
-          echo REGION:${{ secrets.REGION }}>> $GITHUB_ENV
-          echo STACK_NAME:${{ env.STACK_NAME }} >> $GITHUB_ENV
-          echo GITHUB_REF_NAME:${{ github.ref_name }} >> $GITHUB_ENV
-          echo S3_BUCKET_NAME:${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
-          echo MONGODB_URL:${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
-          echo FROM_EMAIL:${{ secrets.FROM_EMAIL }} >> $GITHUB_ENV
-          echo REPLY_TO_EMAIL:${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
-          echo GOOGLE_WEB_CLIENT_ID:${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          echo REDIRECT_URLS:${{ secrets.REDIRECT_URLS }}
-          echo BASE_PWD_COGNITO:${{ secrets.BASE_PWD_COGNITO }}
-          echo MAILERSEND_API_KEY:${{ secrets.MAILERSEND_API_KEY }}
-          echo OPENAI_API_KEY:${{ secrets.OPENAI_API_KEY }}
-          echo OPENAI_MODEL:${{ secrets.OPENAI_MODEL }}
+          echo STAGE=${{ secrets.STAGE }} >> $GITHUB_ENV
+          echo REGION=${{ secrets.REGION }}>> $GITHUB_ENV
+          echo STACK_NAME=${{ env.STACK_NAME }} >> $GITHUB_ENV
+          echo GITHUB_REF_NAME=${{ github.ref_name }} >> $GITHUB_ENV
+          echo S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} >> $GITHUB_ENV
+          echo MONGODB_URL=${{ secrets.MONGODB_URL }} >> $GITHUB_ENV
+          echo FROM_EMAIL=${{ secrets.FROM_EMAIL }} >> $GITHUB_ENV
+          echo REPLY_TO_EMAIL=${{ secrets.TO_EMAIL }} >> $GITHUB_ENV
+          echo GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          echo REDIRECT_URLS=${{ secrets.REDIRECT_URLS }}
+          echo BASE_PWD_COGNITO=${{ secrets.BASE_PWD_COGNITO }}
+          echo MAILERSEND_API_KEY=${{ secrets.MAILERSEND_API_KEY }}
+          echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          echo OPENAI_MODEL=${{ secrets.OPENAI_MODEL }}
       - name: CDK Bootstrap
         run: |
           echo "CDK Bootstrap"
