@@ -17,7 +17,6 @@ const envs = {
   MAILERSEND_API_KEY: process.env.MAILERSEND_API_KEY,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   OPENAI_MODEL: process.env.OPENAI_MODEL,
-  PROMPT: process.env.PROMPT
 }
 
 export {envs}
