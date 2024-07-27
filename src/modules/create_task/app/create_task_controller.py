@@ -41,12 +41,17 @@ class CreateTaskController:
             else:
                 task_local = request.data.get('task_local')
             
-            if Environments.get_envs().stage is not STAGE.TEST:
+            if Environments.get_envs().stage.value is not STAGE.TEST.value:
+                print("entrou no if PRA PEGAR O REQUESTER USER")
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
                 print(request.data.get('requester_user'))
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
+            else: 
+                user_id = request.data.get('user_id')
             
+            
+            print(f"PASSOU DO IF DO REQUESTER USER")
             
             task_dict = {
                 'task_name': request.data.get('task_name'),

@@ -1,5 +1,6 @@
 import pytest
 
+from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
 from src.shared.infra.repositories.task_repository_mock import TaskRepositoryMock
 from src.modules.create_task.app.create_task_usecase import CreateTaskUsecase
@@ -11,19 +12,18 @@ class Test_CreateTaskController:
         repo = TaskRepositoryMock()
         usecase = CreateTaskUsecase(repo)
         controller = CreateTaskController(usecase)
+        
+        print(f'os stage {Environments.get_envs().stage}')
 
         request = HttpRequest(body={
             'task_name': 'prova de os',
             'category_id': '1',
+            'user_id': '1',
             'task_description': 'prova de OS',
             'task_date': '2021-10-10',
             'task_hour': '12:00:00',
             'task_local': 'maua',
             'task_status': 'ACTIVE'
-        }, headers={
-            'requester_user': {
-                'sub': '1'
-            }
         })
 
         response = controller(request)

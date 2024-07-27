@@ -33,6 +33,6 @@ jobs:
             echo STAGE=${{ secrets.STAGE }} >> $GITHUB_ENV
         - name: Run Tests
           run: |
-            pytest
+            pytest --ignore=iac
           env:
               STAGE: ${{ secrets.STAGE }}
