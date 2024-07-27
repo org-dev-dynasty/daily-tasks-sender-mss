@@ -21,9 +21,9 @@ class LoadTaskOpenAiController:
                 raise MissingParameters('task_message')
 
             task_message = request.data.get('task_message')
-            response = self.loadTaskOpenAiUsecase(task_message)
+            task = self.loadTaskOpenAiUsecase(task_message)
 
-            viewmodel = LoadTaskOpenAiViewodel(response)
+            viewmodel = LoadTaskOpenAiViewodel(task)
             return Created(body=viewmodel.to_dict())
 
         except DuplicatedItem as err:
