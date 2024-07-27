@@ -55,7 +55,6 @@ jobs:
           REDIRECT_URLS:${{ secrets.REDIRECT_URLS }}
           BASE_PWD_COGNITO:${{ secrets.BASE_PWD_COGNITO }}
           MAILERSEND_API_KEY:${{ secrets.MAILERSEND_API_KEY }}
-          PROMPT:${{ secrets.PROMPT }}
           OPENAI_API_KEY:${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL:${{ secrets.OPENAI_MODEL }}
       - name: CDK Bootstrap
@@ -81,6 +80,5 @@ jobs:
           REDIRECT_URLS: ${{ secrets.REDIRECT_URLS }}
           BASE_PWD_COGNITO: ${{ secrets.BASE_PWD_COGNITO }}
           MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
-          PROMPT: ${{ secrets.PROMPT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
