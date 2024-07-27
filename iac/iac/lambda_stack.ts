@@ -17,6 +17,7 @@ export class LambdaStack extends Construct {
     confirmUserEmailFunction: lambda.Function
     createUserOAuthFunction: lambda.Function
     refreshTokenFunction: lambda.Function
+    changePasswordFunction: lambda.Function
 
     getTaskByIdFunction: lambda.Function
     createTaskFunction: lambda.Function
@@ -109,7 +110,8 @@ export class LambdaStack extends Construct {
         this.confirmUserEmailFunction = this.createLambdaApiGatewayIntegration('confirm_user_email', 'POST', apiGatewayResource, environmentVariables)
         this.createUserOAuthFunction = this.createLambdaApiGatewayIntegration('create_user_OAuth', 'POST', apiGatewayResource, environmentVariables)
         this.refreshTokenFunction = this.createLambdaApiGatewayIntegration('refresh_token', 'POST', apiGatewayResource, environmentVariables)
-        
+        this.changePasswordFunction = this.createLambdaApiGatewayIntegration('change_password', 'POST', apiGatewayResource, environmentVariables)
+
         // task routes
         this.getTaskByIdFunction = this.createLambdaApiGatewayIntegration('get_task_by_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
         this.createTaskFunction = this.createLambdaApiGatewayIntegration('create_task', 'POST', apiGatewayResource, environmentVariables, authorizer)
@@ -131,6 +133,7 @@ export class LambdaStack extends Construct {
             this.confirmUserEmailFunction,
             this.createUserOAuthFunction,
             this.refreshTokenFunction,
+            this.changePasswordFunction,
         ]
     }
 }
