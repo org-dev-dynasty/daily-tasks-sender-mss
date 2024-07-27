@@ -36,16 +36,19 @@ def insert_prompt():
       "task_hour": "14:00",
       "task_description": "Consulta médica com o Dr. Luis Carlos para um check-up geral",
       "task_local": "Clínica do Dr. Luis Carlos"
-    }
+    }, lembre se que no final antes de enviar a resposta, você deve formatar a resposta em um JSON de um linha
+    de maneira que fique fácil de usar o metodo json.loads() do Python para transformar a resposta em um dicionário Python.
 
     Caso o usuário não informe alguma informação explicitamente, você deve marcar está informação não informada como null. Use o seguinte formato JSON para a resposta em caso ele não informar nada:
     {
-      "task_name": undefined,
-      "task_date": undefined,
-      "task_hour": undefined,
-      "task_description": undefined,
-      "task_local": undefined
-    }, mas apenas mostre undefined caso o usuário não informe a informação, mas para o caso do nome do evento, você deve informar um nome padrão, como "Evento sem nome".
+      "task_name": null,
+      "task_date": null,
+      "task_hour": null,
+      "task_description": null,
+      "task_local": null
+    }, mas apenas mostre null caso o usuário não informe a informação, mas para o caso do nome do evento, você deve informar um nome padrão, como "Evento sem nome".
+    Lembre se que no final antes de enviar a resposta, você deve formatar a resposta em um JSON de um linha
+    de maneira que fique fácil de usar o metodo json.loads() do Python para transformar a resposta em um dicionário Python.
     """
 
     prompt = {
@@ -59,4 +62,13 @@ def insert_prompt():
   
   except Exception as e:
     print(f'Erro inserindo prompt no MongoDB: {e}')
+    raise e
+  
+def get_prompt():
+  try:
+    prompt_col = get_prompt_collection(os.environ.get("MONGODB_URL"))
+    prompt = prompt_col.find_one({"prompt_name": "Prompt de filtragem DailyTasks"})
+    return prompt.get("prompt_description")
+  except Exception as e:
+    print(f'Erro recuperando prompt no MongoDB: {e}')
     raise e

@@ -11,7 +11,8 @@ def load_openai(user_prompt):
         mongo_url = Environments.get_envs().mongo_url
         prompt_collection = get_prompt_collection(mongo_url)
         prompt_mongo = prompt_collection.find_one({"prompt_name": "Prompt de filtragem DailyTasks"})
-        system_prompt = prompt_mongo["prompt_description"]
+        system_prompt = prompt_mongo.get("prompt_description")
+        print(f"System prompt came from Mongo: {system_prompt}")
         api_key = Environments.get_envs().open_ai_api_key
         if not api_key:
             raise ValueError(
