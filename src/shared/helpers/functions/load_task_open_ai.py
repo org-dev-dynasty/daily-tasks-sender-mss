@@ -1,5 +1,6 @@
 import openai
 from src.shared.environments import Environments
+from src.shared.infra.repositories.database.mongodb.prompt_collection import get_prompt_collection
 
 
 def load_openai(user_prompt):
@@ -7,6 +8,10 @@ def load_openai(user_prompt):
         raise ValueError("User prompt is required to generate response.")
     str(user_prompt)
     try:
+        mongo_url = Environments.get_envs().mongo_url
+        prompt_collection = get_prompt_collection(mongo_url)
+        prompt_mongo = prompt_collection.find_one({"prompt_name": "Prompt de filtragem DailyTasks"})
+        system_prompt = prompt_mongo["prompt_description"]
         api_key = Environments.get_envs().open_ai_api_key
         if not api_key:
             raise ValueError(
@@ -14,7 +19,6 @@ def load_openai(user_prompt):
 
         openai.api_key = api_key
         model = Environments.get_envs().open_ai_model
-        system_prompt = Environments.get_envs().prompt
 
         response = openai.ChatCompletion.create(
             model=model,
