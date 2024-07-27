@@ -330,6 +330,15 @@ class UserRepositoryCognito(IUserRepository):
             print(f'ERROR GET ALL USERS {e}')
             raise ValueError("An error occurred while getting all users")
             
-            
-            
-            
+    def change_password(self, oldPassword: str, newPassword: str, access_token: str) -> dict:
+        try:
+            self.client.change_password(
+                PreviousPassword=oldPassword,
+                ProposedPassword=newPassword,
+                AccessToken=access_token
+            )
+
+            return { "message": "Senha alterada com sucesso" }
+        except ClientError as e:
+            raise ValueError("An error occurred while changing password")
+    
