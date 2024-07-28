@@ -1,19 +1,16 @@
-import os
 import boto3
-import random
-import string
 from typing import List, Dict, Tuple
-from mailersend import emails
 from botocore.exceptions import ClientError
 
 from src.shared.domain.entities.user import User
 from src.shared.domain.irepositories.user_repository_interface import IUserRepository
 from src.shared.environments import Environments
 from src.shared.helpers.errors.domain_errors import EntityError, WrongEntityError
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction, UserAlreadyConfirmed, NoItemsFound, \
-    InvalidCredentials, UserNotConfirmed, DuplicatedItem, InvalidTokenError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, InvalidCredentials, UserNotConfirmed, DuplicatedItem, InvalidTokenError
 from src.shared.infra.dto.user_cognito_dto import UserCognitoDTO
-from src.shared.infra.services.confirmation_code_mail_html import generate_confirmation_mail
+from src.shared.infra.services import generate_confirmation_code
+from src.shared.infra.services.generate_random_password import generate_random_password
+from src.shared.infra.services.send_mail import send_confirmation_code_mail, send_forgot_pwd_mail
 
 
 class UserRepositoryCognito(IUserRepository):
@@ -74,7 +71,7 @@ class UserRepositoryCognito(IUserRepository):
         cognito_attributes = UserCognitoDTO.from_entity(
             user).to_cognito_attributes()
         cognito_attributes = [attr for attr in cognito_attributes if attr['Name'] != 'password']
-        code = self.generate_confirmation_code()
+        code = generate_confirmation_code()
         cognito_attributes.append({'Name': 'custom:confirmationCode', 'Value': code})
         try:            
             response = self.client.sign_up(
@@ -87,7 +84,7 @@ class UserRepositoryCognito(IUserRepository):
 
             user.user_id = response.get("UserSub")
             
-            self.send_confirmation_code_mail(user.email, user.name, code)
+            send_confirmation_code_mail(to_email=user.email, name=user.name, code=code)
             
             return {
                 "user": user,
@@ -103,54 +100,6 @@ class UserRepositoryCognito(IUserRepository):
         except self.client.exceptions.InvalidParameterException as e:
             raise EntityError(e.response.get('Error').get('Message'))
         
-    def send_confirmation_code_mail(self, to_email: str, name: str, code: str):
-        try:
-            mailer = emails.NewEmail(os.environ.get('MAILERSEND_API_KEY'))
-            
-            domain_mail = os.environ.get('FROM_EMAIL')
-            reply_to_email = os.environ.get('REPLY_TO_EMAIL')
-            
-            mail_from = {
-                "name": "Dev Dynasty",
-                "email": "noreply@trial-351ndgw81vqgzqx8.mlsender.net"
-            }
-            
-            email_to = {
-                "name": name,
-                "email": to_email
-            }
-            
-            
-            reply_to = {
-                "name": "Dev Dynasty",
-                "email": "reply@trial-351ndgw81vqgzqx8.mlsender.net"
-            }
-            
-            confirmation_html = generate_confirmation_mail(code)
-            
-            mail_body = {}
-            
-            mailer.set_mail_from({"email": mail_from['email']}, mail_body)
-            mailer.set_mail_to([{"email": email_to['email']}], mail_body)
-            mailer.set_reply_to([{"email": reply_to['email']}], mail_body)
-            mailer.set_html_content(confirmation_html, mail_body)
-            mailer.set_subject("Dev Dynasty - Confirmation Code", mail_body)
-            
-            print(f'MAILER {mailer}')
-            print(f'MAIL BODY {mail_body}')
-            
-            res = mailer.send(mail_body)
-            
-            print(f'RES MAILER {res}')
-            
-            return res
-        except Exception as e:
-            print(f'ERROR MAILER {e}')
-            raise ValueError("An error occurred while sending confirmation code mail")
-        
-        
-    def generate_confirmation_code(self):
-        return ''.join(random.choices(string.digits, k=6))
     
     def confirm_user(self, email: str, confirmation_code: str):
         try:
@@ -329,6 +278,26 @@ class UserRepositoryCognito(IUserRepository):
         except ClientError as e:
             print(f'ERROR GET ALL USERS {e}')
             raise ValueError("An error occurred while getting all users")
+        
+    def forgot_password(self, email: str) -> dict:
+        gen_pwd = generate_random_password()
+        
+        try:
+            self.client.admin_set_user_password(
+                UserPoolId=self.user_pool_id,
+                Username=email,
+                Password=gen_pwd,
+                Permanent=True
+            )
+            
+            send_forgot_pwd_mail(email, gen_pwd)
+            
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == 'UserNotFoundException':
+                raise NoItemsFound("user")
+            else:
+                raise ValueError("An error occurred while sending forgot password mail")
             
     def change_password(self, oldPassword: str, newPassword: str, access_token: str) -> dict:
         try:
