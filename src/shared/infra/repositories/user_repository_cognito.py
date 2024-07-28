@@ -84,7 +84,7 @@ class UserRepositoryCognito(IUserRepository):
 
             user.user_id = response.get("UserSub")
             
-            send_confirmation_code_mail(to_email=user.email, name=user.name, code=code)
+            send_confirmation_code_mail(to_email=user.email, code=code)
             
             return {
                 "user": user,
@@ -290,7 +290,7 @@ class UserRepositoryCognito(IUserRepository):
                 Permanent=True
             )
             
-            send_forgot_pwd_mail(email, gen_pwd)
+            send_forgot_pwd_mail(to_email=email, gen_pwd=gen_pwd)
             
         except ClientError as e:
             error_code = e.response['Error']['Code']

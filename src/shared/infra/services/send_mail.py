@@ -4,7 +4,7 @@ from src.shared.infra.services.confirmation_code_mail_html import generate_confi
 from src.shared.infra.services.forgot_password_mail_html import generate_forgot_password_mail
 
 
-def send_confirmation_code_mail(to_email: str, name: str, code: str):
+def send_confirmation_code_mail(to_email: str, code: str):
     try:
         mailer = emails.NewEmail(os.environ.get('MAILERSEND_API_KEY'))
         
@@ -17,7 +17,6 @@ def send_confirmation_code_mail(to_email: str, name: str, code: str):
         }
         
         email_to = {
-            "name": name,
             "email": to_email
         }
         
@@ -49,7 +48,7 @@ def send_confirmation_code_mail(to_email: str, name: str, code: str):
         print(f'ERROR MAILER {e}')
         raise ValueError("An error occurred while sending confirmation code mail")
         
-def send_forgot_pwd_mail(to_email: str, name: str, code: str):
+def send_forgot_pwd_mail(to_email: str, gen_pwd: str):
     try:
         mailer = emails.NewEmail(os.environ.get('MAILERSEND_API_KEY'))
         
@@ -62,7 +61,6 @@ def send_forgot_pwd_mail(to_email: str, name: str, code: str):
         }
         
         email_to = {
-            "name": name,
             "email": to_email
         }
         
@@ -72,14 +70,14 @@ def send_forgot_pwd_mail(to_email: str, name: str, code: str):
             "email": "reply@trial-351ndgw81vqgzqx8.mlsender.net"
         }
         
-        confirmation_html = generate_forgot_password_mail(code)
+        forgot_pwd_html = generate_forgot_password_mail(gen_pwd)
         
         mail_body = {}
         
         mailer.set_mail_from({"email": mail_from['email']}, mail_body)
         mailer.set_mail_to([{"email": email_to['email']}], mail_body)
         mailer.set_reply_to([{"email": reply_to['email']}], mail_body)
-        mailer.set_html_content(confirmation_html, mail_body)
+        mailer.set_html_content(forgot_pwd_html, mail_body)
         mailer.set_subject("Dev Dynasty - Recuperação de senha", mail_body)
         
         print(f'MAILER {mailer}')

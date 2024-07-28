@@ -1,5 +1,6 @@
 def generate_confirmation_mail(code: str):
   code = " ".join(code)
+  print(f'CODE GENERATION {code}')
   return f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
