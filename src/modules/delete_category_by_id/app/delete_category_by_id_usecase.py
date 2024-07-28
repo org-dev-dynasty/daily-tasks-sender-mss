@@ -5,7 +5,7 @@ class DeleteCategoryByIdUsecase:
     def __init__(self, task_repo: ICategoryRepository):
         self.task_repo = task_repo
 
-    def __call__(self, category_id: str) -> None:
+    def execute(self, category_id: str) -> None:
         if not category_id:
             raise EntityError("category_id")
         try:
