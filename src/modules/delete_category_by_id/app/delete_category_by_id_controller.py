@@ -10,14 +10,14 @@ from src.shared.helpers.errors.domain_errors import EntityError
 class DeleteCategoryByIdController:
 
     def __init__(self, usecase: DeleteCategoryByIdUsecase):
-        self.DeleteCategoryByIdUsecase = usecase
+        self.usecase = usecase
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
             if request.data.get("category_id") is None:
                 raise MissingParameters("category_id")
 
-            self.DeleteTaskByIdUsecase(category_id=request.data.get(
+            self.usecase.execute(category_id=request.data.get(
                 "category_id"))
 
             viewmodel = DeleteCategoryByIdViewmodel()
