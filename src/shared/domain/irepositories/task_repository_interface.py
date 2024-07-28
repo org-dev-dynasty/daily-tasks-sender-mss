@@ -18,11 +18,14 @@ class ITaskRepository(ABC):
   def get_task_by_id(self, task_id: str) -> Task:
     pass
 
+  @abstractmethod
   def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
     pass
   
+  @abstractmethod
   def delete_task_by_id(self, task_id: str) -> None:
     pass
 
+  @abstractmethod
   def get_task_by_day(self, task_date: date) -> List[Task]:
     pass
