@@ -19,6 +19,4 @@ class CategoryRepositoryMock(ICategoryRepository):
         return category
     
     def delete_category(self, category_id: str) -> None:
-        category = self.get_category_by_id(category_id)
-        if category:
-            self.categories.remove(category)
+        self.categories = [category for category in self.categories if category.category_id != category_id]
