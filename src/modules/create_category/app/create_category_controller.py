@@ -15,10 +15,12 @@ class CreateCategoryController:
     
     def __call__(self, request: IRequest):
         try:
-            if Environments.get_envs().stage is not STAGE.TEST:
+            if Environments.get_envs().stage.value is not STAGE.TEST.value:
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
+            else:
+                user_id = request.data.get('user_id')
 
             if request.data.get("category_primary_color") is None:
                 raise MissingParameters("category_primary_color")
