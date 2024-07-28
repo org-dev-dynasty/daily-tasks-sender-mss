@@ -124,11 +124,11 @@ def generate_confirmation_mail(code: str):
         
         <div class="code-container" id="code">
             <div class="code-box">{code[0]}</div>
-            <div class="code-box">{code[1]}</div>
             <div class="code-box">{code[2]}</div>
-            <div class="code-box">{code[3]}</div>
             <div class="code-box">{code[4]}</div>
-            <div class="code-box">{code[5]}</div>
+            <div class="code-box">{code[6]}</div>
+            <div class="code-box">{code[8]}</div>
+            <div class="code-box">{code[10]}</div>
         </div>
         
         <button class="copy-btn" onclick="copyCode()">Copiar Código</button>
