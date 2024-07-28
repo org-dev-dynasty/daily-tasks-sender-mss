@@ -116,7 +116,6 @@ def generate_confirmation_mail(code: str):
 </head>
 <body>
     <img class="logo-top" src="https://i.imgur.com/b5wFIoy.png" alt="Logo Top" style="max-width: 300px; height: auto;">
-
     <div class="container">
         <h1>Confirme seu Email</h1>
         <p>Olá,</p>
@@ -130,9 +129,6 @@ def generate_confirmation_mail(code: str):
             <div class="code-box">{code[8]}</div>
             <div class="code-box">{code[10]}</div>
         </div>
-        
-        <button class="copy-btn" onclick="copyCode()">Copiar Código</button>
-
         <p>Se você não se registrou em nossa plataforma, por favor, ignore este email.</p>
         
         <div class="footer">
@@ -140,26 +136,6 @@ def generate_confirmation_mail(code: str):
             <p>&#9400; Todos os direitos são reservados.</p>
         </div>
     </div>
-
-    <div class="popup" id="popup">Código copiado para a área de transferência!</div>
-
-    <script>
-        function copyCode() {{
-            const code = document.getElementById('code').innerText;
-            const textarea = document.createElement('textarea');
-            textarea.value = code;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            const popup = document.getElementById('popup');
-            popup.classList.add('show');
-            setTimeout(() => {{
-                popup.classList.remove('show');
-            }}, 2000);
-        }}
-    </script>
 </body>
 </html>
 """
