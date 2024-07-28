@@ -8,7 +8,7 @@ from src.shared.environments import Environments
 from src.shared.helpers.errors.domain_errors import EntityError, WrongEntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound, InvalidCredentials, UserNotConfirmed, DuplicatedItem, InvalidTokenError
 from src.shared.infra.dto.user_cognito_dto import UserCognitoDTO
-from src.shared.infra.services import generate_confirmation_code
+from src.shared.infra.services.generate_confirmation_code import generate_confirmation_code
 from src.shared.infra.services.generate_random_password import generate_random_password
 from src.shared.infra.services.send_mail import send_confirmation_code_mail, send_forgot_pwd_mail
 
