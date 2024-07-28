@@ -3,7 +3,7 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .delete_category_by_id_controller import DeleteCategoryByIdController
 from .delete_category_by_id_usecase import DeleteCategoryByIdUsecase
 
-repo = Environments.get_task_repo()
+repo = Environments.get_category_repo()
 usecase = DeleteCategoryByIdUsecase(repo)
 controller = DeleteCategoryByIdController(usecase)
 
