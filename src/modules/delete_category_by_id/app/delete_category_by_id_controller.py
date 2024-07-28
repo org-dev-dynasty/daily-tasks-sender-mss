@@ -1,5 +1,5 @@
 from .delete_category_by_id_usecase import DeleteCategoryByIdUsecase
-from .delete_category_by_id_usecase import DeleteCategoryByIdViewmodel
+from .delete_category_by_id_viewmodel import DeleteCategoryByIdViewmodel
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError, NotFound
