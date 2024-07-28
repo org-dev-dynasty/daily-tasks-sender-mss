@@ -49,3 +49,11 @@ class UserRepositoryMock(IUserRepository):
 
     def change_password(self, oldPassword: str, newPassword: str, access_token: str) -> dict:
         return {"message": "Password changed successfully"}
+    
+    def forgot_password(self, email: str) -> dict:
+        return {"message": "Email sent successfully"}
+
+    def get_all_users(self) -> List[User]:
+        return self.users
+    
+    
