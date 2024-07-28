@@ -56,7 +56,7 @@ class UserCognitoDTO:
                            self.TO_COGNITO_DICT]
         print(f'CHEGOU NO TO COGNITO ATTRIBUTES 2 {user_attributes}')
         user_attributes = [att for att in user_attributes if att["Value"] != 'None' and att["Value"] != '']
-
+        print(f'CHEGOU NO TO COGNITO ATTRIBUTES 3 {user_attributes}')
         return user_attributes
 
     @staticmethod

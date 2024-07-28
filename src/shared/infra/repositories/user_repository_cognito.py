@@ -68,9 +68,10 @@ class UserRepositoryCognito(IUserRepository):
                 raise EntityError("An error occurred during login")
 
     def create_user(self, user: User) -> User:
-        cognito_attributes = UserCognitoDTO.from_entity(
-            user).to_cognito_attributes()
+        cognito_attributes = UserCognitoDTO.from_entity(user).to_cognito_attributes()
+        print(f"COGNITO ATTRIBUTES {cognito_attributes}")
         cognito_attributes = [attr for attr in cognito_attributes if attr['Name'] != 'password']
+        print(f"COGNITO ATTRIBUTES DPS DO FOR {cognito_attributes}")
         code = generate_confirmation_code()
         print(f"CODE: {code}")
         cognito_attributes.append({'Name': 'custom:confirmationCode', 'Value': code})
