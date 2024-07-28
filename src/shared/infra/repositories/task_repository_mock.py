@@ -13,8 +13,8 @@ class TaskRepositoryMock(ITaskRepository):
             Task(task_id="5", user_id="5", category_id="5", task_name="TaskCinco", task_hour="12:00:00", task_date="2021-12-12", task_description="Description for task 5", task_local="Local 5", task_status="INACTIVE"),
         ]
 
-    def get_all_tasks(self) -> List[Task]:
-        return self.tasks
+    def get_all_tasks(self, user_id: str) -> List[Task]:
+        return [task for task in self.tasks if task.user_id]    
     
     def create_task(self, task: Task) -> Task:
         self.tasks.append(task)
@@ -23,10 +23,12 @@ class TaskRepositoryMock(ITaskRepository):
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         return next((task for task in self.tasks if task.task_id == task_id), None)
 
-    def update_task(self, task_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
+    def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         task = self.get_task_by_id(task_id)
         if task_name:
             task.task_name = task_name
+        if category_id:
+            task.category_id = category_id
         if task_date:
             task.task_date = task_date
         if task_hour:
