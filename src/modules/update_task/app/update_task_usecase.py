@@ -16,7 +16,7 @@ class UpdateTaskUsecase:
             if not Task.validate_hour(task_hour):
                 raise ValueError("Invalid task hour")
         if not task_status is None:
-            if not Task.validate_status(task_status):
+            if not Task.validate_task_status(task_status):
                 raise ValueError("Invalid task status")
         if not Task.validate_description(task_description):
             raise ValueError("Invalid task description")
