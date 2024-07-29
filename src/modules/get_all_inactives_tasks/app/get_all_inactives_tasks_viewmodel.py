@@ -10,7 +10,11 @@ class GetAllInactivesTasksViewmodel:
 
 
     def to_dict(self, tasks: list[Task]):
+        tasksList = []
+        for task in tasks:
+            tasksList.append(task.to_dict())
+
         return {
             "message": self.message,
-            "tasks": [task.to_dict() for task in tasks]
+            "tasks": tasksList
         }
