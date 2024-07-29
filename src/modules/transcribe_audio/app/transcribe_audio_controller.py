@@ -36,6 +36,7 @@ class TranscribeAudioController:
         raise MissingParameters('audio_file')
       print('embaixo do missing audio file')
       print(len(audio_file.file.read()))
+      print(audio_file.filename)
       item = audio_file.file.read()
       final_file = NamedBytesIO(item, audio_file.filename)
       audio_transcribed = self.usecase(final_file)
