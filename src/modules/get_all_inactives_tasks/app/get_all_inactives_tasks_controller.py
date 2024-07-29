@@ -1,5 +1,5 @@
-from src.modules.get_all_inactives_tasks.app.get_all_inactives_tasks_usecase import GetAllInactivesTasksUsecase
-from src.modules.get_all_inactives_tasks.app.get_all_inactives_tasks_viewmodel import GetAllInactivesTasksViewmodel
+from .get_all_inactives_tasks_usecase import GetAllInactivesTasksUsecase
+from .get_all_inactives_tasks_viewmodel import GetAllInactivesTasksViewmodel
 from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.environments import Environments
 from src.shared.helpers.errors.controller_errors import MissingParameters
