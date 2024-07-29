@@ -75,6 +75,15 @@ class TaskRepositoryMongo(ITaskRepository):
         
         return tasks
 
+    def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
+        allTasks = self.collection.find({"user_id": user_id, "task_status": "INACTIVE"})
+        tasks = []
+        for task in allTasks:
+            task_dto = TaskMongoDTO.from_mongo(task)
+            task = task_dto.to_entity()
+            tasks.append(task)
+        return tasks
+
     def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         try:
             update_task = {}
