@@ -9,7 +9,7 @@ from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
 import io
-import os
+from multipart import parse_options_header, MultipartParser
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -22,8 +22,7 @@ class TranscribeAudioController:
       #       raise MissingParameters('requester_user')
       #   user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
       
-      formdata_parsed = request.data.get('formdata_parser')
-      
+      formdata_parsed: MultipartParser = request.data.get('formdata_parser')
       audio_file = None
       
       for part in formdata_parsed:
@@ -37,9 +36,8 @@ class TranscribeAudioController:
         raise MissingParameters('audio_file')
       print('embaixo do missing audio file')
       print(len(audio_file.file.read()))
-      
-      audio_buffer = io.BytesIO(audio_file.file.read())
-      audio_transcribed = self.usecase(audio_buffer)
+      item = audio_file.file.read()
+      audio_transcribed = self.usecase(item)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
