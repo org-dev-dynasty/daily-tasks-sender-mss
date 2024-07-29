@@ -82,7 +82,7 @@ class GetAllTasksViewmodel:
             )
             tasks_list.append(task_viewmodel)
         
-        self.tasks_viewmodel_list = tasks_list
+        self.tasks_viewmodel_list = sorted(tasks_list, key=lambda x: (x.task_date, x.task_hour))
     
     def to_dict(self) -> dict:
         tasks_by_date = defaultdict(list)
