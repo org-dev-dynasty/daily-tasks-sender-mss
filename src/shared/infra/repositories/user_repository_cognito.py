@@ -314,4 +314,20 @@ class UserRepositoryCognito(IUserRepository):
             return { "message": "Senha alterada com sucesso" }
         except ClientError as e:
             raise ValueError("An error occurred while changing password")
+        
+    def delete_account(self, user_id: str) -> dict:
+        try:
+            self.client.admin_delete_user(
+                UserPoolId=self.user_pool_id,
+                Username=user_id
+            )
+            
+            return { "message": "User deleted successfully" }
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == 'UserNotFoundException':
+                raise NoItemsFound("user")
+            else:
+                raise ValueError("An error occurred while deleting account")
+        
     
