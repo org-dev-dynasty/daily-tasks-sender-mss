@@ -11,7 +11,7 @@ class ITaskRepository(ABC):
     pass
 
   @abstractmethod
-  def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
+  def get_all_inactives_tasks(self, user_id: str) -> List[dict]:
     pass
   
   @abstractmethod
