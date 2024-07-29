@@ -9,6 +9,10 @@ class ITaskRepository(ABC):
   @abstractmethod
   def get_all_tasks(self, user_id: str) -> List[Task]:
     pass
+
+  @abstractmethod
+  def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
+    pass
   
   @abstractmethod
   def create_task(self, task: Task) -> Task:
