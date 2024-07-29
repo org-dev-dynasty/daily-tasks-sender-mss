@@ -9,6 +9,7 @@ usecase = TranscribeAudioUsecase(repo)
 controller = TranscribeAudioController(usecase)
 
 def lambda_handler(event, context):
+  print(event)
   httpRequest = LambdaHttpRequest(event)
   # httpRequest.data['requester_user'] = event.get('requestContext', {}).get('authorizer', {}).get('claims', None)
   response = controller(httpRequest)
