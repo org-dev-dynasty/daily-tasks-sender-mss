@@ -7,7 +7,7 @@ from src.shared.helpers.functions.parse_form_data import formdata_parser
 from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
-
+import io
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -34,7 +34,8 @@ class TranscribeAudioController:
       if audio_file is None:
         raise MissingParameters('audio_file')
       
-      audio_transcribed = self.usecase(audio_file)
+      audio_buffer = io.BytesIO(audio_file.content)
+      audio_transcribed = self.usecase(audio_buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
