@@ -6,6 +6,6 @@ class DeleteAccountUsecase:
     self.repo = repo
     
   def __call__(self, user_id):
-    self.repo.delete_user(user_id)
+    self.repo.delete_account(user_id)
     
     return 'User deleted'
