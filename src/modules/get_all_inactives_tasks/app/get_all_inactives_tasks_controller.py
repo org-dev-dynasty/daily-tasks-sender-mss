@@ -26,7 +26,6 @@ class GetAllInactivesTasksController:
             print(tasks)
             viewmodel = GetAllInactivesTasksViewmodel(tasks)
             print("viewmodel:")
-            print(viewmodel.to_dict())
             return OK(viewmodel.to_dict())
         
         except NoItemsFound as e:
