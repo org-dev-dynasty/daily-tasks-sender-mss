@@ -30,7 +30,7 @@ class Test_TaskRepositoryMock:
         tasks = repo.get_all_tasks(user_id)
 
         assert type(tasks) == list
-        assert len(tasks) == len(repo.tasks)
+        assert len(tasks) == 1
     
     def test_delete_task(self):
         repo = TaskRepositoryMock()
