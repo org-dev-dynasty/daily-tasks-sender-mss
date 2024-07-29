@@ -3,6 +3,7 @@ from src.shared.environments import Environments
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.external_interfaces.external_interface import IRequest
 from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError
+from src.shared.helpers.functions.file_byte_parser import NamedBytesIO
 from src.shared.helpers.functions.parse_form_data import formdata_parser
 from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
@@ -34,7 +35,7 @@ class TranscribeAudioController:
       if audio_file is None:
         raise MissingParameters('audio_file')
       
-      audio_buffer = io.BytesIO(audio_file.file.read())
+      audio_buffer = NamedBytesIO(audio_file.file.read(), audio_file.filename)
       audio_transcribed = self.usecase(audio_buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
