@@ -75,7 +75,7 @@ class TaskRepositoryMongo(ITaskRepository):
         
         return tasks
 
-    def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
+    def get_all_inactives_tasks(self, user_id: str) -> List[dict]:
         allTasks = self.collection.aggregate([
             {
                 '$match': {
