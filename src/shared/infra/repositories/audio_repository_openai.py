@@ -8,7 +8,7 @@ class AudioRepositoryOpenAI(IAudioRepository):
     openai.api_key = self.api_key
 
   def speech_to_text(self, audio_buffer) -> str:
-    audio_buffer = openai.File.create(file=audio_buffer, purpose="transcription")
+    audio_buffer = openai.File.create(file=audio_buffer)
     
     try:
       response = openai.Audio.transcribe(
