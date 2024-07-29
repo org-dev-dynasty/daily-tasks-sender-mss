@@ -1,4 +1,3 @@
-from src.shared.domain.entities.task import Task
 from .get_all_tasks_usecase import GetAllTasksUsecase
 from .get_all_tasks_viewmodel import GetAllTasksViewmodel
 from src.shared.environments import Environments, STAGE
@@ -20,14 +19,7 @@ class GetAllTasksController:
                     raise MissingParameters('requester_user')
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
             
-            if request.data.get('status') is None:
-                status = 'ACTIVE'
-            else:
-                if Task.validate_task_status(request.data.get('status')) is False:
-                    raise EntityError(f"Invalid task status: {request.data.get('status')}")
-                status = request.data.get('status')
-            
-            tasks = self.usecase.execute(user_id=user_id, status=status)
+            tasks = self.usecase.execute(user_id=user_id)
             viewmodel = GetAllTasksViewmodel(tasks)
 
             return OK(viewmodel.to_dict())
