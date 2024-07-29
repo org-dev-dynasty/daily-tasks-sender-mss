@@ -16,7 +16,7 @@ class Test_DeleteTaskByIdController:
 
         assert response.status_code == 200
         assert response.body == {
-            'message': 'the task was deleted successfully'
+            'message': 'Deletada com sucesso'
         }
 
     def test_Delete_task_by_id_controller_with_invalid_task_id(self):
