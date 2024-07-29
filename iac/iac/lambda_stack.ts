@@ -30,6 +30,7 @@ export class LambdaStack extends Construct {
     deleteTaskByIdFunction: lambda.Function
     getTaskByDayFunction: lambda.Function
     loadTaskOpenAiFunction: lambda.Function
+    getAllInactivesTasksFunction: lambda.Function
 
     getAllCategoriesFunction: lambda.Function
     createCategoryFunction: lambda.Function
@@ -129,6 +130,7 @@ export class LambdaStack extends Construct {
         this.deleteTaskByIdFunction = this.createLambdaApiGatewayIntegration('delete_task_by_id', 'DELETE', apiGatewayResource, environmentVariables, authorizer)
         this.getTaskByDayFunction = this.createLambdaApiGatewayIntegration('get_task_by_day', 'GET', apiGatewayResource, environmentVariables, authorizer)
         this.loadTaskOpenAiFunction = this.createLambdaApiGatewayIntegration('load_task_open_ai', 'POST', apiGatewayResource, environmentVariables)
+        this.getAllInactivesTasksFunction = this.createLambdaApiGatewayIntegration('get_all_inactives_tasks', 'GET', apiGatewayResource, environmentVariables, authorizer)
 
         // category routes
         this.getAllCategoriesFunction = this.createLambdaApiGatewayIntegration('get_all_categories', 'GET', apiGatewayResource, environmentVariables, authorizer)
