@@ -10,6 +10,7 @@ from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
 import io
 from multipart import parse_options_header, MultipartParser
+from pydub import AudioSegment
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -37,10 +38,17 @@ class TranscribeAudioController:
       print('embaixo do missing audio file')
       print(len(audio_file.file.read()))
       print(audio_file.filename)
-      item = audio_file.file.read()
-      final_file = NamedBytesIO(item, audio_file.filename)
-      print(f'final file type: {type(final_file)}')
-      audio_transcribed = self.usecase(final_file)
+      
+      format_file = audio_file.filename.split('.')[-1]
+      
+      audio = AudioSegment.from_file(io.BytesIO(audio_file.file.read()), format=format_file)
+      
+      buffer = io.BytesIO()
+      buffer.name = audio_file.filename
+      
+      audio.export(buffer, format=format_file)
+      
+      audio_transcribed = self.usecase(buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
