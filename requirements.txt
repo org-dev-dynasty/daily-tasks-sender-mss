@@ -1,3 +1,4 @@
 pymongo
 mailersend
 openai==0.28
+multipart==0.2.5
