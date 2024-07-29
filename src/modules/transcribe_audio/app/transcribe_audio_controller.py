@@ -19,7 +19,7 @@ class TranscribeAudioController:
       #       raise MissingParameters('requester_user')
       #   user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
       
-      formdata_parsed = formdata_parser(request)
+      formdata_parsed = request.data.get('formdata_parser')
       
       audio_file = None
       
