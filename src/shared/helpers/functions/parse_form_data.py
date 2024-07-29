@@ -3,14 +3,13 @@ import base64
 
 from src.shared.helpers.external_interfaces.external_interface import IRequest
 
-def formdata_parser(request: IRequest):
+def formdata_parser(event):
   try:
-    content_type = request.data.get('content-type') or request.data.get('Content-Type')
-    
-    
+    content_type = event['headers']['content-type'] if 'content-type' in event['headers'] else event['headers']['Content-Type']
+
     _, options = parse_options_header(content_type)
     boundary = options['boundary'].encode('utf-8')
-    body = base64.b64decode(request.data.get('body'))
+    body = base64.b64decode(event["body"]) if event["isBase64Encoded"] else event["body"].encode('utf-8')
     
     parser = MultipartParser(body, boundary)
     
