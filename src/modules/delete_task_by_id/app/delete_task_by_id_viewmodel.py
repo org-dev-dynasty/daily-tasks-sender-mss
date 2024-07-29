@@ -5,5 +5,5 @@ class DeleteTaskByIdViewmodel:
 
     def to_dict(self) -> dict:
         return {
-            "message": "the task was deleted successfully"
+            "message": "Deletada com sucesso"
         }
