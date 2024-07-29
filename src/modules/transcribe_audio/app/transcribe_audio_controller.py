@@ -2,7 +2,7 @@ from src.shared.domain.enums.stage_enum import STAGE
 from src.shared.environments import Environments
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.external_interfaces.external_interface import IRequest
-from src.shared.helpers.external_interfaces.http_codes import OK, InternalServerError
+from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError
 from src.shared.helpers.functions.parse_form_data import formdata_parser
 from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_usecase import TranscribeAudioUsecase
@@ -21,8 +21,21 @@ class TranscribeAudioController:
       
       formdata_parsed = formdata_parser(request)
       
+      audio_file = None
+      
+      for part in formdata_parsed:
+        if part.name == 'file':
+          audio_file = part
+          
+        
+      if audio_file is None:
+        raise MissingParameters('audio_file')
+      
       
       return OK('Transcription successful')
+    
+    except MissingParameters as e:
+      return BadRequest(e.message)
     
     except Exception as e:
       return InternalServerError('Internal Server Error: ' + str(e))
