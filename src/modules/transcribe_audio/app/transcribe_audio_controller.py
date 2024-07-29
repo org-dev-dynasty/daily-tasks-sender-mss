@@ -39,6 +39,7 @@ class TranscribeAudioController:
       print(audio_file.filename)
       item = audio_file.file.read()
       final_file = NamedBytesIO(item, audio_file.filename)
+      print(f'final file type: {type(final_file)}')
       audio_transcribed = self.usecase(final_file)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
