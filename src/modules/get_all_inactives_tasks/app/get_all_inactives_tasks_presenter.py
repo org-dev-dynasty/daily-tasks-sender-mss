@@ -10,6 +10,6 @@ controller = GetAllInactivesTasksController(usecase)
 def lambda_handler(event, context):
     httpRequest = LambdaHttpRequest(event)
     httpRequest.data['requester_user'] = event.get('requestContext', {}).get('authorizer', {}).get('claims', None)
-    response = controller(httpRequest)
+    response = controller.handle(httpRequest)
     httpResponse = LambdaHttpResponse(status_code=response.status_code, body=response.body, headers=response.headers)
     return httpResponse.to_dict()
