@@ -22,8 +22,11 @@ class GetAllInactivesTasksController:
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
             
             tasks = self.usecase.execute(user_id=user_id)
+            print("tasks:")
+            print(tasks)
             viewmodel = GetAllInactivesTasksViewmodel(tasks)
-
+            print("viewmodel:")
+            print(viewmodel)
             return OK(viewmodel.to_dict())
         
         except NoItemsFound as e:
