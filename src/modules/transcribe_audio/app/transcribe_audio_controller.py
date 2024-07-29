@@ -9,6 +9,7 @@ from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
 import io
+import os
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -37,9 +38,12 @@ class TranscribeAudioController:
       print('embaixo do missing audio file')
       print(len(audio_file.file.read()))
       
-      audio_buffer = io.BytesIO(audio_file.file.read())
-      audio_buffer.name = audio_file.filename
-      audio_transcribed = self.usecase(audio_buffer)
+      temp_file_path = "/tmp/temp_audio_file.m4a"
+      with open(temp_file_path, "wb") as temp_file:
+        temp_file.write(audio_file.file.read())
+      
+      # audio_buffer = io.BytesIO(audio_file.file.read())
+      audio_transcribed = self.usecase(temp_file_path)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
