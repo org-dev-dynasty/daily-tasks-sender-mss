@@ -41,9 +41,33 @@ class TaskViewmodel:
 
 
 class GetAllInactivesTasksViewmodel:
-    def __init__(self, tasks: list[TaskViewmodel]):
-        self.message = "Tarefas inativas retornadas com sucesso"
-        self.tasks = tasks
+    def __init__(self, tasks_data: list[dict]):
+        self.message = "Here are the inactive tasks"
+        self.tasks = self.convert_to_task_viewmodels(tasks_data)
+
+    def convert_to_task_viewmodels(self, tasks_data: list[dict]) -> list[TaskViewmodel]:
+        tasks = []
+        for task_data in tasks_data:
+            category_data = task_data['category']
+            category = CategoryViewmodel(
+                category_id=category_data['category_id'], 
+                category_name=category_data['category_name'], 
+                category_primary_color=category_data['category_primary_color'], 
+                category_secondary_color=category_data['category_secondary_color']
+            )
+            
+            task = TaskViewmodel(
+                task_id=task_data['task_id'],
+                category=category,
+                task_name=task_data['task_name'],
+                task_date=task_data['task_date'],
+                task_hour=task_data['task_hour'],
+                task_description=task_data['task_description'],
+                task_local=task_data['task_local'],
+                task_status=task_data['task_status']
+            )
+            tasks.append(task)
+        return tasks
 
     def to_dict(self):
         tasks_list = [task.to_dict() for task in self.tasks]
