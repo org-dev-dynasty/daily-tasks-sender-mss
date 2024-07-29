@@ -1,7 +1,7 @@
 from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
-from src.modules.forgot_password.app.forgot_password_controller import ForgotPasswordController
-from src.modules.forgot_password.app.forgot_password_usecase import ForgotPasswordUsecase
+from .forgot_password_controller import ForgotPasswordController
+from .forgot_password_usecase import ForgotPasswordUsecase
 
 
 repo = Environments.get_user_repo()
