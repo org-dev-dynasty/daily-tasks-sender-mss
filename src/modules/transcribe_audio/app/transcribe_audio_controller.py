@@ -36,6 +36,7 @@ class TranscribeAudioController:
         raise MissingParameters('audio_file')
       
       audio_buffer = io.BytesIO(audio_file.file.read())
+      audio_buffer.name = audio_file.filename
       audio_transcribed = self.usecase(audio_buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
