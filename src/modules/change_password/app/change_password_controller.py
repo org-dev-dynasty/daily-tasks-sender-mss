@@ -39,11 +39,11 @@ class ChangePasswordController:
 
             return OK(viewmodel.to_dict())
 
-        except MissingParameters as e:
-            raise BadRequest(body=e.message)
-        except WrongTypeParameter as e:
-            raise BadRequest(body=e.message)
-        except EntityError as e:
-            raise BadRequest(body=e.message)
-        except Exception as e:
-            raise InternalServerError(body=f"Internal server error: {str(e)}")
+        except MissingParameters as err:
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
+
+        except EntityError as err:
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
+
+        except Exception as err:
+            return InternalServerError(body=err.args[0])
