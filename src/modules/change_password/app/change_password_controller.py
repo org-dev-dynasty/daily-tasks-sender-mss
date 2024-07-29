@@ -13,9 +13,11 @@ class ChangePasswordController:
     
     def handle(self, request: IRequest):
         try:
-            if Environments.get_envs().stage is not STAGE.TEST:
+            if Environments.get_envs().stage.value is not STAGE.TEST.value:
+                print("entrou no if PRA PEGAR O REQUESTER USER")
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
+                print(request.data.get('requester_user'))
             
             if request.data.get('oldPassword') is None:
                 raise MissingParameters('oldPassword')
