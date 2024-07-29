@@ -5,6 +5,7 @@ from src.shared.helpers.external_interfaces.external_interface import IRequest
 from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError
 from src.shared.helpers.functions.parse_form_data import formdata_parser
 from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
+from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
 
 
@@ -33,8 +34,11 @@ class TranscribeAudioController:
       if audio_file is None:
         raise MissingParameters('audio_file')
       
+      audio_transcribed = self.usecase(audio_file)
       
-      return OK('Transcription successful')
+      viewmodel = TranscribeAudioViewmodel(audio_transcribed)
+      
+      return OK(viewmodel.to_dict())
     
     except MissingParameters as e:
       return BadRequest(e.message)
