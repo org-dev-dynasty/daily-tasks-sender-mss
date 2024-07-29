@@ -42,7 +42,7 @@ class TaskViewmodel:
 
 class GetAllInactivesTasksViewmodel:
     def __init__(self, tasks_data: list[dict]):
-        self.message = "Here are the inactive tasks"
+        self.message = "Tasks inativas retornadas com sucesso"
         self.tasks = self.convert_to_task_viewmodels(tasks_data)
 
     def convert_to_task_viewmodels(self, tasks_data: list[dict]) -> list[TaskViewmodel]:
