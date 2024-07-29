@@ -56,4 +56,9 @@ class UserRepositoryMock(IUserRepository):
     def get_all_users(self) -> List[User]:
         return self.users
     
+    def delete_account(self, user_id: str) -> dict:
+        user = next((user for user in self.users if user.user_id == user_id), None)
+        self.users.remove(user)
+        return {"message": "User deleted successfully"}
+    
     
