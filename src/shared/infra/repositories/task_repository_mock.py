@@ -14,7 +14,7 @@ class TaskRepositoryMock(ITaskRepository):
         ]
 
     def get_all_tasks(self, user_id: str) -> List[Task]:
-        return [task for task in self.tasks if task.user_id]    
+        return [task for task in self.tasks if task.user_id == user_id]    
     
     def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
         return [task for task in self.tasks if task.task_status == "INACTIVE" and task.user_id == user_id]
