@@ -3,7 +3,7 @@ from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHt
 from .delete_account_controller import DeleteAccountController
 from .delete_account_usecase import DeleteAccountUsecase
 
-repo = Environments.get_task_repo()
+repo = Environments.get_user_repo()
 usecase = DeleteAccountUsecase(repo)
 controller = DeleteAccountController(usecase)
 
