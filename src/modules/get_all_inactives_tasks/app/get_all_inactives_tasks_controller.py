@@ -14,7 +14,7 @@ class GetAllInactivesTasksController:
     def __init__(self, usecase: GetAllInactivesTasksUsecase):
         self.usecase = usecase
     
-    def __call__(self, request: IRequest):
+    def handle(self, request: IRequest):
         try:
             if Environments.get_envs().stage is not STAGE.TEST:
                 if request.data.get('requester_user') is None:
