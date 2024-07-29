@@ -10,7 +10,7 @@ def formdata_parser(request: IRequest):
     
     _, options = parse_options_header(content_type)
     boundary = options['boundary'].encode('utf-8')
-    body = base64.b64decode(request.data.get('body')) if request.data.get("isBase64Encoded") else request.data.get('body').encode('utf-8')
+    body = base64.b64decode(request.data.get('body'))
     
     parser = MultipartParser(body, boundary)
     
