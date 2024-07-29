@@ -7,7 +7,8 @@ class AudioRepositoryOpenAI(IAudioRepository):
     self.api_key = Environments.get_envs().open_ai_api_key
     openai.api_key = self.api_key
 
-  def speech_to_text(self, audio_file) -> str:    
+  def speech_to_text(self, audio_file) -> str:  
+    print(f"name of file: {audio_file.name}")  
     try:
       response = openai.Audio.transcribe(
             model="whisper-1",
