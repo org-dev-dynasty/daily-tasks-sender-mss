@@ -34,6 +34,8 @@ class TranscribeAudioController:
         
       if audio_file is None:
         raise MissingParameters('audio_file')
+      print('embaixo do missing audio file')
+      print(len(audio_file.file.read()))
       
       audio_buffer = io.BytesIO(audio_file.file.read())
       audio_buffer.name = audio_file.filename
