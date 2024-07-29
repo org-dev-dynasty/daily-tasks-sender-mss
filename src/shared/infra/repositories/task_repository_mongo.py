@@ -76,52 +76,12 @@ class TaskRepositoryMongo(ITaskRepository):
         return tasks
 
     def get_all_inactives_tasks(self, user_id: str) -> List[Task]:
-        allTasks = self.collection.aggregate([
-            {
-                '$match': {
-                    'user_id': user_id,
-                    'task_status': 'INACTIVE'
-                }
-            },
-            {
-                '$lookup': {
-                    'from': 'categories',
-                    'localField': 'category_id',
-                    'foreignField': '_id',
-                    'as': 'category'
-                }
-            }
-        ])
-
-        # Converter o cursor em uma lista
-        allTasksList = list(allTasks)
-
-        print("allTasks:")
-        for task in allTasksList:
-            print(task)
-
+        allTasks = self.collection.find({"user_id": user_id, "task_status": "INACTIVE"})
         tasks = []
-        for task in allTasksList:
-            category = task.get('category')
-            task_viewmodel = {
-                'task_id': str(task.get('_id')),
-                'category': {
-                    'category_id': str(category[0].get('_id')),
-                    'category_name': category[0].get('category_name'),
-                    'category_primary_color': category[0].get('category_primary_color'),
-                    'category_secondary_color': category[0].get('category_secondary_color')
-                },
-                'task_name': task.get('task_name'),
-                'task_date': task.get('task_date'),
-                'task_hour': task.get('task_hour'),
-                'task_description': task.get('task_description', None),
-                'task_local': task.get('task_local', None),
-                'task_status': task.get('task_status')
-            }
-            tasks.append(task_viewmodel)
-
-        print(tasks)
-        
+        for task in allTasks:
+            task_dto = TaskMongoDTO.from_mongo(task)
+            task = task_dto.to_entity()
+            tasks.append(task)
         return tasks
 
     def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
