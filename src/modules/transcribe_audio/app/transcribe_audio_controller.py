@@ -38,12 +38,8 @@ class TranscribeAudioController:
       print('embaixo do missing audio file')
       print(len(audio_file.file.read()))
       
-      temp_file_path = "/tmp/temp_audio_file.m4a"
-      with open(temp_file_path, "wb") as temp_file:
-        temp_file.write(audio_file.file.read())
-      
-      # audio_buffer = io.BytesIO(audio_file.file.read())
-      audio_transcribed = self.usecase(temp_file_path)
+      audio_buffer = io.BytesIO(audio_file.file.read())
+      audio_transcribed = self.usecase(audio_buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
