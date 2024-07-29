@@ -22,9 +22,9 @@ class GetAllInactivesTasksController:
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
             
             tasks = self.usecase.execute(user_id=user_id)
-            viewmodel = GetAllInactivesTasksViewmodel(tasks)
+            viewmodel = GetAllInactivesTasksViewmodel('Tasks encontradas com sucesso!')
 
-            return OK(viewmodel.to_dict())
+            return OK(viewmodel.to_dict(tasks=tasks))
             # return OK(tasks)
         except NoItemsFound as e:
             return NotFound(str(e))
