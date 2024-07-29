@@ -26,7 +26,7 @@ class TranscribeAudioController:
       for part in formdata_parsed:
         print('part formdata_parsed: ')
         print(part)
-        if part.name == 'file':
+        if part.name == 'audio_file':
           audio_file = part
           
         
