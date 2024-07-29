@@ -6,7 +6,7 @@ class Test_DeleteTaskByIdViewmodel:
 
     def test_get_delete_task_by_id_viewmodel(self):
         expected = {
-            "message": "the task was deleted successfully"
+            "message": "Deletada com sucesso"
         }
 
         viewmodel = DeleteTaskByIdViewmodel()
