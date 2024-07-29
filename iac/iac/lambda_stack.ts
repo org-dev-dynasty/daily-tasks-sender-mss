@@ -19,6 +19,7 @@ export class LambdaStack extends Construct {
     refreshTokenFunction: lambda.Function
     changePasswordFunction: lambda.Function
     forgotPasswordFunction: lambda.Function
+    deleteAccountFunction: lambda.Function
 
     transcribeAudioFunction: lambda.Function
 
@@ -115,6 +116,7 @@ export class LambdaStack extends Construct {
         this.refreshTokenFunction = this.createLambdaApiGatewayIntegration('refresh_token', 'POST', apiGatewayResource, environmentVariables)
         this.changePasswordFunction = this.createLambdaApiGatewayIntegration('change_password', 'POST', apiGatewayResource, environmentVariables)
         this.forgotPasswordFunction = this.createLambdaApiGatewayIntegration('forgot_password', 'POST', apiGatewayResource, environmentVariables)
+        this.deleteAccountFunction = this.createLambdaApiGatewayIntegration('delete_account', 'DELETE', apiGatewayResource, environmentVariables)
 
         // audio routes
         this.transcribeAudioFunction = this.createLambdaApiGatewayIntegration('transcribe_audio', 'POST', apiGatewayResource, environmentVariables)
@@ -142,6 +144,7 @@ export class LambdaStack extends Construct {
             this.refreshTokenFunction,
             this.changePasswordFunction,
             this.forgotPasswordFunction,
+            this.deleteAccountFunction,
         ]
     }
 }
