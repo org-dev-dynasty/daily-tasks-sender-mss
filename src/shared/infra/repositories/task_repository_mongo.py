@@ -17,12 +17,49 @@ class TaskRepositoryMongo(ITaskRepository):
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         try:
-            task = self.collection.find_one({"_id": task_id})
-            if not task:
+            task = self.collection.aggregate([
+                {
+                    '$match': {
+                        '_id': task_id
+                    }
+                },
+                {
+                    '$lookup': {
+                        'from': 'categories',
+                        'localField': 'category_id',
+                        'foreignField': '_id',
+                        'as': 'category'
+                    }
+                }
+            ])
+
+            taskList = list(task)
+
+            if not taskList:
                 return None
-            task_dto = TaskMongoDTO.from_mongo(task)
-            task = task_dto.to_entity()
-            return task
+
+            task = taskList[0]
+
+            category = task.get('category')
+            task_viewmodel = {
+                'task_id': str(task.get('_id')),
+                'category': {
+                    'category_id': str(category[0].get('_id')),
+                    'category_name': category[0].get('category_name'),
+                    'category_primary_color': category[0].get('category_primary_color'),
+                    'category_secondary_color': category[0].get('category_secondary_color')
+                },
+                'task_name': task.get('task_name'),
+                'task_date': task.get('task_date'),
+                'task_hour': task.get('task_hour'),
+                'task_description': task.get('task_description', None),
+                'task_local': task.get('task_local', None),
+                'task_status': task.get('task_status')
+            }
+
+            print(task_viewmodel)
+
+            return task_viewmodel
         except Exception as e:
             print(f"Error: {e}")
             return ValueError(f"Error on get task by id, err: {e}")
