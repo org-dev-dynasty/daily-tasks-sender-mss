@@ -53,7 +53,7 @@ class GetTaskByIdViewmodel:
         )
         
         task = TaskViewmodel(
-            task_id=str(task_data['_id']),
+            task_id=task_data['_id'],
             category=category,
             task_name=task_data['task_name'],
             task_date=task_data['task_date'],
