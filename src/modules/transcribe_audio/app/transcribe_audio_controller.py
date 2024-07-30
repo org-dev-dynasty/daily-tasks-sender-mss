@@ -43,13 +43,13 @@ class TranscribeAudioController:
       filepath = os.path.join(temp_dir, filename)
       with open(filepath, 'wb') as f:
         f.write(audio_file.raw)
-        
+      
       print('os.path.exists(filepath)')
       print(os.path.exists(filepath))
       
       # item = audio_file.file.read()
       # buffer = io.BufferedReader(io.BytesIO(item))
-      audio_transcribed = self.usecase(filepath)
+      audio_transcribed = self.usecase(audio_file.raw)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
