@@ -115,7 +115,7 @@ export class LambdaStack extends Construct {
         this.confirmUserEmailFunction = this.createLambdaApiGatewayIntegration('confirm_user_email', 'POST', apiGatewayResource, environmentVariables)
         this.createUserOAuthFunction = this.createLambdaApiGatewayIntegration('create_user_OAuth', 'POST', apiGatewayResource, environmentVariables)
         this.refreshTokenFunction = this.createLambdaApiGatewayIntegration('refresh_token', 'POST', apiGatewayResource, environmentVariables)
-        this.changePasswordFunction = this.createLambdaApiGatewayIntegration('change_password', 'POST', apiGatewayResource, environmentVariables)
+        this.changePasswordFunction = this.createLambdaApiGatewayIntegration('change_password', 'POST', apiGatewayResource, environmentVariables, authorizer)
         this.forgotPasswordFunction = this.createLambdaApiGatewayIntegration('forgot_password', 'POST', apiGatewayResource, environmentVariables)
         this.deleteAccountFunction = this.createLambdaApiGatewayIntegration('delete_account', 'DELETE', apiGatewayResource, environmentVariables, authorizer)
 
