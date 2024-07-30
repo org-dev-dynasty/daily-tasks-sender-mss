@@ -25,6 +25,8 @@ class AudioRepositoryOpenAI(IAudioRepository):
         'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
       }, data=data)
       
+      print(response.status_code)
+      
       print('response.json(): ')
       print(response.json())
       
