@@ -46,14 +46,14 @@ class GetTaskByIdViewmodel:
     def convert_to_task_viewmodel(self, task_data: dict) -> TaskViewmodel:
         category_data = task_data['category']
         category = CategoryViewmodel(
-            category_id=str(category_data['_id']),
+            category_id=category_data['category_id'],
             category_name=category_data['category_name'],
             category_primary_color=category_data['category_primary_color'],
             category_secondary_color=category_data['category_secondary_color']
         )
         
         task = TaskViewmodel(
-            task_id=task_data['_id'],
+            task_id=task_data['task_id'],
             category=category,
             task_name=task_data['task_name'],
             task_date=task_data['task_date'],
