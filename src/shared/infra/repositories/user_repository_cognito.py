@@ -313,7 +313,7 @@ class UserRepositoryCognito(IUserRepository):
 
             return { "message": "Senha alterada com sucesso" }
         except ClientError as e:
-            raise ValueError("An error occurred while changing password")
+            raise ValueError(f"An error occurred while changing password {e}")
         
     def delete_account(self, user_id: str) -> dict:
         try:
