@@ -9,8 +9,8 @@ from src.shared.infra.dto.user_api_gateway_dto import UserAPIGatewayDTO
 from .transcribe_audio_viewmodel import TranscribeAudioViewmodel
 from .transcribe_audio_usecase import TranscribeAudioUsecase
 import io
-from multipart import parse_options_header, MultipartParser
-from pydub import AudioSegment
+import os
+from multipart import MultipartParser
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -35,13 +35,16 @@ class TranscribeAudioController:
         
       if audio_file is None:
         raise MissingParameters('audio_file')
-      print('embaixo do missing audio file')
-      print(len(audio_file.file.read()))
       print(audio_file.filename)
       
-      item = audio_file.file.read()
-      buffer = io.BufferedReader(io.BytesIO(item))
-      audio_transcribed = self.usecase((audio_file.filename, buffer))
+      filename = audio_file.filename
+      filepath = os.path.join(os.getcwd(), filename)
+      with open(filepath, 'wb') as f:
+        f.write(audio_file.raw)
+      
+      # item = audio_file.file.read()
+      # buffer = io.BufferedReader(io.BytesIO(item))
+      audio_transcribed = self.usecase(filepath)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
