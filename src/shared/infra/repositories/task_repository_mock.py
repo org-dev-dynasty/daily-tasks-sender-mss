@@ -24,7 +24,23 @@ class TaskRepositoryMock(ITaskRepository):
         return task
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
-        return next((task for task in self.tasks if task.task_id == task_id), None)
+        task = {
+                "task_id": "1",
+                "category": {
+                    "category_id": "1",
+                    "category_name": "Categoria 1",
+                    "category_primary_color": "#123456",
+                    "category_secondary_color": "#654321"
+                },
+                "task_name": "TaskUm",
+                "task_date": "2021-12-12",
+                "task_hour": "12:00:00",
+                "task_description": "Description for task 1",
+                "task_local": "Local 1",
+                "task_status": "ACTIVE"
+            },
+        # return next((task for task in self.tasks if task.task_id == task_id), None)
+        return task
 
     def update_task(self, task_id: str, category_id: str, task_name: Optional[str], task_date: Optional[date], task_hour: Optional[time], task_description: Optional[str], task_local: Optional[str], task_status: Optional[str]) -> Task:
         task = self.get_task_by_id(task_id)
