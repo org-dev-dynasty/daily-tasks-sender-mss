@@ -10,8 +10,8 @@ class AudioRepositoryOpenAI(IAudioRepository):
 
   def speech_to_text(self, path) -> str:
     try:      
-      with open(path, "rb") as f:
-        audio_file = openai.Audio.create(f, filename=os.path.basename(path))
+      with open(path, "rb") as audio_file:
+        audio_file = audio_file.read()
       
       response = openai.Audio.transcribe(
             model="whisper-1",
