@@ -21,7 +21,7 @@ class DeleteAccountController:
                 print('ENTROU NA CACETA DO IF')
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
-                user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('cognito:username')
+                user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('username')
                 print('COGNITO USERNAAAAME DENTRO DO IF: ' + user_id)
       print("NAO TEVE USER ID DENTRO DO IF")
       print('USER ID FORA DO IF: ' + str(user_id))
