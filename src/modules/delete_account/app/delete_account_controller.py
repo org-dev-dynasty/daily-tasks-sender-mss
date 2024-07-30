@@ -16,11 +16,16 @@ class DeleteAccountController:
   def __call__(self, request: IRequest):
     user_id = ''
     try:
+      print("parou antes da caceta do if")
       if Environments.get_envs().stage is not STAGE.TEST:
+                print('ENTROU NA CACETA DO IF')
                 if request.data.get('requester_user') is None:
                     raise MissingParameters('requester_user')
                 user_id = UserAPIGatewayDTO.from_api_gateway(request.data.get('requester_user')).to_dict().get('user_id')
-                
+                print('USER ID DENTRO DO IF: ' + str(user_id))
+      print("NAO TEVE USER ID DENTRO DO IF")
+      print('USER ID FORA DO IF: ' + str(user_id))
+      print("NÃO VEIO USER ID MESMO FORA DO IFF")
       self.usecase(user_id)
       
       viewmodel = DeleteAccountViewmodel()
