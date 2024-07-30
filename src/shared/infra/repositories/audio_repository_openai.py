@@ -13,6 +13,7 @@ class AudioRepositoryOpenAI(IAudioRepository):
       with open(path, "rb") as audio_file:
         audio_file = audio_file.read()
       
+      audio_file.name = os.path.basename(path)
       response = openai.Audio.transcribe(
             model="whisper-1",
             file=audio_file,
