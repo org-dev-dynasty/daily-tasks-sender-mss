@@ -49,7 +49,7 @@ class TranscribeAudioController:
       
       # item = audio_file.file.read()
       # buffer = io.BufferedReader(io.BytesIO(item))
-      audio_transcribed = self.usecase(audio_file.raw)
+      audio_transcribed = self.usecase((audio_file.raw, filename))
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
       
