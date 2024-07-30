@@ -9,12 +9,12 @@ class AudioRepositoryOpenAI(IAudioRepository):
     self.api_key = Environments.get_envs().open_ai_api_key
     openai.api_key = self.api_key
 
-  def speech_to_text(self, path) -> str:
+  def speech_to_text(self, file) -> str:
     try:      
-      audio_file = open(path, "rb")
+      # audio_file = open(path, "rb")
 
       request_files = {
-        "file": audio_file,
+        "file": file,
       }
       data = {
         "model": "whisper-1"
@@ -31,7 +31,7 @@ class AudioRepositoryOpenAI(IAudioRepository):
       print(response.json())
       
       # delete the file
-      os.remove(path)
+      # os.remove(path)
       
       return response['text']
     
