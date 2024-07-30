@@ -9,24 +9,24 @@ class AudioRepositoryOpenAI(IAudioRepository):
     self.api_key = Environments.get_envs().open_ai_api_key
     openai.api_key = self.api_key
 
-  def speech_to_text(self, file) -> str:
+  def speech_to_text(self, path) -> str:
     try:      
       # audio_file = open(path, "rb")
 
-      file_bytes, filename = file
+      # file_bytes, filename = file
       
-      just_filename = filename.split('.')[0]
+      # just_filename = filename.split('.')[0]
       
-      print('just_filename: ')
-      print(just_filename)
+      # print('just_filename: ')
+      # print(just_filename)
             
-      mime = f"audio/{filename.split('.')[-1]}"
-      print('mime: ')
-      print(mime)
+      # mime = f"audio/{filename.split('.')[-1]}"
+      # print('mime: ')
+      # print(mime)
       
       
       request_files = {
-        "file": (just_filename, file_bytes, mime)
+        "file": path
       }
       data = {
         "model": "whisper-1"
