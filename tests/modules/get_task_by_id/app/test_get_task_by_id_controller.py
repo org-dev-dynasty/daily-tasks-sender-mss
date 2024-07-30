@@ -24,17 +24,20 @@ class Test_GetTaskByIdController:
 
         assert response.status_code == 200
         assert response.body == {
-            "task": {
                 "task_id": "1",
-                "task_name": 'TaskUm',
+                "category": {
+                    "category_id": "1",
+                    "category_name": "Categoria 1",
+                    "category_primary_color": "#123456",
+                    "category_secondary_color": "#654321"
+                },
+                "task_name": "TaskUm",
                 "task_date": "2021-12-12",
                 "task_hour": "12:00:00",
                 "task_description": "Description for task 1",
                 "task_local": "Local 1",
                 "task_status": "ACTIVE"
-            },
-            'message': 'the task was retrieved'
-        }
+            }
 
     def test_get_task_by_id_controller_with_invalid_task_id(self):
         repo = TaskRepositoryMock()
