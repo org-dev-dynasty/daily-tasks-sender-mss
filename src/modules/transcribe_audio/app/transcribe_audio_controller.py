@@ -41,6 +41,9 @@ class TranscribeAudioController:
       filepath = os.path.join(os.getcwd(), filename)
       with open(filepath, 'wb') as f:
         f.write(audio_file.raw)
+        
+      print('os.path.exists(filepath)')
+      print(os.path.exists(filepath))
       
       # item = audio_file.file.read()
       # buffer = io.BufferedReader(io.BytesIO(item))
