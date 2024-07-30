@@ -31,7 +31,9 @@ class GetTaskByIdController:
 
             task = self.GetTaskByIdUsecase(task_id=request.data.get(
                 "task_id"))
-
+            
+            print("TAAAAASK")
+            print(task)
             viewmodel = GetTaskByIdViewmodel(task)
 
             return OK(viewmodel.to_dict())
