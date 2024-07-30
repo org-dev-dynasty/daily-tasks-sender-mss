@@ -15,7 +15,7 @@ class TaskRepositoryMongo(ITaskRepository):
         self.collection.insert_one(task.to_dict())
         return task
 
-    def get_task_by_id(self, task_id: str) -> Optional[Task]:
+    def get_task_by_id(self, task_id: str) -> dict:
         try:
             task = self.collection.aggregate([
                 {
