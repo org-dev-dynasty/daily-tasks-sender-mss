@@ -39,15 +39,9 @@ class TranscribeAudioController:
       print(len(audio_file.file.read()))
       print(audio_file.filename)
       
-      format_file = audio_file.filename.split('.')[-1]
-      
-      audio = AudioSegment.from_file(io.BytesIO(audio_file.file.read()), format=format_file)
-      
-      buffer = io.BytesIO()
+      item = audio_file.file.read()
+      buffer = io.BytesIO(item)
       buffer.name = audio_file.filename
-      
-      audio.export(buffer, format=format_file)
-      
       audio_transcribed = self.usecase(buffer)
       
       viewmodel = TranscribeAudioViewmodel(audio_transcribed)
