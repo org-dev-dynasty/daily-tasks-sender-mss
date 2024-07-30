@@ -26,6 +26,7 @@ class DeleteAccountController:
       print("NAO TEVE USER ID DENTRO DO IF")
       print('USER ID FORA DO IF: ' + str(user_id))
       print("NÃO VEIO USER ID MESMO FORA DO IFF")
+      print("REQUESTER USER CARAAAAAAAAAAAAAAAA " + str(request.data.get('requester_user')))
       self.usecase(user_id)
       
       viewmodel = DeleteAccountViewmodel()
