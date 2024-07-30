@@ -16,9 +16,14 @@ class AudioRepositoryOpenAI(IAudioRepository):
       file_bytes, filename = file
       
       just_filename = filename.split('.')[0]
-
       
+      print('just_filename: ')
+      print(just_filename)
+            
       mime = f"audio/{filename.split('.')[-1]}"
+      print('mime: ')
+      print(mime)
+      
       
       request_files = {
         "file": (just_filename, file_bytes, mime)
