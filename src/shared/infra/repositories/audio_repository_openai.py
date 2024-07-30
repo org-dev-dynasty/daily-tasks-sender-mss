@@ -1,4 +1,5 @@
 import openai
+import os
 from src.shared.domain.irepositories.audio_repository_interface import IAudioRepository
 from src.shared.environments import Environments
 
@@ -7,14 +8,20 @@ class AudioRepositoryOpenAI(IAudioRepository):
     self.api_key = Environments.get_envs().open_ai_api_key
     openai.api_key = self.api_key
 
-  def speech_to_text(self, audio_file) -> str:
-    try:
-      name, buffer = audio_file
+  def speech_to_text(self, path) -> str:
+    try:      
+      with open(path, "rb") as f:
+        audio_file = f.read()
+      
       response = openai.Audio.transcribe(
             model="whisper-1",
-            file=(name, buffer),
+            file=audio_file,
             language="pt"
         )
+      
+      # delete the file
+      os.remove(path)
+      
       return response['text']
     
     except Exception as e:
