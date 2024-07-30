@@ -25,8 +25,8 @@ class AudioRepositoryOpenAI(IAudioRepository):
         'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
       })
       
-      print('response: ')
-      print(response)
+      print('response.json(): ')
+      print(response.json())
       
       # delete the file
       os.remove(path)
