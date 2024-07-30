@@ -11,6 +11,7 @@ from .transcribe_audio_usecase import TranscribeAudioUsecase
 import io
 import os
 from multipart import MultipartParser
+import tempfile
 
 class TranscribeAudioController:
   def __init__(self, usecase: TranscribeAudioUsecase):
@@ -38,7 +39,8 @@ class TranscribeAudioController:
       print(audio_file.filename)
       
       filename = audio_file.filename
-      filepath = os.path.join(os.getcwd(), filename)
+      temp_dir = tempfile.gettempdir()
+      filepath = os.path.join(temp_dir, filename)
       with open(filepath, 'wb') as f:
         f.write(audio_file.raw)
         
