@@ -24,27 +24,29 @@ class AudioRepositoryOpenAI(IAudioRepository):
       # print('mime: ')
       # print(mime)
       
-      
-      request_files = {
-        "file": path
-      }
-      data = {
-        "model": "whisper-1"
-      }      
-      
-      response = requests.post('https://api.openai.com/v1/audio/transcriptions', files=request_files, headers={
-        'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
-      }, data=data)
-      
-      print(response.status_code)
-      
-      print('response.json(): ')
-      print(response.json())
-      
-      # delete the file
-      # os.remove(path)
-      
-      return response['text']
+      with open(path, 'rb') as file:
+        request_files = {
+          "file": file
+        }
+        data = {
+          "model": "whisper-1"
+        }      
+        
+        response = requests.post('https://api.openai.com/v1/audio/transcriptions', files=request_files, headers={
+          'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
+        }, data=data)
+        
+        response.raise_for_status()
+        
+        print(response.status_code)
+        
+        print('response.json(): ')
+        print(response.json())
+        
+        # delete the file
+        # os.remove(path)
+        
+        return response['text']
     
     except Exception as e:
       print(f'ERROR TRANSCRIBING AUDIO: ')
