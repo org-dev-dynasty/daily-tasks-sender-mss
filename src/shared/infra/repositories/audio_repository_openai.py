@@ -15,15 +15,16 @@ class AudioRepositoryOpenAI(IAudioRepository):
 
       request_files = {
         "file": audio_file,
-        "model": (None, "whisper-1"),
+      }
+      data = {
+        "model": "whisper-1"
       }
       
       
       
       response = requests.post('https://api.openai.com/v1/audio/transcriptions', files=request_files, headers={
-        'Content-Type': 'multipart/form-data',
         'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
-      })
+      }, data=data)
       
       print('response.json(): ')
       print(response.json())
