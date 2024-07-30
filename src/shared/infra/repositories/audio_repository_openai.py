@@ -36,7 +36,7 @@ class AudioRepositoryOpenAI(IAudioRepository):
           'Authorization': f'Bearer {Environments.get_envs().open_ai_api_key}'
         }, data=data)
         
-        response.raise_for_status()
+        # response.raise_for_status()
         
         print(response.status_code)
         
@@ -52,3 +52,7 @@ class AudioRepositoryOpenAI(IAudioRepository):
       print(f'ERROR TRANSCRIBING AUDIO: ')
       print(str(e))
       raise ValueError("An error occurred while transcribing audio")
+    
+    finally:
+      # delete the file
+      os.path.exists(path) and os.remove(path)
